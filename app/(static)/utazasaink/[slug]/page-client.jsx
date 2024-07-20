@@ -16,9 +16,6 @@ import LightBox from "@/components/lightbox";
 import { Calendar } from "@/components/ui/calendar";
 
 export default function PageClient({ post }) {
-  //DrawerDialog state
-
-  //Date
   const dateRange = {
     from: new Date(post.datum.kezdo),
     to: new Date(post.datum.veg),

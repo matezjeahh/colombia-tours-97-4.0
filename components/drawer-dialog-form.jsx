@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useState } from "react";
 import useMediaQuery from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,8 +24,8 @@ import { ContactForm } from "./contact-form";
 import { ScrollArea } from "./ui/scroll-area";
 
 export function DrawerDialogForm({ title }) {
-  const [open, setOpen] = React.useState(false);
-  const isDesktop = useMediaQuery("(min-width: 20000px)");
+  const [open, setOpen] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
     return (
@@ -45,7 +45,7 @@ export function DrawerDialogForm({ title }) {
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen} shouldScaleBackground>
+    <Drawer open={open} onOpenChange={setOpen} preventScrollRestoration noBodyStyles>
       <DrawerTrigger asChild>
         <Button className="w-full">Érdekel</Button>
       </DrawerTrigger>
