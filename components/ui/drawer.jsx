@@ -7,12 +7,14 @@ import { cn } from "@/lib/utils";
 
 const Drawer = ({
   shouldScaleBackground = true,
+  disablePreventScroll = true,
   preventScrollRestoration = false,
   noBodyStyles = true,
   ...props
 }) => (
   <DrawerPrimitive.Root
     shouldScaleBackground={shouldScaleBackground}
+    disablePreventScroll={disablePreventScroll}
     preventScrollRestoration={preventScrollRestoration}
     noBodyStyles={noBodyStyles}
     {...props}
