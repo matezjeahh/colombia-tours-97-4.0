@@ -55,7 +55,7 @@ export function DrawerDialogForm({ title }) {
       <DrawerTrigger asChild>
         <Button className="w-full">Érdekel</Button>
       </DrawerTrigger>
-      <DrawerContent className="fixed bottom-0">
+      <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit profile</DrawerTitle>
           <DrawerDescription>cső</DrawerDescription>
