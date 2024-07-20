@@ -87,12 +87,6 @@ export default function PageClient({ post }) {
                 <DrawerDialogForm open={open} onOpenChange={setOpen} title={post.cim} />
               </CardFooter>
             </Card>
-            <Calendar
-              mode="range"
-              selected={dateRange}
-              defaultMonth={initialViewDate}
-              className="w-full"
-            />
           </div>
           <div className="space-y-2">
             <h2>Program</h2>
