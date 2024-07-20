@@ -26,8 +26,8 @@ export default function Elerhetoseg() {
         </p>
       </div>
 
-      <div className="grid items-start gap-12 grid-cols-2 lg:gap-8">
-        <Card>
+      <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-8">
+        <Card className="col-span-1">
           <CardHeader>
             <CardTitle>Lépjen kapcsolatba velünk</CardTitle>
             <CardDescription>

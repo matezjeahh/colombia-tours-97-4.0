@@ -45,13 +45,7 @@ export function DrawerDialogForm({ title }) {
   }
 
   return (
-    <Drawer
-      open={open}
-      onOpenChange={setOpen}
-      preventScrollRestoration
-      disablePreventScroll
-      noBodyStyles
-    >
+    <Drawer open={open} onOpenChange={setOpen} preventScrollRestoration disablePreventScroll>
       <DrawerTrigger asChild>
         <Button className="w-full">Érdekel</Button>
       </DrawerTrigger>
