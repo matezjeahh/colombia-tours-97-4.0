@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <HeroBanner />
-      <div className="container space-y-10 lg:space-y-32 mt-10 lg:mt-32">
+      <div className="container space-y-10 lg:space-y-32 mt-10 mb-5 lg:mt-32">
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center ">
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
             <h2>Utazz Kolumbia specialistájával</h2>
@@ -19,7 +19,7 @@ export default function Home() {
               legjobb túrákat kínáljuk a dél-amerikai országban. Fedezd fel velünk Kolumbia
               lenyűgöző tájait és kulturális kincseit!
             </p>
-            <Button asChild className="items-center">
+            <Button asChild className="items-center ">
               <Link href="/rolunk">
                 Ismerj meg minket <ChevronRight size={18} />
               </Link>
@@ -31,7 +31,7 @@ export default function Home() {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="w-full h-96 object-cover rounded-lg"
+                className="w-full h-60 lg:h-96 object-cover rounded-lg"
                 src="/kep.jpg"
               />
             </div>
@@ -40,19 +40,19 @@ export default function Home() {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="w-full h-96 object-cover rounded-lg"
+                className="w-full h-60 lg:h-96 object-cover rounded-lg"
                 src="/kep.jpg"
               />
             </div>
           </div>
         </section>
         <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
-          <div className="cols-span-1 h-96 rounded-xl order-last lg:order-first">
+          <div className="cols-span-1 rounded-xl order-last lg:order-first">
             <Image
               width={0}
               height={0}
               sizes="100vw"
-              className="w-full h-96 object-cover rounded-lg"
+              className="w-full h-60 lg:h-96 object-cover rounded-lg"
               src="/kep.jpg"
             />
           </div>
@@ -69,8 +69,8 @@ export default function Home() {
             </Button>
           </div>
         </section>
-        <section className="space-y-2 lg:space-y-6 px-4 sm:px-0">
-          <div className="flex flex-col space-y-6 max-w-none mx-auto text-start sm:text-center ">
+        <section className="space-y-2 lg:space-y-6">
+          <div className="flex flex-col space-y-6 max-w-none text-start sm:text-center ">
             <h2>Miért érdemes velünk utazni Kolumbiába?</h2>
             <p>
               Tapasztalt és lelkes csapatunk garantálja, hogy az utazásod Kolumbiában az életed
@@ -81,13 +81,11 @@ export default function Home() {
             {data.map((item) => (
               <Card
                 key={item.title}
-                className="bg-gradient-to-b from-white to-[#fbfbfb] dark:bg-gradient-to-b from-[#1e1e1e] to-[#121212]"
+                //className="bg-gradient-to-b from-white to-[#fbfbfb] dark:bg-gradient-to-b from-[#1e1e1e] to-[#121212]"
               >
                 <CardHeader>
-                  <CardTitle>
-                    {item.icon}
-                    {item.title}
-                  </CardTitle>
+                  <CardTitle>{item.icon}</CardTitle>
+                  <CardTitle>{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>{item.subtitle}</CardContent>
               </Card>

@@ -20,20 +20,23 @@ export default async function Homee({ params }) {
   const post = await getDocumentData("adatok", "utazasaink");
 
   return (
-    <div className="container space-y-6 my-5">
-      <div className=" text-center space-y-2 ">
-        <h1>Utazásaink</h1>
-        <p>
+    <div className="container space-y-4 lg:space-y-6 my-5">
+      <div className=" space-y-2 ">
+        <h1 className="text-center">Utazásaink</h1>
+        <p className="lg:text-center">
           Kolumbiának rengeteg látnivalója van, ezért érdemes egy vagy két kisebb régiót választani
           az utazáshoz, hogy élvezetes legyen és ne túlságosan fárasztó. Az oldalunkon különféle
-          körutazásokat is talál, melyek segíthetnek a tervezésben. Kolumbiába látogatóknak
-          javasoljuk, hogy kezdjék az északi régióval, ahol a legtöbb turisztikai látványosság
-          található, és kínálunk kevésbé megerőltető programokat is. Az aktív pihenést és hegyi
-          kirándulásokat kedvelőknek a középső és déli részét ajánljuk, ahol extrém kalandokat és
-          tengerparti pihenést is kínálunk.
+          körutazásokat is talál, melyek segíthetnek a tervezésben.
+        </p>
+        <p>
+          {" "}
+          Kolumbiába látogatóknak javasoljuk, hogy kezdjék az északi régióval, ahol a legtöbb
+          turisztikai látványosság található, és kínálunk kevésbé megerőltető programokat is. Az
+          aktív pihenést és hegyi kirándulásokat kedvelőknek a középső és déli részét ajánljuk, ahol
+          extrém kalandokat és tengerparti pihenést is kínálunk.
         </p>
       </div>
-      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {post.utak.map((item) => (
           <Card key={item.id} className="flex flex-col justify-between h-full overflow-hidden">
             <Image

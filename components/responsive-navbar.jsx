@@ -31,7 +31,7 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="flex h-16 w-full shrink-0 sticky top-0 z-10 items-center px-4 md:px-6 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="flex h-16 w-full shrink-0 sticky top-0 z-10 items-center px-4 md:px-6 lg:px-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="lg:hidden">
@@ -39,6 +39,9 @@ export default function Navbar() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
+        <span className="font-bold inline-block items-center ml-4 lg:hidden">
+          Colombia Tours 97
+        </span>
         <SheetContent side="left">
           <Link href="#" prefetch={false} className="flex items-center">
             <MountainIcon className="h-6 w-6" />
@@ -58,14 +61,14 @@ export default function Navbar() {
           </div>
         </SheetContent>
       </Sheet>
-      <div className="container flex items-center">
+      <div className="container lg:flex items-center justify-between hidden">
         <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
           <MountainIcon className="h-6 w-6" />
           <span className="font-bold items-center ml-4">Colombia Tours 97</span>
           <span className="sr-only">Acme Inc</span>
         </Link>
-        <div className="ml-auto">
-          <NavigationMenu className="hidden lg:flex">
+        <div className="hidden lg:flex">
+          <NavigationMenu>
             <NavigationMenuList>
               {navigation.map((item) => (
                 <NavigationMenuLink asChild key={item.name}>
@@ -83,9 +86,9 @@ export default function Navbar() {
               <ModeToggle />
             </NavigationMenuList>
           </NavigationMenu>
-          <ModeToggle className="lg:hidden" />
         </div>
       </div>
+      <ModeToggle className="lg:hidden ml-auto" />
     </header>
   );
 }
