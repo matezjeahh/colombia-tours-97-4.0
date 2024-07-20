@@ -1,10 +1,6 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/2VsbYFJ1ERC
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 "use client";
 
+import { useEffect, useState } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -19,6 +15,8 @@ import { Menu } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
   const navigation = [
     { name: "Főoldal", path: "/" },
     { name: "Utazásaink", path: "/utazasaink" },
@@ -28,9 +26,13 @@ export default function Navbar() {
     { name: "Média", path: "/media" },
   ];
 
+  useEffect(() => {
+    setIsSheetOpen(false);
+  }, [pathname]);
+
   return (
     <header className="flex h-16 w-full shrink-0 sticky top-0 z-10 items-center px-4 md:px-6 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="lg:hidden">
             <Menu />
@@ -40,8 +42,7 @@ export default function Navbar() {
         <SheetContent side="left">
           <Link href="#" prefetch={false} className="flex items-center">
             <MountainIcon className="h-6 w-6" />
-
-            <span className=" font-bold">Colombia Tours 97</span>
+            <span className="font-bold">Colombia Tours 97</span>
           </Link>
           <div className="grid gap-2 py-4">
             {navigation.map((item) => (

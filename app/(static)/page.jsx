@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <>
       <HeroBanner />
-      <div className="container space-y-32 mt-32 mb-10">
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6 items-center md:mx-auto ">
-          <div className="col-span-1 items-center space-y-6 max-w-none">
+      <div className="container space-y-10 lg:space-y-32 mt-10 lg:mt-32">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center ">
+          <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
             <h2>Utazz Kolumbia specialistájával</h2>
             <p>
               A Colombia Tours 97 a kolumbiai autentikus kalandtúrák és körutazások specialistája, a
@@ -20,7 +20,7 @@ export default function Home() {
               lenyűgöző tájait és kulturális kincseit!
             </p>
             <Button asChild className="items-center">
-              <Link href="/login">
+              <Link href="/rolunk">
                 Ismerj meg minket <ChevronRight size={18} />
               </Link>
             </Button>
@@ -46,7 +46,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6 items-center">
+        <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
           <div className="cols-span-1 h-96 rounded-xl order-last lg:order-first">
             <Image
               width={0}
@@ -56,20 +56,20 @@ export default function Home() {
               src="/kep.jpg"
             />
           </div>
-          <div className="col-span-1 prose items-center space-y-6 max-w-none">
+          <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
             <h2>Ismerd meg Kolumbiát</h2>
             <p>
               Fedezd fel Kolumbia varázslatos esőerdeit, gyönyörű tengerpartjait és vibráló
               kultúráját! Csatlakozz hozzánk egy felejthetetlen kalandra Dél-Amerika szívében.
             </p>
             <Button asChild className="items-center">
-              <Link href="/login">
+              <Link href="/kolumbiarol">
                 Ismerd meg Kolumbiát <ChevronRight size={18} />
               </Link>
             </Button>
           </div>
         </section>
-        <section className="space-y-6 px-4 sm:px-0">
+        <section className="space-y-2 lg:space-y-6 px-4 sm:px-0">
           <div className="flex flex-col space-y-6 max-w-none mx-auto text-start sm:text-center ">
             <h2>Miért érdemes velünk utazni Kolumbiába?</h2>
             <p>
@@ -77,7 +77,7 @@ export default function Home() {
               egyik legemlékezetesebb élménye lesz.
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 prose max-w-none  items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8   max-w-none  items-stretch">
             {data.map((item) => (
               <Card
                 key={item.title}
