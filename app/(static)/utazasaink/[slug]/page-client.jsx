@@ -1,10 +1,7 @@
 "use client";
-import { Viewport } from "next";
-import Head from "next/head";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import BreadcrumbNav from "@/components/breadcrumb-nav";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,7 +17,6 @@ import { Calendar } from "@/components/ui/calendar";
 
 export default function PageClient({ post }) {
   //DrawerDialog state
-  const [open, setOpen] = useState(false);
 
   //Date
   const dateRange = {
@@ -84,7 +80,7 @@ export default function PageClient({ post }) {
                 és foglalásért.
               </CardContent>
               <CardFooter>
-                <DrawerDialogForm open={open} onOpenChange={setOpen} title={post.cim} />
+                <DrawerDialogForm title={post.cim} />
               </CardFooter>
             </Card>
           </div>
