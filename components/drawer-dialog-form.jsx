@@ -52,9 +52,7 @@ export function DrawerDialogForm({ open, onOpenChange, title }) {
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit profile</DrawerTitle>
-          <DrawerDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DrawerDescription>
+          <DrawerDescription>cső</DrawerDescription>
         </DrawerHeader>
         <ContactForm className="px-4 space-y-4" showSubject={true} subject={title} />
         <DrawerFooter className="pt-2">
