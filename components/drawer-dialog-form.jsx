@@ -20,13 +20,15 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { ContactForm } from "./contact-form";
+import { ScrollArea } from "./ui/scroll-area";
 
-export function DrawerDialogForm({ open, onOpenChange, title }) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+export function DrawerDialogForm({ title }) {
+  const [open, setOpen] = React.useState(false);
+  const isDesktop = useMediaQuery("(min-width: 20000px)");
 
   if (isDesktop) {
     return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="w-full">Érdekel</Button>
         </DialogTrigger>
@@ -42,7 +44,7 @@ export function DrawerDialogForm({ open, onOpenChange, title }) {
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
+    <Drawer open={open} onOpenChange={setOpen} shouldScaleBackground>
       <DrawerTrigger asChild>
         <Button className="w-full">Érdekel</Button>
       </DrawerTrigger>
@@ -51,7 +53,9 @@ export function DrawerDialogForm({ open, onOpenChange, title }) {
           <DrawerTitle>Edit profile</DrawerTitle>
           <DrawerDescription>cső</DrawerDescription>
         </DrawerHeader>
-        <ContactForm className="px-4 space-y-4" showSubject={true} subject={title} />
+        <ScrollArea className="overflow-y-auto">
+          <ContactForm className="px-4 space-y-4" showSubject={true} subject={title} />
+        </ScrollArea>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>

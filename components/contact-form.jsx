@@ -51,7 +51,7 @@ export function ContactForm({ className, showSubject, subject }) {
             <FormItem>
               <FormLabel>Az ön neve</FormLabel>
               <FormControl>
-                <Input placeholder="Név" {...field} />
+                <Input placeholder="Név" className="text-md" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -65,7 +65,7 @@ export function ContactForm({ className, showSubject, subject }) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <Input placeholder="Email" className="text-md" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,7 +79,7 @@ export function ContactForm({ className, showSubject, subject }) {
               <FormItem>
                 <FormLabel>Tárgy</FormLabel>
                 <FormControl>
-                  <Input placeholder={subject} disabled {...field} />
+                  <Input placeholder={subject} disabled className="text-md" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,7 +96,7 @@ export function ContactForm({ className, showSubject, subject }) {
             <FormItem>
               <FormLabel>Üzenet</FormLabel>
               <FormControl>
-                <Textarea placeholder="Üzenet" {...field} />
+                <Textarea placeholder="Üzenet" className="text-md" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
