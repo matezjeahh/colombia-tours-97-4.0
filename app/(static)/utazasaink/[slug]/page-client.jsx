@@ -1,5 +1,6 @@
 "use client";
-
+import { Viewport } from "next";
+import Head from "next/head";
 import React, { useState } from "react";
 import Image from "next/image";
 import BreadcrumbNav from "@/components/breadcrumb-nav";
@@ -32,6 +33,12 @@ export default function PageClient({ post }) {
 
   return (
     <div className="container space-y-6 my-5">
+      <Head>
+        <meta
+          name="viewport"
+          content="initial-scale=1, width=device-width, maximum-scale=1, viewport-fit=cover"
+        />
+      </Head>
       <BreadcrumbNav props={post.cim} />
       <h1 className="text-start">{post.cim}</h1>
       <div className="grid grid-cols-4 gap-1 relative ">

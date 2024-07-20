@@ -1,5 +1,4 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@react-hook/media-query";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +19,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { ContactForm } from "./contact-form";
 
 export function DrawerDialogForm({ open, onOpenChange, title }) {
