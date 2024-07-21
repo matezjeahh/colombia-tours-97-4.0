@@ -10,7 +10,15 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import { CalendarDays, CircleCheck, DollarSign, Gauge, MailPlus, MapPinIcon } from "lucide-react";
+import {
+  CalendarDays,
+  CircleCheck,
+  DollarSign,
+  Gauge,
+  MailPlus,
+  MapPinIcon,
+  XCircle,
+} from "lucide-react";
 import { DrawerDialogForm } from "@/components/drawer-dialog-form";
 import LightBox from "@/components/lightbox";
 import { Calendar } from "@/components/ui/calendar";
@@ -92,7 +100,7 @@ export default function PageClient({ post }) {
             </div>
             <div className="flex items-center space-x-2">
               <CalendarDays size={20} />
-              <p className="font-medium">Az utazás időpontja:</p>
+              <p className="font-medium">Dátum:</p>
               <p className="font-medium text-muted-foreground">
                 {formattedFromDate}-{formattedToDate}
               </p>
@@ -107,17 +115,40 @@ export default function PageClient({ post }) {
               <p className="font-medium">Indulás helye:</p>
               <p className="font-medium text-muted-foreground">Bogota</p>
             </div>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Az ár tartalmazza</AccordionTrigger>
+                <AccordionContent>
+                  <ul className="list-none space-y-2">
+                    {post.tartalmaz.map((item, index) => (
+                      <li key={index} className="flex items-start  ">
+                        <span>
+                          <CircleCheck size={20} className="text-green-400 mr-2" />
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Az ár nem tertalmazza</AccordionTrigger>
+                <AccordionContent>
+                  <ul className="list-none space-y-2">
+                    {post.nem_tartalmaz.map((item, index) => (
+                      <li key={index} className="flex items-start  ">
+                        <span>
+                          <XCircle size={20} className="text-red-400 mr-2" />
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Az ár tartalmazza</AccordionTrigger>
-              <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Az ár nem tertalmazza</AccordionTrigger>
-              <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
-            </AccordionItem>
-          </Accordion>
+
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <Card>
               <CardHeader>
