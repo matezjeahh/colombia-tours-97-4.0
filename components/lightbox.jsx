@@ -9,7 +9,11 @@ export default function LightBox({ className }) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} className={("items-center", className)}>
+      <Button
+        variant="outline"
+        onClick={() => setOpen(true)}
+        className={("items-center", className)}
+      >
         <Image size={18} className="mr-1" />
         Galéria
       </Button>

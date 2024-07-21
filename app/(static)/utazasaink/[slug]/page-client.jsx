@@ -14,6 +14,13 @@ import { CircleCheck, MailPlus } from "lucide-react";
 import { DrawerDialogForm } from "@/components/drawer-dialog-form";
 import LightBox from "@/components/lightbox";
 import { Calendar } from "@/components/ui/calendar";
+import { Badge } from "@/components/ui/badge";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function PageClient({ post }) {
   const dateRange = {
@@ -27,8 +34,23 @@ export default function PageClient({ post }) {
   return (
     <div className="container space-y-6 my-5">
       <BreadcrumbNav props={post.cim} />
-      <h1 className="text-start">{post.cim}</h1>
-      <div className="grid grid-cols-4 gap-1 relative ">
+      <div className="">
+        <h1 className="text-start">{post.cim}</h1>
+        <p className="text-muted-foreground  text-base mb-2">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus!
+        </p>
+        <Badge className="mr-3" variant="secondary">
+          Lorem, ipsum.
+        </Badge>
+        <Badge className="mr-3" variant="secondary">
+          Lorem, ipsum.
+        </Badge>
+        <Badge className="mr-3" variant="secondary">
+          Lorem, ipsum.
+        </Badge>
+      </div>
+
+      <div className="grid grid-cols-4 gap-0 lg:gap-1 relative ">
         <Image
           height={0}
           width={0}
@@ -36,17 +58,16 @@ export default function PageClient({ post }) {
           src="/kep.jpg"
           className="col-span-4 lg:col-span-3 h-72 lg:h-[30rem] w-full object-cover rounded-lg lg:rounded-r-none lg:rounded-l-lg"
         />
-        <div className="lg:col-span-1 grid grid-cols-1 gap-1">
+        <div className="lg:col-span-1 grid grid-cols-1 gap-0 lg:gap-1">
           <div className="bg-black w-full h-auto rounded-tr-lg"></div>
-          <div className="bg-teal-400 w-full h-auto rounded-br-lg"></div>
+          <div className="bg-yellow-100 w-full h-auto rounded-br-lg"></div>
         </div>
         <LightBox className="absolute bottom-3 right-3" />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
         <div className="col-span-4 sm:col-span-3 space-y-6">
           <div className="space-y-2">
-            <h2>Leírás</h2>
-            <div className="space-y-6">
+            <div className="space-y-6 ">
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto voluptas
                 obcaecati vero facere quod voluptates cumque recusandae debitis animi ducimus
@@ -62,6 +83,17 @@ export default function PageClient({ post }) {
               </p>
             </div>
           </div>
+          <div className="h-52 flex bg-green-400"></div>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Az ár tartalmazza</AccordionTrigger>
+              <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Az ár nem tertalmazza</AccordionTrigger>
+              <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <Card>
               <CardHeader>
@@ -83,7 +115,7 @@ export default function PageClient({ post }) {
           </div>
           <div className="space-y-2">
             <h2>Program</h2>
-            <div className="space-y-6">
+            <div className="space-y-6 ">
               {post.program.map((item, index) => (
                 <div key={index} className="space-y-2">
                   <h3 className="text-lg">{index + 1}. Nap</h3>
