@@ -148,7 +148,6 @@ export default function PageClient({ post }) {
               </AccordionItem>
             </Accordion>
           </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <Card>
               <CardHeader>
@@ -180,7 +179,7 @@ export default function PageClient({ post }) {
             </div>
           </div>
         </div>
-        <div className=" col-span-4 lg:col-span-1 h-fit space-y-6">
+        <div className=" hidden lg:block lg:col-span-1 h-fit space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Az ár tartalmazza</CardTitle>
