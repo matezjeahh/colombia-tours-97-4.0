@@ -70,7 +70,7 @@ export default function Home() {
           </div>
         </section>
         <section className="space-y-2 lg:space-y-6">
-          <div className="flex flex-col space-y-6 max-w-none text-start sm:text-center ">
+          <div className="flex flex-col space-y-2 lg:space-y-6 max-w-none text-start sm:text-center ">
             <h2>Miért érdemes velünk utazni Kolumbiába?</h2>
             <p>
               Tapasztalt és lelkes csapatunk garantálja, hogy az utazásod Kolumbiában az életed

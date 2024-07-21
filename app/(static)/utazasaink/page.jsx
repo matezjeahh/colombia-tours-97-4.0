@@ -7,7 +7,16 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DollarSign, CalendarDays, Map, Ticket, Landmark, Gauge, TicketX } from "lucide-react";
+import {
+  DollarSign,
+  CalendarDays,
+  Map,
+  Ticket,
+  Landmark,
+  Gauge,
+  TicketX,
+  Mountain,
+} from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,19 +30,39 @@ export default async function Homee({ params }) {
 
   return (
     <div className="container space-y-4 lg:space-y-6 my-5">
-      <div className=" space-y-2 ">
-        <h1 className="text-center">Utazásaink</h1>
-        <p className="lg:text-center">
-          Kolumbiának rengeteg látnivalója van, ezért érdemes egy vagy két kisebb régiót választani
-          az utazáshoz, hogy élvezetes legyen és ne túlságosan fárasztó. Az oldalunkon különféle
-          körutazásokat is talál, melyek segíthetnek a tervezésben.
+      <div className="space-y-2">
+        <h1 className="text-start lg:text-center">Utazásaink</h1>
+        <p className="lg:text-center text-muted-foreground ">
+          Fedezze fel Kolumbia varázslatos régióit és élvezze a különleges élményeket
         </p>
+      </div>
+      <div className=" space-y-2 border-l-2 pl-6 ">
+        <p className="l">
+          Kolumbiába látogatóknak javasoljuk, hogy kezdjék az <strong>északi</strong> régióval, ahol
+          a legtöbb turisztikai látványosság található. Itt a következőket kínáljuk:
+        </p>
+        <ul className="list-disc ml-4">
+          <li>Kulturális látnivalók</li>
+          <li>Történelmi helyszínek</li>
+          <li>Pihentető programok</li>
+        </ul>
         <p>
-          {" "}
-          Kolumbiába látogatóknak javasoljuk, hogy kezdjék az északi régióval, ahol a legtöbb
-          turisztikai látványosság található, és kínálunk kevésbé megerőltető programokat is. Az
-          aktív pihenést és hegyi kirándulásokat kedvelőknek a középső és déli részét ajánljuk, ahol
-          extrém kalandokat és tengerparti pihenést is kínálunk.
+          Az aktív pihenést és hegyi kirándulásokat kedvelőknek a középső és <strong>déli</strong>{" "}
+          részt ajánljuk, ahol a következő élményeket kínáljuk:
+        </p>
+        <Badge className="text-base">
+          <Mountain size={20} /> Extrém kalandok
+        </Badge>
+        <ul className="list-disc ml-4">
+          <li>Extrém kalandok</li>
+          <li>Hegyi túrák</li>
+          <li>Tengerparti pihenés</li>
+        </ul>
+      </div>
+      <div>
+        <h2 className="lg:text-center">Aktuális túráink</h2>
+        <p className="lg:text-center text-muted-foreground">
+          Friss és változatos túraajánlatok Kolumbia különböző régióiban
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

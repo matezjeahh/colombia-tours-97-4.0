@@ -183,21 +183,34 @@ export default function PageClient({ post }) {
           <Card>
             <CardHeader>
               <CardTitle>Az ár tartalmazza</CardTitle>
-              {post.tartalmaz.map((item, index) => (
-                <CardDescription key={index} className="flex">
-                  <span>
-                    <CircleCheck size={20} className="text-green-400 mr-2" />
-                  </span>
-                  {item}
-                </CardDescription>
-              ))}
             </CardHeader>
+            <CardContent>
+              <ul className="list-none space-y-2">
+                {post.tartalmaz.map((item, index) => (
+                  <li key={index} className="flex items-start leading-5">
+                    <span>
+                      <CircleCheck size={20} className="text-green-400 mr-2" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
             <CardHeader>
               <CardTitle>Az ár nem tartalmazza</CardTitle>
             </CardHeader>
-            {post.nem_tartalmaz.map((item, index) => (
-              <CardContent key={index}>{item}</CardContent>
-            ))}
+            <CardContent>
+              <ul className="list-none space-y-2">
+                {post.nem_tartalmaz.map((item, index) => (
+                  <li key={index} className="flex items-start leading-5">
+                    <span>
+                      <XCircle size={20} className="text-red-400 mr-2" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
           </Card>
         </div>
       </div>

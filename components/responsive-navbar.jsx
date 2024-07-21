@@ -39,11 +39,11 @@ export default function Navbar() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <span className="font-bold inline-block items-center ml-4 lg:hidden">
+        <Link href="/" className="font-bold inline-block items-center ml-4 lg:hidden">
           Colombia Tours 97
-        </span>
+        </Link>
         <SheetContent side="left">
-          <Link href="#" prefetch={false} className="flex items-center">
+          <Link href="/" prefetch={false} className="flex items-center">
             <MountainIcon className="h-6 w-6" />
             <span className="font-bold">Colombia Tours 97</span>
           </Link>
@@ -52,7 +52,9 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.path}
-                className="flex w-full items-center text-md font-medium"
+                className={`flex w-full items-center text-md py-1 pl-2 focus:bg-muted/30 rounded-lg font-medium ${
+                  pathname === item.path ? "bg-muted" : ""
+                }`}
                 prefetch={false}
               >
                 {item.name}
@@ -62,7 +64,7 @@ export default function Navbar() {
         </SheetContent>
       </Sheet>
       <div className="container lg:flex items-center justify-between hidden">
-        <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
+        <Link href="/" className="mr-6 hidden lg:flex" prefetch={false}>
           <MountainIcon className="h-6 w-6" />
           <span className="font-bold items-center ml-4">Colombia Tours 97</span>
           <span className="sr-only">Acme Inc</span>
@@ -75,8 +77,8 @@ export default function Navbar() {
                   <Link
                     href={item.path}
                     prefetch={false}
-                    className={`px-4 text-sm font-medium transition-colors text-foreground/60 hover:text-foreground/80 ${
-                      pathname === item.path ? "text-foreground" : ""
+                    className={`px-4 text-sm font-medium transition-colors py-2 text-muted-foreground hover:text-foreground/80 ${
+                      pathname === item.path ? "text-primary" : ""
                     }`}
                   >
                     {item.name}

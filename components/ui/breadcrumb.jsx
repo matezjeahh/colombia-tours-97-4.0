@@ -13,7 +13,7 @@ const BreadcrumbList = React.forwardRef(({ className, ...props }, ref) => (
   <ol
     ref={ref}
     className={cn(
-      "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
+      "flex items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
       className
     )}
     {...props}
@@ -22,7 +22,11 @@ const BreadcrumbList = React.forwardRef(({ className, ...props }, ref) => (
 BreadcrumbList.displayName = "BreadcrumbList";
 
 const BreadcrumbItem = React.forwardRef(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("inline-flex items-center gap-1.5", className)} {...props} />
+  <li
+    ref={ref}
+    className={cn("inline-flex items-center gap-1.5 last:truncate", className)}
+    {...props}
+  />
 ));
 BreadcrumbItem.displayName = "BreadcrumbItem";
 
@@ -40,12 +44,12 @@ const BreadcrumbLink = React.forwardRef(({ asChild, className, ...props }, ref) 
 BreadcrumbLink.displayName = "BreadcrumbLink";
 
 const BreadcrumbPage = React.forwardRef(({ className, ...props }, ref) => (
-  <span
+  <p
     ref={ref}
     role="link"
     aria-disabled="true"
     aria-current="page"
-    className={cn("font-normal text-foreground", className)}
+    className={cn("font-normal text-foreground truncate", className)}
     {...props}
   />
 ));
