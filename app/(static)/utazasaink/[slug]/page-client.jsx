@@ -10,7 +10,7 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import { CircleCheck, MailPlus } from "lucide-react";
+import { CalendarDays, CircleCheck, DollarSign, Gauge, MailPlus, MapPinIcon } from "lucide-react";
 import { DrawerDialogForm } from "@/components/drawer-dialog-form";
 import LightBox from "@/components/lightbox";
 import { Calendar } from "@/components/ui/calendar";
@@ -83,7 +83,31 @@ export default function PageClient({ post }) {
               </p>
             </div>
           </div>
-          <div className="h-52 flex bg-green-400"></div>
+          <div className=" flex flex-col space-y-1">
+            <h3>Részletek</h3>
+            <div className="flex items-center space-x-2">
+              <Gauge size={20} />
+              <p className="font-medium">Túra nehézsége:</p>
+              <p className="font-medium text-muted-foreground">könnyű</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <CalendarDays size={20} />
+              <p className="font-medium">Az utazás időpontja:</p>
+              <p className="font-medium text-muted-foreground">
+                {formattedFromDate}-{formattedToDate}
+              </p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <DollarSign size={20} />
+              <p className="font-medium">Túra ára:</p>
+              <p className="font-medium text-muted-foreground">{post.ar}</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <MapPinIcon size={20} />
+              <p className="font-medium">Indulás helye:</p>
+              <p className="font-medium text-muted-foreground">Bogota</p>
+            </div>
+          </div>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Az ár tartalmazza</AccordionTrigger>
