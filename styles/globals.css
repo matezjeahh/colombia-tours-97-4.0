@@ -70,7 +70,7 @@
     @apply scroll-m-20 text-3xl font-bold text-center tracking-tight;
   }
   h2 {
-    @apply scroll-m-20 text-2xl lg:text-3xl font-semibold tracking-tight;
+    @apply scroll-m-20 text-3xl font-semibold tracking-tight;
   }
   h3 {
     @apply scroll-m-20 text-xl font-semibold tracking-tight;

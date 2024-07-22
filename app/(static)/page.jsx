@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <HeroBanner />
-      <div className="container space-y-10 lg:space-y-32 mt-10 mb-5 lg:mt-32">
+      <div className="container space-y-20 lg:space-y-32 mt-10 mb-5 lg:mt-32">
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center ">
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
             <h2>Utazz Kolumbia specialistájával</h2>
