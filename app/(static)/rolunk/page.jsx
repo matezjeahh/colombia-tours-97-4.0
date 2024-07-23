@@ -2,7 +2,7 @@ import React from "react";
 
 export default function AboutUs() {
   return (
-    <div className="container my-5 space-y-10">
+    <div className="container my-5 space-y-20">
       <h1>Rólunk</h1>
       <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
         <div className="space-y-4">

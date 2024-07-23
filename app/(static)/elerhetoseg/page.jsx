@@ -17,7 +17,7 @@ import { ContactForm } from "@/components/contact-form";
 
 export default function Elerhetoseg() {
   return (
-    <div className="container space-y-10 my-5">
+    <div className="container space-y-20 my-5">
       <div className="space-y-2">
         <h1>Elérhetőség</h1>
         <p className="text-center">
@@ -39,9 +39,9 @@ export default function Elerhetoseg() {
           </CardContent>
         </Card>
         <div className="col-span-1 space-y-6">
-          <div className="space-y-4 mt-6">
-            <h3 className="text-lg font-semibold">További kapcsolatfelvételi lehetőségek</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 !mt-0">
+          <div className="space-y-0">
+            <h2>További kapcsolatfelvételi lehetőségek</h2>
+            <p className="text-muted-foreground">
               Használja az alábbi elérhetőségeinket, hogy gyorsan kapcsolatba léphessen velünk
             </p>
           </div>

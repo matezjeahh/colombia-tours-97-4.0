@@ -45,7 +45,7 @@ export default function Media() {
     // Add more videos as needed
   ];
   return (
-    <div className="container space-y-10 my-5">
+    <div className="container space-y-20 my-5">
       <div className="space-y-2">
         <h1>Média</h1>
         <p className="text-center">

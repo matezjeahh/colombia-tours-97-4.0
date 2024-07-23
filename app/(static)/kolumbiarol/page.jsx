@@ -11,16 +11,18 @@ export default async function Page({ params }) {
   const { id } = params;
   const post = await getDocumentData("adatok", "kolumbiarol-adatok");
   return (
-    <div className="container space-y-10 my-5">
+    <div className="container space-y-20 my-5">
       <h1>Kolumbia</h1>
       <div className="space-y-6">
         {post.kolumbiarol.map((item) => (
-          <div key={item.cim} className="space-y-2">
+          <section key={item.cim} className="space-y-2">
             <h2>{item.cim}</h2>
-            {item.reszletek.map((subitem, index) => (
-              <p key={index}>{subitem}</p>
-            ))}
-          </div>
+            <div className="space-y-6">
+              {item.reszletek.map((subitem, index) => (
+                <p key={index}>{subitem}</p>
+              ))}
+            </div>
+          </section>
         ))}
       </div>
     </div>

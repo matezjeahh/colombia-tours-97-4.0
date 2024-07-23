@@ -91,8 +91,8 @@ export default function PageClient({ post }) {
               </p>
             </div>
           </div>
-          <div className=" flex flex-col space-y-1">
-            <h3>Részletek</h3>
+          <div className=" flex flex-col lg:hidden space-y-1">
+            <h2>Részletek</h2>
             <div className="flex items-center space-x-2">
               <Gauge size={20} />
               <p className="font-medium">Túra nehézsége:</p>
@@ -115,7 +115,7 @@ export default function PageClient({ post }) {
               <p className="font-medium">Indulás helye:</p>
               <p className="font-medium text-muted-foreground">Bogota</p>
             </div>
-            <Accordion type="single" collapsible>
+            <Accordion type="single" collapsible className="lg:hidden">
               <AccordionItem value="item-1">
                 <AccordionTrigger>Az ár tartalmazza</AccordionTrigger>
                 <AccordionContent>
@@ -134,7 +134,7 @@ export default function PageClient({ post }) {
               <AccordionItem value="item-2">
                 <AccordionTrigger>Az ár nem tertalmazza</AccordionTrigger>
                 <AccordionContent>
-                  <ul className="list-none space-y-2">
+                  <ul className="list-none space-y-2 text-base">
                     {post.nem_tartalmaz.map((item, index) => (
                       <li key={index} className="flex items-start  ">
                         <span>
@@ -148,7 +148,7 @@ export default function PageClient({ post }) {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="grid grid-cols-1 lg:hidden lg:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle className="flex">
@@ -182,6 +182,23 @@ export default function PageClient({ post }) {
         <div className=" hidden lg:block lg:col-span-1 h-fit space-y-6">
           <Card>
             <CardHeader>
+              <CardTitle className="flex">
+                <span>
+                  <MailPlus className="mr-2" />
+                </span>{" "}
+                Érdekli ez az túra?
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              Ha érdekli ez a túra, kérjük, vegye fel velünk a kapcsolatot további információkért és
+              foglalásért.
+            </CardContent>
+            <CardFooter>
+              <DrawerDialogForm title={post.cim} />
+            </CardFooter>
+          </Card>
+          <Card>
+            <CardHeader>
               <CardTitle>Az ár tartalmazza</CardTitle>
             </CardHeader>
             <CardContent>
@@ -210,6 +227,15 @@ export default function PageClient({ post }) {
                   </li>
                 ))}
               </ul>
+            </CardContent>
+            <CardContent>
+              <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center space-y-4 w-64">
+                <div className="bg-blue-100 p-3 rounded-full">
+                  <DollarSign className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-800">asdfasdfa</h3>
+                <p className="text-gray-600 text-center">asdfasdf</p>
+              </div>
             </CardContent>
           </Card>
         </div>

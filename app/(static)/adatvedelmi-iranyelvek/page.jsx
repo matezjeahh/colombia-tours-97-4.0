@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Adatvedelem() {
   return (
-    <div className="container space-y-10 my-5">
+    <div className="container space-y-20 my-5">
       <h1>Adatvédelmi irányelvek</h1>
       <div className="space-y-6">
         <p>Az Ön által megadott személyes adatokat kezeli:</p>
