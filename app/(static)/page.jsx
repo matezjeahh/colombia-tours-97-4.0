@@ -6,6 +6,33 @@ import { Button } from "@/components/ui/button";
 import HeroBanner from "@/components/hero-banner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+const data = [
+  {
+    title: "Precíz Ügyintézés",
+    subtitle:
+      "Minden apró részletre odafigyelünk, hogy az utazásod zökkenőmentes és kellemes legyen. A tervezéstől a szállásfoglalásig és a programok megszervezéséig mindent megteszünk.",
+    icon: <FileText className="mr-2" />,
+  },
+  {
+    title: "Zavartalan Utazás",
+    subtitle:
+      "Gondoskodunk róla, hogy minden utas biztonságban érezze magát és az utazás zavartalanul teljen. Szilárd és Laura, a Colombia Tours 97 alapítói, mindig rendelkezésedre állnak.",
+    icon: <ShieldCheck className="mr-2" />,
+  },
+  {
+    title: "Rejtett Kincsek",
+    subtitle:
+      "Fedezd fel velünk azokat a rejtett gyöngyszemeket, amelyeket más turisták sosem fedeznek fel. Vezetőink helyi szakértők, akik a legizgalmasabb úti célokat ismerik.",
+    icon: <Camera className="mr-2" />,
+  },
+  {
+    title: "Tapasztalt Idegenvezetők",
+    subtitle:
+      "Tapasztalt és barátságos idegenvezetők kísérik utazásodat Kolumbiában, akik a helyi kultúra, történelem és látnivalók legjobb ismerői.",
+    icon: <Users className="mr-2" />,
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -33,6 +60,7 @@ export default function Home() {
                 sizes="100vw"
                 className="w-full h-60 lg:h-96 object-cover rounded-lg"
                 src="/kep.jpg"
+                alt="kolumbia"
               />
             </div>
             <div className="col-span-1 flex mt-4 lg:mt-10">
@@ -42,6 +70,7 @@ export default function Home() {
                 sizes="100vw"
                 className="w-full h-60 lg:h-96 object-cover rounded-lg"
                 src="/kep.jpg"
+                alt="kolumbia"
               />
             </div>
           </div>
@@ -54,6 +83,7 @@ export default function Home() {
               sizes="100vw"
               className="w-full h-60 lg:h-96 object-cover rounded-lg"
               src="/kep.jpg"
+              alt="kolumbia"
             />
           </div>
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
@@ -96,30 +126,3 @@ export default function Home() {
     </>
   );
 }
-
-const data = [
-  {
-    title: "Precíz Ügyintézés",
-    subtitle:
-      "Minden apró részletre odafigyelünk, hogy az utazásod zökkenőmentes és kellemes legyen. A tervezéstől a szállásfoglalásig és a programok megszervezéséig mindent megteszünk.",
-    icon: <FileText className="mr-2" />,
-  },
-  {
-    title: "Zavartalan Utazás",
-    subtitle:
-      "Gondoskodunk róla, hogy minden utas biztonságban érezze magát és az utazás zavartalanul teljen. Szilárd és Laura, a Colombia Tours 97 alapítói, mindig rendelkezésedre állnak.",
-    icon: <ShieldCheck className="mr-2" />,
-  },
-  {
-    title: "Rejtett Kincsek",
-    subtitle:
-      "Fedezd fel velünk azokat a rejtett gyöngyszemeket, amelyeket más turisták sosem fedeznek fel. Vezetőink helyi szakértők, akik a legizgalmasabb úti célokat ismerik.",
-    icon: <Camera className="mr-2" />,
-  },
-  {
-    title: "Tapasztalt Idegenvezetők",
-    subtitle:
-      "Tapasztalt és barátságos idegenvezetők kísérik utazásodat Kolumbiában, akik a helyi kultúra, történelem és látnivalók legjobb ismerői.",
-    icon: <Users className="mr-2" />,
-  },
-];

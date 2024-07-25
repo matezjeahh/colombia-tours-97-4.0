@@ -7,6 +7,7 @@ import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuList,
+  NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { usePathname } from "next/navigation";
@@ -73,17 +74,19 @@ export default function Navbar() {
           <NavigationMenu>
             <NavigationMenuList>
               {navigation.map((item) => (
-                <NavigationMenuLink asChild key={item.name}>
-                  <Link
-                    href={item.path}
-                    prefetch={false}
-                    className={`px-4 text-sm font-medium transition-colors py-2 text-muted-foreground hover:text-foreground/80 ${
-                      pathname === item.path ? "text-primary" : ""
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                </NavigationMenuLink>
+                <NavigationMenuItem key={item.name}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={item.path}
+                      prefetch={false}
+                      className={`px-4 text-sm font-medium transition-colors py-2 text-muted-foreground hover:text-foreground/80 ${
+                        pathname === item.path ? "text-primary" : ""
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
               ))}
               <ModeToggle />
             </NavigationMenuList>
