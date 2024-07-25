@@ -24,7 +24,7 @@ import { getDocumentData } from "@/firebase-functions";
 import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
-export default async function Homee({ params }) {
+export default async function Utazasaink({ params }) {
   const { id } = params;
   const post = await getDocumentData("adatok", "utazasaink");
 
@@ -89,8 +89,8 @@ export default async function Homee({ params }) {
                 <div className="flex items-center ">
                   <CalendarDays size={20} className="mr-2" />
                   <p className="text-sm font-medium leading-none !mt-0">
-                    {item.datum.kezdo.toDate().toLocaleDateString()} -{" "}
-                    {item.datum.veg.toDate().toLocaleDateString()}
+                    {item.datum.kezdo.toDate().toLocaleDateString("hu-HU")} -{" "}
+                    {item.datum.veg.toDate().toLocaleDateString("hu-HU")}
                   </p>
                 </div>
                 <div className="flex items-center ">
