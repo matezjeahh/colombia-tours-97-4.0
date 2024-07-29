@@ -1,9 +1,9 @@
-"use client";
+/*"use client";
 
 import { useState } from "react";
-//import { useRouter } from "next/navigation";
-//import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-//import { app } from "@/firebase";
+import { useRouter } from "next/navigation";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "@/firebase";
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 
 export default function Login() {
-  /*const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function Login() {
     } catch (e) {
       setError(e.message);
     }
-  }*/
+  }
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center">
@@ -93,4 +93,4 @@ export default function Login() {
       </Card>
     </div>
   );
-}
+}*/
