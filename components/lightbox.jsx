@@ -6,11 +6,10 @@ import { Image } from "lucide-react";
 import NextJsImage from "./next-js-image";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 export default function LightBox({ className }) {
   const [open, setOpen] = React.useState(false);
-
-  const thumbnailsRef = React.useRef(null);
 
   return (
     <>
@@ -28,7 +27,7 @@ export default function LightBox({ className }) {
         close={() => setOpen(false)}
         slides={[{ src: "/kep.jpg" }, { src: "/kep.jpg" }, { src: "/kep.jpg" }]}
         render={{ slide: NextJsImage, thumbnail: NextJsImage }}
-        plugins={[Thumbnails]}
+        plugins={[Thumbnails, Zoom]}
       />
     </>
   );
