@@ -1,11 +1,12 @@
 // app/auth/withAuth.js
+import React from "react";
 import { getTokens } from "next-firebase-auth-edge";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { clientConfig, serverConfig } from "@/config";
 
 const withAuth = (Component) => {
-  return async (props) => {
+  const AuthenticatedComponent = async (props) => {
     const tokenCookies = cookies();
 
     // Ensure the cookies are properly passed to getTokens
@@ -24,6 +25,12 @@ const withAuth = (Component) => {
     // Pass tokens and other necessary data to the component
     return <Component {...props} tokens={tokens} />;
   };
+
+  AuthenticatedComponent.displayName = `withAuth(${
+    Component.displayName || Component.name || "Component"
+  })`;
+
+  return AuthenticatedComponent;
 };
 
 export default withAuth;
