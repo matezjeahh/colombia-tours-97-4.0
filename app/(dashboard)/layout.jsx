@@ -1,9 +1,9 @@
 import { Inter as FontSans } from "next/font/google";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/responsive-navbar";
-import Footer from "@/components/responsive-footer";
 import { cn } from "@/lib/utils";
+import DashboardNavbar from "@/components/dashboard-navigation";
+import { Toaster } from "sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,7 +25,9 @@ export default function DashLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
+          <DashboardNavbar />
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

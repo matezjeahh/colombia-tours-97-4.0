@@ -134,11 +134,11 @@ export default function PageClient({ post }) {
               <AccordionItem value="item-2">
                 <AccordionTrigger>Az ár nem tertalmazza</AccordionTrigger>
                 <AccordionContent>
-                  <ul className="list-none space-y-2 text-base">
+                  <ul className="list-none space-y-2">
                     {post.nem_tartalmaz.map((item, index) => (
-                      <li key={index} className="flex items-start  ">
-                        <span>
-                          <XCircle size={20} className="text-red-400 mr-2" />
+                      <li key={index} className="flex items-start leading-7">
+                        <span className="mt-1 bg-red-400 text-white rounded-full  mr-2">
+                          <XCircle size={20} className="" />
                         </span>
                         {item}
                       </li>
