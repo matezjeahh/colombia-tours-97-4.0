@@ -67,6 +67,7 @@ export default async function Utazasaink({ params }) {
                 width={0}
                 sizes="100vw"
                 src="/kep.jpg"
+                priority={true}
               />
               <CardHeader>
                 <div className="flex justify-between">

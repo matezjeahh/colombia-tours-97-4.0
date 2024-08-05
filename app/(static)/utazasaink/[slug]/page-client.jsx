@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import BreadcrumbNav from "@/components/breadcrumb-nav";
 import {
@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { DrawerDialogForm } from "@/components/drawer-dialog-form";
 import LightBox from "@/components/lightbox";
-import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import {
   Accordion,
@@ -30,14 +29,60 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+const OptimizedImage = ({ src, alt, className, priority = false }) => (
+  <div className={`relative w-full h-full overflow-hidden ${className}`}>
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      style={{ objectFit: "cover" }}
+      sizes="(max-width: 768px) 100vw, 50vw"
+      priority={priority}
+    />
+  </div>
+);
+
 export default function PageClient({ post }) {
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    const importImages = async () => {
+      try {
+        console.log("PageClient id:", post.id);
+
+        if (post.id === null || post.id === undefined || isNaN(post.id)) {
+          console.error("Invalid id:", post.id);
+          return;
+        }
+
+        const context = require.context("/public", true, /\.(png|jpe?g|svg)$/);
+
+        const allKeys = context.keys();
+        console.log("All keys:", allKeys);
+
+        const images = allKeys
+          .filter((key) => key.startsWith(`./${post.id}/`))
+          .map((key) => ({
+            src: `/${post.id}${key.substring(3)}`,
+          }));
+
+        console.log("Filtered images:", images);
+
+        setSlides(images);
+      } catch (error) {
+        console.error("Error importing images:", error);
+      }
+    };
+
+    importImages();
+  }, [post.id]);
+
   const dateRange = {
     from: new Date(post.datum.kezdo),
     to: new Date(post.datum.veg),
   };
   const formattedFromDate = dateRange.from.toLocaleDateString("hu-HU"); // Adjust locale as necessary
   const formattedToDate = dateRange.to.toLocaleDateString("hu-HU");
-  const initialViewDate = new Date(post.datum.kezdo);
 
   return (
     <div className="container space-y-6 my-5">
@@ -57,23 +102,85 @@ export default function PageClient({ post }) {
           Lorem, ipsum.
         </Badge>
       </div>
-
-      <div className="grid grid-cols-4 gap-0 lg:gap-1 relative ">
-        <Image
-          height={0}
-          width={0}
-          sizes="100vw"
-          src="/kep.jpg"
-          className="col-span-4 lg:col-span-3 h-72 lg:h-[30rem] w-full object-cover rounded-lg lg:rounded-r-none lg:rounded-l-lg"
-        />
-        <div className="lg:col-span-1 grid grid-cols-1 gap-0 lg:gap-1">
-          <div className="bg-black w-full h-auto rounded-tr-lg"></div>
-          <div className="bg-yellow-100 w-full h-auto rounded-br-lg"></div>
+      <div className="grid grid-cols-4 gap-1 relative h-[30rem]">
+        {slides.length > 0 && (
+          <div className="col-span-4 lg:col-span-3 h-full">
+            <OptimizedImage
+              src={slides[0].src}
+              alt="Main tour image"
+              className="rounded-lg lg:rounded-r-none lg:rounded-l-lg"
+              priority
+            />
+          </div>
+        )}
+        <div className="hidden lg:flex lg:col-span-1 flex-col gap-1 h-full">
+          {slides.length > 1 && (
+            <div className="flex-1">
+              <OptimizedImage
+                src={slides[1].src}
+                alt="Secondary tour image"
+                className="rounded-tr-lg"
+              />
+            </div>
+          )}
+          {slides.length > 2 && (
+            <div className="flex-1">
+              <OptimizedImage
+                src={slides[2].src}
+                alt="Tertiary tour image"
+                className="rounded-br-lg"
+              />
+            </div>
+          )}
         </div>
-        <LightBox className="absolute bottom-3 right-3" />
+        <div className="absolute bottom-3 right-3 z-10">
+          <LightBox slides={slides} />
+        </div>
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
         <div className="col-span-4 sm:col-span-3 space-y-6">
+          <div className="bg-secondary text-secondary-foreground p-4  mb-6 rounded-lg shadow-sm">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="flex items-center">
+                <Gauge className="w-5 h-5 mr-2 text-blue-500" />
+                <div>
+                  <p className="text-sm font-semibold">A túra dátuma</p>
+                  <p className="text-xs">
+                    {formattedFromDate} - {formattedToDate}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Gauge className="w-5 h-5 mr-2 text-green-500" />
+                <div>
+                  <p className="text-sm font-semibold">A túra ára</p>
+                  <p className="text-xs">{post.ar} USD/fő</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Gauge className="w-5 h-5 mr-2 text-orange-500" />
+                <div>
+                  <p className="text-sm font-semibold">Indulás helyszíne</p>
+                  <p className="text-xs">Bogota</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Gauge className="w-5 h-5 mr-2 text-purple-500" />
+                <div>
+                  <p className="text-sm font-semibold">A túra nehézsége</p>
+                  <p className="text-xs">könnyű</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Gauge className="w-5 h-5 mr-2 text-red-500" />
+                <div>
+                  <p className="text-sm font-semibold">Group Size</p>
+                  <p className="text-xs">Max asd people</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="space-y-2">
             <div className="space-y-6 ">
               <p>
@@ -227,15 +334,6 @@ export default function PageClient({ post }) {
                   </li>
                 ))}
               </ul>
-            </CardContent>
-            <CardContent>
-              <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center space-y-4 w-64">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <DollarSign className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-800">asdfasdfa</h3>
-                <p className="text-gray-600 text-center">asdfasdf</p>
-              </div>
             </CardContent>
           </Card>
         </div>

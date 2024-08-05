@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar, MoreVertical, Edit, Trash, Check, X } from "lucide-react";
 import CustomAlertDialog from "../custom-alert-dialog";
-import { format } from "date-fns";
 
 const DateRangeCard = ({
   selectedItem,
@@ -24,16 +23,32 @@ const DateRangeCard = ({
   const [editedEndDate, setEditedEndDate] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const parseDate = (dateField) => {
+    if (!dateField) return "";
+    if (typeof dateField === "string") return dateField;
+    if (dateField.toDate) return dateField.toDate().toISOString().split("T")[0].replace(/-/g, ".");
+    if (dateField.seconds && dateField.nanoseconds) {
+      const date = new Date(dateField.seconds * 1000 + dateField.nanoseconds / 1000000);
+      return date.toISOString().split("T")[0].replace(/-/g, ".");
+    }
+    return "";
+  };
+
   useEffect(() => {
-    if (selectedItem) {
-      setEditedStartDate(formatDate(selectedItem.startDate));
-      setEditedEndDate(formatDate(selectedItem.endDate));
+    if (selectedItem && selectedItem.datum) {
+      setEditedStartDate(parseDate(selectedItem.datum.kezdo));
+      setEditedEndDate(parseDate(selectedItem.datum.veg));
     }
   }, [selectedItem]);
 
-  const formatDate = (date) => {
-    if (!date) return "";
-    return format(new Date(date.seconds * 1000), "yyyy-MM-dd");
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    return dateString.replace(/\./g, "-");
+  };
+
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return "";
+    return dateString.replace(/-/g, ".");
   };
 
   const handleEdit = () => {
@@ -46,21 +61,18 @@ const DateRangeCard = ({
 
   const handleConfirm = async () => {
     await onUpdate({
-      startDate: new Date(editedStartDate),
-      endDate: new Date(editedEndDate),
+      startDate: formatDateForDisplay(editedStartDate),
+      endDate: formatDateForDisplay(editedEndDate),
     });
     setIsAlertOpen(false);
   };
 
   const handleCancel = () => {
     cancelEditing();
-    setEditedStartDate(formatDate(selectedItem?.startDate));
-    setEditedEndDate(formatDate(selectedItem?.endDate));
-  };
-
-  const displayFormattedDate = (date) => {
-    if (!date) return "";
-    return format(new Date(date.seconds * 1000), "yyyy-MM-dd");
+    if (selectedItem && selectedItem.datum) {
+      setEditedStartDate(parseDate(selectedItem.datum.kezdo));
+      setEditedEndDate(parseDate(selectedItem.datum.veg));
+    }
   };
 
   return (
@@ -96,7 +108,7 @@ const DateRangeCard = ({
               <Input
                 id="startDate"
                 type="date"
-                value={editedStartDate}
+                value={formatDateForInput(editedStartDate)}
                 onChange={(e) => setEditedStartDate(e.target.value)}
               />
             </div>
@@ -105,7 +117,7 @@ const DateRangeCard = ({
               <Input
                 id="endDate"
                 type="date"
-                value={editedEndDate}
+                value={formatDateForInput(editedEndDate)}
                 onChange={(e) => setEditedEndDate(e.target.value)}
               />
             </div>
@@ -129,10 +141,9 @@ const DateRangeCard = ({
           </div>
         ) : (
           <p>
-            {selectedItem ? (
+            {selectedItem && selectedItem.datum ? (
               <>
-                {displayFormattedDate(selectedItem.startDate)} -{" "}
-                {displayFormattedDate(selectedItem.endDate)}
+                {parseDate(selectedItem.datum.kezdo)} - {parseDate(selectedItem.datum.veg)}
               </>
             ) : (
               "No dates set"

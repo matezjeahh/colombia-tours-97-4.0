@@ -8,7 +8,7 @@ const CalendarView = ({ trips }) => {
     <div className="space-y-4">
       {trips.map((trip) => (
         <div key={trip.id} className="flex items-center space-x-4">
-          <div class="bg-blue-500 text-white rounded-full h-10 w-10 flex items-center justify-center">
+          <div className="bg-blue-500 text-white rounded-full h-10 w-10 flex items-center justify-center">
             <span>Sep</span>
           </div>
           <Card className="flex-1">
