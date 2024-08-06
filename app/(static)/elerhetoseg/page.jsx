@@ -15,6 +15,12 @@ import {
 import { Mail, Phone, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 
+export const metadata = {
+  title: "Elérhetőség | Colombia Tours 97",
+  description:
+    "Kapcsolatba léphetsz velünk az alábbi elérhetőségeken. Örömmel válaszolunk kérdéseidre és segítünk megtervezni a tökéletes kolumbiai utazást!",
+};
+
 export default function Elerhetoseg() {
   return (
     <div className="container space-y-20 my-5">

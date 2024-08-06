@@ -2,6 +2,12 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import { getDocumentData } from "@/firebase-functions";
 
+export const metadata = {
+  title: "Kolumbiáról | Colombia Tours 97",
+  description:
+    "Tudd meg, miért érdemes Kolumbiát választani úti célként! Fedezd fel az ország gazdag kulturális örökségét, lenyűgöző tájait és vibráló városait velünk.",
+};
+
 const querySnapshot = await getDocs(collection(db, "adatok"));
 querySnapshot.forEach((doc) => {
   console.log(`${doc.id} => ${doc.data()}`);

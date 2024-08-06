@@ -1,5 +1,11 @@
 import React from "react";
 
+export const metadata = {
+  title: "Rólunk | Colombia Tours 97",
+  description:
+    "Ismerd meg a Colombia Tours 97 csapatát! Fedezd fel történetünket, értékeinket és küldetésünket, amelyek az autentikus kolumbiai utazási élmény mögött állnak.",
+};
+
 export default function AboutUs() {
   return (
     <div className="container my-5 space-y-20">

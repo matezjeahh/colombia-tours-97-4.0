@@ -24,7 +24,14 @@ import Image from "next/image";
 import { getDocumentData } from "@/firebase-functions";
 import { Badge } from "@/components/ui/badge";
 
+export const metadata = {
+  title: "Utazásaink | Colombia Tours 97",
+  description:
+    "Fedezd fel változatos utazási ajánlatainkat Kolumbiában! Ismerd meg egyedi programjainkat, amelyek minden korosztály és érdeklődési kör számára felejthetetlen élményeket kínálnak.",
+};
+
 export const dynamic = "force-dynamic";
+
 export default async function Utazasaink({ params }) {
   const { id } = params;
   const post = await getDocumentData("adatok", "utazasaink");
