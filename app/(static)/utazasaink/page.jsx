@@ -15,7 +15,8 @@ import {
   Landmark,
   Gauge,
   TicketX,
-  Mountain,
+  MapPin,
+  Plane,
 } from "lucide-react";
 import React from "react";
 import Link from "next/link";
@@ -69,13 +70,21 @@ export default async function Utazasaink({ params }) {
                 src="/kep.jpg"
                 priority={true}
               />
-              <CardHeader>
+              <CardHeader className="flex-grow">
                 <div className="flex justify-between">
                   <div className="flex items-center">
                     <Map size={20} className="mr-2" />
                     <span className="uppercase text-sm font-semibold">{item.taj}</span>
                   </div>
-                  {item.nepszeru && <Badge variant="approve">Népszerű túra</Badge>}
+                  {item.nepszeru ? (
+                    <Badge variant="default" className="rounded-md">
+                      Kalandtúra
+                    </Badge>
+                  ) : (
+                    <Badge variant="default" className="rounded-md">
+                      Körutazás
+                    </Badge>
+                  )}
                 </div>
                 <CardTitle className="!mt-3">{item.cim}</CardTitle>
                 <CardDescription>{item.leiras}</CardDescription>
@@ -94,17 +103,9 @@ export default async function Utazasaink({ params }) {
                     {item.datum.veg.toDate().toLocaleDateString("hu-HU")}
                   </p>
                 </div>
-                <div className="flex items-center ">
-                  {item.szabad === 0 ? (
-                    <TicketX size={20} className="mr-2" />
-                  ) : (
-                    <Ticket size={20} className="mr-2" />
-                  )}
-                  {item.szabad === 0 ? (
-                    <p className="text-sm font-medium">A túra betelt, nincs több szabad hely </p>
-                  ) : (
-                    <p className="text-sm font-medium">{item.szabad} szabad hely maradt még</p>
-                  )}
+                <div className="flex items-center">
+                  <Plane size={20} className="mr-2" />
+                  <p className="text-sm font-medium">{item.szabad}</p>
                 </div>
                 <div className="flex items-center">
                   <DollarSign size={20} className="mr-2" />
@@ -112,7 +113,7 @@ export default async function Utazasaink({ params }) {
                 </div>
                 <div className="flex items-center ">
                   <Landmark size={20} className="mr-2" />
-                  <p className="text-sm font-medium">Medellín, Bogotá, Cartagena</p>
+                  <p className="text-sm font-medium">{item.cimke.join(", ")}</p>
                 </div>
               </CardContent>
               <CardFooter className="justify-end mt-auto">
@@ -124,71 +125,6 @@ export default async function Utazasaink({ params }) {
           ))}
         </div>
       </section>
-      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {post.utak.map((item) => (
-          <Card key={item.id} className="flex flex-col justify-between h-full overflow-hidden">
-            <Image
-              alt="Product image"
-              className="h-60 w-full object-cover rounded-t-lg"
-              height={0}
-              width={0}
-              sizes="100vw"
-              src="/kep.jpg"
-            />
-            <CardHeader>
-              <div className="flex justify-between">
-                <div className="flex items-center">
-                  <Map size={20} className="mr-2" />
-                  <span className="uppercase text-sm font-semibold">{item.taj}</span>
-                </div>
-                {item.nepszeru && <Badge variant="approve">Népszerű túra</Badge>}
-              </div>
-              <CardTitle className="!mt-3">{item.taj}</CardTitle>
-              <CardDescription>{item.leiras}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center">
-                <Gauge size={20} className="mr-2" />
-                {item.nehezseg === 0 && <Badge>Könnyű</Badge>}
-                {item.nehezseg === 1 && <Badge>Közepes</Badge>}
-                {item.nehezseg === 2 && <Badge>Nehéz</Badge>}
-              </div>
-              <div className="flex items-center ">
-                <CalendarDays size={20} className="mr-2" />
-                <p className="text-sm font-medium leading-none !mt-0">
-                  {item.datum.kezdo.toDate().toLocaleDateString()} -{" "}
-                  {item.datum.veg.toDate().toLocaleDateString()}
-                </p>
-              </div>
-              <div className="flex items-center ">
-                {item.szabad === 0 ? (
-                  <TicketX size={20} className="mr-2" />
-                ) : (
-                  <Ticket size={20} className="mr-2" />
-                )}
-                {item.szabad === 0 ? (
-                  <p className="text-sm font-medium">A túra betelt, nincs több szabad hely </p>
-                ) : (
-                  <p className="text-sm font-medium">{item.szabad} szabad hely maradt még</p>
-                )}
-              </div>
-              <div className="flex items-center">
-                <DollarSign size={20} className="mr-2" />
-                <p className="text-sm font-medium">{item.ar} USD/fő</p>
-              </div>
-              <div className="flex items-center ">
-                <Landmark size={20} className="mr-2" />
-                <p className="text-sm font-medium">Medellín, Bogotá, Cartagena</p>
-              </div>
-            </CardContent>
-            <CardFooter className="justify-end mt-auto">
-              <Button asChild variant="default" className="items-center w-full">
-                <Link href={`utazasaink/${item.slug}`}>Részletek</Link>
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
     </div>
   );
 }

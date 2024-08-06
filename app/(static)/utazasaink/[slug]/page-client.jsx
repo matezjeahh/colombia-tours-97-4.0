@@ -2,14 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import BreadcrumbNav from "@/components/breadcrumb-nav";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import {
   CalendarDays,
   CircleCheck,
@@ -85,22 +78,18 @@ export default function PageClient({ post }) {
   const formattedToDate = dateRange.to.toLocaleDateString("hu-HU");
 
   return (
-    <div className="container space-y-6 my-5">
+    <div className="container space-y-6 md:space-y-8 lg:space-y-10 my-5">
       <BreadcrumbNav props={post.cim} />
       <div className="">
         <h1 className="text-start">{post.cim}</h1>
         <p className="text-muted-foreground  text-base mb-2">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus!
         </p>
-        <Badge className="mr-3" variant="secondary">
-          Lorem, ipsum.
-        </Badge>
-        <Badge className="mr-3" variant="secondary">
-          Lorem, ipsum.
-        </Badge>
-        <Badge className="mr-3" variant="secondary">
-          Lorem, ipsum.
-        </Badge>
+        {post.cimke.map((item) => (
+          <Badge className="mr-3" variant="secondary">
+            {item}
+          </Badge>
+        ))}
       </div>
       <div className="grid grid-cols-4 gap-1 relative h-[30rem]">
         {slides.length > 0 && (
@@ -143,7 +132,7 @@ export default function PageClient({ post }) {
           <div className="bg-secondary text-secondary-foreground p-4  mb-6 rounded-lg shadow-sm">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="flex items-center">
-                <Gauge className="w-5 h-5 mr-2 text-blue-500" />
+                <CalendarDays size={20} className=" mr-2 " />
                 <div>
                   <p className="text-sm font-semibold">A túra dátuma</p>
                   <p className="text-xs">
@@ -152,28 +141,28 @@ export default function PageClient({ post }) {
                 </div>
               </div>
               <div className="flex items-center">
-                <Gauge className="w-5 h-5 mr-2 text-green-500" />
+                <DollarSign size={20} className=" mr-2 " />
                 <div>
                   <p className="text-sm font-semibold">A túra ára</p>
                   <p className="text-xs">{post.ar} USD/fő</p>
                 </div>
               </div>
               <div className="flex items-center">
-                <Gauge className="w-5 h-5 mr-2 text-orange-500" />
+                <MapPinIcon size={20} className=" mr-2 " />
                 <div>
                   <p className="text-sm font-semibold">Indulás helyszíne</p>
                   <p className="text-xs">Bogota</p>
                 </div>
               </div>
               <div className="flex items-center">
-                <Gauge className="w-5 h-5 mr-2 text-purple-500" />
+                <Gauge size={20} className=" mr-2 " />
                 <div>
                   <p className="text-sm font-semibold">A túra nehézsége</p>
                   <p className="text-xs">könnyű</p>
                 </div>
               </div>
               <div className="flex items-center">
-                <Gauge className="w-5 h-5 mr-2 text-red-500" />
+                <Gauge size={20} className=" mr-2 " />
                 <div>
                   <p className="text-sm font-semibold">Group Size</p>
                   <p className="text-xs">Max asd people</p>
@@ -199,29 +188,6 @@ export default function PageClient({ post }) {
             </div>
           </div>
           <div className=" flex flex-col lg:hidden space-y-1">
-            <h2>Részletek</h2>
-            <div className="flex items-center space-x-2">
-              <Gauge size={20} />
-              <p className="font-medium">Túra nehézsége:</p>
-              <p className="font-medium text-muted-foreground">könnyű</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <CalendarDays size={20} />
-              <p className="font-medium">Dátum:</p>
-              <p className="font-medium text-muted-foreground">
-                {formattedFromDate}-{formattedToDate}
-              </p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <DollarSign size={20} />
-              <p className="font-medium">Túra ára:</p>
-              <p className="font-medium text-muted-foreground">{post.ar}</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <MapPinIcon size={20} />
-              <p className="font-medium">Indulás helye:</p>
-              <p className="font-medium text-muted-foreground">Bogota</p>
-            </div>
             <Accordion type="single" collapsible className="lg:hidden">
               <AccordionItem value="item-1">
                 <AccordionTrigger>Az ár tartalmazza</AccordionTrigger>
@@ -262,7 +228,7 @@ export default function PageClient({ post }) {
                   <span>
                     <MailPlus className="mr-2" />
                   </span>{" "}
-                  Érdekli ez az túra?
+                  Érdekli ez a túra?
                 </CardTitle>
               </CardHeader>
               <CardContent>
