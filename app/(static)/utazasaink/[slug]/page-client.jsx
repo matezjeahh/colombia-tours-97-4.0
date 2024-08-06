@@ -85,8 +85,8 @@ export default function PageClient({ post }) {
         <p className="text-muted-foreground  text-base mb-2">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus!
         </p>
-        {post.cimke.map((item) => (
-          <Badge className="mr-3" variant="secondary">
+        {post.cimke.map((item, index) => (
+          <Badge key={index} className="mr-3" variant="secondary">
             {item}
           </Badge>
         ))}
