@@ -24,14 +24,7 @@ export default function DashboardNavbar() {
     router.push("/login");
   }
 
-  const navigation = [
-    { name: "Főoldal", path: "/" },
-    { name: "Utazásaink", path: "/utazasaink" },
-    { name: "Kolumbiáról", path: "/kolumbiarol" },
-    { name: "Rólunk", path: "/rolunk" },
-    { name: "Elérhetőség", path: "/elerhetoseg" },
-    { name: "Média", path: "/media" },
-  ];
+  const navigation = [{ name: "Utazások módosítása", path: "/dashboard/utazasok-modositasa" }];
 
   useEffect(() => {
     setIsSheetOpen(false);
