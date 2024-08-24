@@ -13,6 +13,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getDocumentData } from "@/firebase-functions";
 import { Badge } from "@/components/ui/badge";
+import { getFirstImageFromFolder } from "@/lib/images";
 
 export const metadata = {
   title: "Utazásaink | Colombia Tours 97",
@@ -46,7 +47,7 @@ const PageHeader = () => (
 );
 
 // Extracted TourCard component for better reusability
-const TourCard = ({ item }) => (
+const TourCard = ({ item, index, imageName }) => (
   <Card className="flex flex-col justify-between h-full overflow-hidden">
     <Image
       alt="Product image"
@@ -54,7 +55,7 @@ const TourCard = ({ item }) => (
       height={240}
       width={400}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      src="/kep.jpg"
+      src={imageName ? `/${index}/${imageName}` : "/fallback-image.jpg"}
       priority={true}
     />
     <CardHeader className="flex-grow">
@@ -107,6 +108,8 @@ export default async function Utazasaink({ params }) {
   const { id } = params;
   const post = await getDocumentData("adatok", "utazasaink");
 
+  const tourImages = post.utak.map((_, index) => getFirstImageFromFolder(index));
+
   return (
     <div className="container mx-auto py-8">
       <PageHeader />
@@ -119,8 +122,8 @@ export default async function Utazasaink({ params }) {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {post.utak.map((item) => (
-            <TourCard key={item.id} item={item} />
+          {post.utak.map((item, index) => (
+            <TourCard key={item.id} item={item} index={index} imageName={tourImages[index]} />
           ))}
         </div>
       </section>

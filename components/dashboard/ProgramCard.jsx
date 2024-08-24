@@ -117,7 +117,7 @@ const ProgramCard = ({
             {selectedItem && selectedItem.program
               ? selectedItem.program.map((item, index) => (
                   <div key={index}>
-                    <h3 className="font-medium">Day {index + 1}:</h3>
+                    <h3 className="font-medium">{index + 1}. Nap:</h3>
                     <p className="whitespace-pre-wrap">{item}</p>
                   </div>
                 ))
