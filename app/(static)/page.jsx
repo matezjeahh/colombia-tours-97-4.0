@@ -7,7 +7,7 @@ import HeroBanner from "@/components/hero-banner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
-  title: "Colombia Tours 97 - Fedezd fel Kolumbiát velünk",
+  title: "Colombia Tours 97 | Fedezd fel Kolumbiát velünk",
   description:
     "Üdvözlünk a Colombia Tours 97 oldalán! Fedezd fel Kolumbia lenyűgöző tájait, gazdag kultúráját és rejtett kincseit egyedi utazási programjaink segítségével. Tervezz velünk felejthetetlen kalandokat!",
 };

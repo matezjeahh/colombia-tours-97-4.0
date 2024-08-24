@@ -50,7 +50,7 @@ export const metadata = {
 
 export default function Media() {
   return (
-    <div className="container space-y-20 my-5">
+    <div className="container space-y-20 my-5 ">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-center">Média</h1>
         <p className="text-center">
@@ -59,7 +59,7 @@ export default function Media() {
           felfedezéseinknek!
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {videos.map((video) => (
           <VideoCard key={video.id} video={video} />
         ))}

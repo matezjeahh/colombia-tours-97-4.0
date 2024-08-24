@@ -41,7 +41,7 @@ export default function Elerhetoseg() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ContactForm />
+            <ContactForm showSubject={false} />
           </CardContent>
         </Card>
         <div className="col-span-1 space-y-6">
