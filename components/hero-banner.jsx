@@ -5,7 +5,10 @@ import { Button } from "./ui/button";
 
 export default function HeroBanner() {
   return (
-    <div className="relative h-screen bg-black  ">
+    <div
+      style={{ height: "calc(100vh - var(--navbar-height, 0px))" }}
+      className="relative bg-black"
+    >
       <Image src="/kep.jpg" alt="Kolumbia" fill className="opacity-50 object-cover" />
       <div className="absolute inset-0 flex flex-col items-center justify-center container m-auto text-center space-y-2">
         <h1 className="text-white !text-4xl !font-bold !lg:text-5xl">

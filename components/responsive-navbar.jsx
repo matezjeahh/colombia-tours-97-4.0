@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import { ModeToggle } from "./mode-toggle";
 import { Menu } from "lucide-react";
 
 export default function Navbar() {
+  const navbarRef = useRef(null);
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -31,8 +32,25 @@ export default function Navbar() {
     setIsSheetOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const updateNavbarHeight = () => {
+      if (navbarRef.current) {
+        const height = navbarRef.current.offsetHeight;
+        document.documentElement.style.setProperty("--navbar-height", `${height}px`);
+      }
+    };
+
+    updateNavbarHeight();
+    window.addEventListener("resize", updateNavbarHeight);
+
+    return () => window.removeEventListener("resize", updateNavbarHeight);
+  }, []);
+
   return (
-    <header className="flex h-16 w-full shrink-0 sticky top-0 z-10 items-center px-4 md:px-6 lg:px-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header
+      ref={navbarRef}
+      className="flex h-16 w-full shrink-0 sticky top-0 z-10 items-center px-4 md:px-6 lg:px-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+    >
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="lg:hidden">
