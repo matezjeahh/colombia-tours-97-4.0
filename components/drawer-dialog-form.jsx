@@ -29,7 +29,7 @@ export function DrawerDialogForm({ title }) {
           Érdekel
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="max-h-[80vh] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle>Érdekli ez a túra?</AlertDialogTitle>
           <AlertDialogDescription>
