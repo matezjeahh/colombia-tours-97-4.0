@@ -57,6 +57,9 @@ export default function DashboardNavbar() {
               </Link>
             ))}
           </div>
+          <Button variant="outline" onClick={handleLogout}>
+            Kijelentkezés
+          </Button>
         </SheetContent>
       </Sheet>
       <div className="container lg:flex items-center justify-between hidden">
