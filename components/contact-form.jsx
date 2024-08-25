@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -164,7 +165,17 @@ export function ContactForm({ className, showSubject = false, subject = "", onCl
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>Elfogadom az adatvédelmi nyilatkozatot</FormLabel>
+                <FormLabel>
+                  Elfogadom az{" "}
+                  <Link
+                    href="/adatvedelmi-iranyelvek"
+                    className="underline hover:text-accent-foreground focus:text-accent-foreground"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    adatvédelmi nyilatkozatot
+                  </Link>
+                </FormLabel>
                 <FormDescription>
                   Kérjük, olvassa el és fogadja el az adatvédelmi nyilatkozatunkat.
                 </FormDescription>
