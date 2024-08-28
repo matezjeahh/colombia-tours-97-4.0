@@ -185,7 +185,11 @@ export default function PageClient({ post }) {
                     {post.tartalmaz.map((item, index) => (
                       <li key={index} className="flex items-start  ">
                         <span>
-                          <CircleCheck size={20} className="text-green-400 mr-2" />
+                          <CircleCheck
+                            size={20}
+                            strokeWidth={2.5}
+                            className="mr-2 fill-current text-green-400 stroke-white"
+                          />
                         </span>
                         {item}
                       </li>
@@ -194,13 +198,17 @@ export default function PageClient({ post }) {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger>Az ár nem tertalmazza</AccordionTrigger>
+                <AccordionTrigger>Az ár nem tartalmazza</AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-none space-y-2">
                     {post.nem_tartalmaz.map((item, index) => (
                       <li key={index} className="flex items-start leading-7">
-                        <span className="mt-1 bg-red-400 text-white rounded-full  mr-2">
-                          <XCircle size={20} className="" />
+                        <span>
+                          <XCircle
+                            size={20}
+                            strokeWidth={2.5}
+                            className="mr-2 fill-current text-red-400 stroke-white"
+                          />
                         </span>
                         {item}
                       </li>
@@ -268,7 +276,11 @@ export default function PageClient({ post }) {
                 {post.tartalmaz.map((item, index) => (
                   <li key={index} className="flex items-start leading-5">
                     <span>
-                      <CircleCheck size={20} className="text-green-400 mr-2" />
+                      <CircleCheck
+                        size={20}
+                        strokeWidth={2.5}
+                        className="mr-2 fill-current text-green-400 stroke-white"
+                      />
                     </span>
                     {item}
                   </li>
@@ -283,7 +295,11 @@ export default function PageClient({ post }) {
                 {post.nem_tartalmaz.map((item, index) => (
                   <li key={index} className="flex items-start leading-5">
                     <span>
-                      <XCircle size={20} className="text-red-400 mr-2" />
+                      <XCircle
+                        size={20}
+                        strokeWidth={2.5}
+                        className="mr-2 fill-current text-red-400 stroke-white"
+                      />
                     </span>
                     {item}
                   </li>
