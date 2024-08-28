@@ -188,7 +188,7 @@ export default function PageClient({ post }) {
                           <CircleCheck
                             size={20}
                             strokeWidth={2.5}
-                            className="mr-2 mt-0.1 fill-current text-green-400 stroke-white"
+                            className="mr-2 mt-2 fill-current text-green-400 stroke-white"
                           />
                         </span>
                         {item}
