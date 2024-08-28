@@ -71,7 +71,7 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.path}
-                className={`flex w-full items-center text-md py-1 pl-2 focus:bg-muted/30 rounded-lg font-medium ${
+                className={`flex w-full items-center text-md py-1 pl-2 focus:bg-muted/80 rounded-lg font-medium ${
                   pathname === item.path ? "bg-muted" : ""
                 }`}
                 prefetch={false}

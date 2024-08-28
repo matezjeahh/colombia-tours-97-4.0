@@ -7,6 +7,7 @@ import DescriptionCard from "./dashboard/DescriptionCard";
 import PriceCard from "./dashboard/PriceCard";
 import DateRangeCard from "./dashboard/DateRangeCard";
 import ProgramCard from "./dashboard/ProgramCard";
+import BadgeCard from "./dashboard/BadgeCard";
 
 const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
   const [editingCard, setEditingCard] = useState(null);
@@ -112,6 +113,14 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         onUpdate={(dateRange) => handleUpdate("dateRange", dateRange)}
         isEditing={editingCard === "dateRange"}
         setIsEditing={() => setEditingCard("dateRange")}
+        cancelEditing={() => setEditingCard(null)}
+        isAnyCardEditing={isAnyCardEditing}
+      />
+      <BadgeCard
+        selectedItem={selectedItem}
+        onUpdate={(newBadge) => handleUpdate("cimke", newBadge)}
+        isEditing={editingCard === "cimke"}
+        setIsEditing={() => setEditingCard("cimke")}
         cancelEditing={() => setEditingCard(null)}
         isAnyCardEditing={isAnyCardEditing}
       />

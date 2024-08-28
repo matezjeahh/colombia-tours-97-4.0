@@ -25,11 +25,31 @@ export default async function Page({ params }) {
   if (!post) {
     return <div>Post not found</div>;
   }
+
+  const formatDate = (date) => {
+    if (date && typeof date.toDate === "function") {
+      date = date.toDate();
+    } else if (date && date.seconds) {
+      date = new Date(date.seconds * 1000);
+    }
+
+    if (date instanceof Date) {
+      return (
+        date.getFullYear() +
+        "." +
+        String(date.getMonth() + 1).padStart(2, "0") +
+        "." +
+        String(date.getDate()).padStart(2, "0")
+      );
+    }
+    return null; // or a default date string
+  };
+
   const serializedPost = {
     ...post,
     datum: {
-      kezdo: post.datum.kezdo.toDate().toISOString(),
-      veg: post.datum.veg.toDate().toISOString(),
+      kezdo: formatDate(post.datum?.kezdo),
+      veg: formatDate(post.datum?.veg),
     },
   };
 

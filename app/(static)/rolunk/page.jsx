@@ -49,8 +49,8 @@ export default function AboutUs() {
           <h3 className="text-lg font-bold">John Doe</h3>
           <p className="">Co-Founder &amp; CEO</p>
           <p className="mt-2 text-sm ">
-            John is a seasoned entrepreneur with a passion for technology and a track record of
-            building successful startups.
+            Szilárd tapasztalt vállalkozó, aki szenvedélyesen építi a Colombia Tours 97-et, hogy
+            egyedülálló utazási élményeket nyújtson.
           </p>
         </div>
       </div>

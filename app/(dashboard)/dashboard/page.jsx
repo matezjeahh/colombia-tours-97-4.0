@@ -7,14 +7,25 @@ import CalendarView from "@/components/calendar-view";
 const Dashboard = async () => {
   const docRef = doc(db, "adatok", "utazasaink");
   const docSnapshot = await getDoc(docRef);
-  const data = docSnapshot.data().utak || [];
+  const data = docSnapshot.data()?.utak || [];
 
-  // Convert Firebase timestamps to JavaScript Date objects
+  const formatDate = (date) => {
+    if (date && typeof date.toDate === "function") {
+      return date.toDate().toLocaleDateString("hu-HU");
+    } else if (date instanceof Date) {
+      return date.toLocaleDateString("hu-HU");
+    } else if (date && date.seconds) {
+      return new Date(date.seconds * 1000).toLocaleDateString("hu-HU");
+    }
+    return "N/A"; // or some default value
+  };
+
+  // Convert Firebase timestamps to formatted date strings
   const trips = data.map((item) => ({
     id: item.id,
     title: item.cim,
-    startDate: item.datum.kezdo.toDate().toLocaleDateString("hu-HU"),
-    endDate: item.datum.kezdo.toDate().toLocaleDateString("hu-HU"),
+    startDate: formatDate(item.datum?.kezdo),
+    endDate: formatDate(item.datum?.veg), // Changed from kezdo to veg
   }));
 
   // Sort trips by startDate in ascending order

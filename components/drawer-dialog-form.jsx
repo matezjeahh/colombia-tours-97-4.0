@@ -35,7 +35,7 @@ export function DrawerDialogForm({ title }) {
           Érdekel
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[425px] p-0 overflow-hidden">
+      <AlertDialogContent className="sm:max-w-[425px] md:max-w-md lg:max-w-3xl p-0 overflow-hidden">
         <div
           style={{
             maxHeight: `${viewportHeight * 0.9}px`,

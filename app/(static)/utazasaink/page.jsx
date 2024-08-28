@@ -27,8 +27,8 @@ export const dynamic = "force-dynamic";
 const PageHeader = () => (
   <section className="space-y-6 mb-12">
     <div>
-      <h1 className="text-start lg:text-center">Utazásaink</h1>
-      <p className="lg:text-center text-muted-foreground">
+      <h1 className="text-center">Utazásaink</h1>
+      <p className="text-center text-muted-foreground">
         Fedezze fel Kolumbia varázslatos régióit és élvezze a különleges élményeket
       </p>
     </div>
@@ -79,8 +79,7 @@ const TourCard = ({ item, index, imageName }) => (
       <div className="flex items-center">
         <CalendarDays size={20} className="mr-2" />
         <p className="text-sm font-medium leading-none !mt-0">
-          {item.datum.kezdo.toDate().toLocaleDateString("hu-HU")} -{" "}
-          {item.datum.veg.toDate().toLocaleDateString("hu-HU")}
+          {formatDate(item.datum.kezdo)} - {formatDate(item.datum.veg)}
         </p>
       </div>
       <div className="flex items-center">
@@ -104,6 +103,25 @@ const TourCard = ({ item, index, imageName }) => (
   </Card>
 );
 
+const formatDate = (date) => {
+  if (date && typeof date.toDate === "function") {
+    date = date.toDate();
+  } else if (date && date.seconds) {
+    date = new Date(date.seconds * 1000);
+  }
+
+  if (date instanceof Date) {
+    return (
+      date.getFullYear() +
+      "." +
+      String(date.getMonth() + 1).padStart(2, "0") +
+      "." +
+      String(date.getDate()).padStart(2, "0")
+    );
+  }
+  return null; // or a default date string
+};
+
 export default async function Utazasaink({ params }) {
   const { id } = params;
   const post = await getDocumentData("adatok", "utazasaink");
@@ -116,8 +134,8 @@ export default async function Utazasaink({ params }) {
 
       <section className="space-y-6">
         <div>
-          <h2 className="lg:text-center">Aktuális túráink</h2>
-          <p className="lg:text-center text-muted-foreground">
+          <h2 className="text-center">Aktuális túráink</h2>
+          <p className="text-center text-muted-foreground">
             Friss és változatos túraajánlatok Kolumbia különböző régióiban
           </p>
         </div>

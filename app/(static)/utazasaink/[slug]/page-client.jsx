@@ -70,15 +70,11 @@ export default function PageClient({ post }) {
     importImages();
   }, [post.id]);
 
-  const dateRange = {
-    from: new Date(post.datum.kezdo),
-    to: new Date(post.datum.veg),
-  };
-  const formattedFromDate = dateRange.from.toLocaleDateString("hu-HU"); // Adjust locale as necessary
-  const formattedToDate = dateRange.to.toLocaleDateString("hu-HU");
+  const formattedFromDate = post.datum.kezdo || "N/A";
+  const formattedToDate = post.datum.veg || "N/A";
 
   return (
-    <div className="container space-y-6 md:space-y-8 lg:space-y-10 my-5">
+    <div className="container space-y-6 md:space-y-8 lg:space-y-8 my-5">
       <BreadcrumbNav props={post.cim} />
       <div className="">
         <h1 className="text-start">{post.cim}</h1>
@@ -129,44 +125,37 @@ export default function PageClient({ post }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
         <div className="col-span-4 sm:col-span-3 space-y-6">
-          <div className="bg-secondary text-secondary-foreground p-4  mb-6 rounded-lg shadow-sm">
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              <div className="flex items-center">
-                <CalendarDays size={20} className=" mr-2 " />
-                <div>
+          <div className="bg-secondary text-secondary-foreground p-4 mb-6 rounded-lg shadow-sm">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="flex flex-col space-y-1">
+                <div className="flex items-center">
+                  <CalendarDays size={20} className="mr-2" />
                   <p className="text-sm font-semibold">A túra dátuma</p>
-                  <p className="text-xs">
-                    {formattedFromDate} - {formattedToDate}
-                  </p>
                 </div>
+                <p className="text-xs ml-7">
+                  {formattedFromDate} - {formattedToDate}
+                </p>
               </div>
-              <div className="flex items-center">
-                <DollarSign size={20} className=" mr-2 " />
-                <div>
+              <div className="flex flex-col space-y-1">
+                <div className="flex items-center">
+                  <DollarSign size={20} className="mr-2" />
                   <p className="text-sm font-semibold">A túra ára</p>
-                  <p className="text-xs">{post.ar} USD/fő</p>
                 </div>
+                <p className="text-xs ml-7">{post.ar} USD/fő</p>
               </div>
-              <div className="flex items-center">
-                <MapPinIcon size={20} className=" mr-2 " />
-                <div>
+              <div className="flex flex-col space-y-1">
+                <div className="flex items-center">
+                  <MapPinIcon size={20} className="mr-2" />
                   <p className="text-sm font-semibold">Indulás helyszíne</p>
-                  <p className="text-xs">Bogota</p>
                 </div>
+                <p className="text-xs ml-7">Bogota</p>
               </div>
-              <div className="flex items-center">
-                <Gauge size={20} className=" mr-2 " />
-                <div>
+              <div className="flex flex-col space-y-1">
+                <div className="flex items-center">
+                  <Gauge size={20} className="mr-2" />
                   <p className="text-sm font-semibold">A túra nehézsége</p>
-                  <p className="text-xs">könnyű</p>
                 </div>
-              </div>
-              <div className="flex items-center">
-                <Gauge size={20} className=" mr-2 " />
-                <div>
-                  <p className="text-sm font-semibold">Group Size</p>
-                  <p className="text-xs">Max asd people</p>
-                </div>
+                <p className="text-xs ml-7">könnyű</p>
               </div>
             </div>
           </div>

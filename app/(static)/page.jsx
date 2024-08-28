@@ -120,10 +120,14 @@ export default function Home() {
                 //className="bg-gradient-to-b from-white to-[#fbfbfb] dark:bg-gradient-to-b from-[#1e1e1e] to-[#121212]"
               >
                 <CardHeader>
-                  <CardTitle>{item.icon}</CardTitle>
-                  <CardTitle>{item.title}</CardTitle>
+                  <div className="flex items-center ">
+                    <span className="mr-2">{item.icon}</span>
+                    <CardTitle>{item.title}</CardTitle>
+                  </div>
                 </CardHeader>
-                <CardContent>{item.subtitle}</CardContent>
+                <CardContent>
+                  <p className="text-accent-foreground">{item.subtitle}</p>
+                </CardContent>
               </Card>
             ))}
           </div>
