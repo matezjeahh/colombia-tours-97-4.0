@@ -155,7 +155,9 @@ export default function PageClient({ post }) {
                   <Gauge size={20} className="mr-2" />
                   <p className="text-sm font-semibold">A túra nehézsége</p>
                 </div>
-                <p className="text-xs ml-7">könnyű</p>
+                <p className="text-xs ml-7">
+                  {post.nehezseg === 0 ? "Könnyű" : post.nehezseg === 1 ? "Közepes" : "Nehéz"}
+                </p>
               </div>
             </div>
           </div>

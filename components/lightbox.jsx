@@ -5,8 +5,7 @@ import "yet-another-react-lightbox/styles.css";
 import { Button } from "./ui/button";
 import { Image } from "lucide-react";
 import NextJsImage from "./next-js-image";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+// Removed the import for the thumbnails plugin and its CSS
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 export default function LightBox({ className, slides }) {
@@ -27,8 +26,10 @@ export default function LightBox({ className, slides }) {
         open={open}
         close={() => setOpen(false)}
         slides={slides}
-        render={{ slide: NextJsImage, thumbnail: NextJsImage }}
-        plugins={[Thumbnails, Zoom]}
+        render={{ slide: NextJsImage }}
+        // Removed thumbnail: NextJsImage since it's for the thumbnail rendering
+        plugins={[Zoom]} // Removed Thumbnails from the plugins array
+        animation={{ swipe: 200, fade: 200 }}
       />
     </>
   );

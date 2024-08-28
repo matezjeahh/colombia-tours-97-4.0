@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar, MoreVertical, Edit, Trash, Check, X } from "lucide-react";
 import CustomAlertDialog from "../custom-alert-dialog";
+import { Timestamp } from "firebase/firestore";
 
 const DateRangeCard = ({
   selectedItem,
@@ -23,33 +24,37 @@ const DateRangeCard = ({
   const [editedEndDate, setEditedEndDate] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
-  const parseDate = (dateField) => {
-    if (!dateField) return "";
-    if (typeof dateField === "string") return dateField;
-    if (dateField.toDate) return dateField.toDate().toISOString().split("T")[0].replace(/-/g, ".");
-    if (dateField.seconds && dateField.nanoseconds) {
-      const date = new Date(dateField.seconds * 1000 + dateField.nanoseconds / 1000000);
-      return date.toISOString().split("T")[0].replace(/-/g, ".");
+  const formatDate = (date) => {
+    if (date && typeof date.toDate === "function") {
+      date = date.toDate();
+    } else if (date && date.seconds) {
+      date = new Date(date.seconds * 1000);
     }
-    return "";
+
+    if (date instanceof Date) {
+      return (
+        date.getFullYear() +
+        "." +
+        String(date.getMonth() + 1).padStart(2, "0") +
+        "." +
+        String(date.getDate()).padStart(2, "0")
+      );
+    }
+    return null; // or a default date string
+  };
+
+  const parseDate = (dateString) => {
+    if (!dateString) return "";
+    const [year, month, day] = dateString.split(".");
+    return `${year}-${month}-${day}`;
   };
 
   useEffect(() => {
     if (selectedItem && selectedItem.datum) {
-      setEditedStartDate(parseDate(selectedItem.datum.kezdo));
-      setEditedEndDate(parseDate(selectedItem.datum.veg));
+      setEditedStartDate(parseDate(formatDate(selectedItem.datum.kezdo)));
+      setEditedEndDate(parseDate(formatDate(selectedItem.datum.veg)));
     }
   }, [selectedItem]);
-
-  const formatDateForInput = (dateString) => {
-    if (!dateString) return "";
-    return dateString.replace(/\./g, "-");
-  };
-
-  const formatDateForDisplay = (dateString) => {
-    if (!dateString) return "";
-    return dateString.replace(/-/g, ".");
-  };
 
   const handleEdit = () => {
     setIsEditing();
@@ -60,9 +65,15 @@ const DateRangeCard = ({
   };
 
   const handleConfirm = async () => {
+    const [startYear, startMonth, startDay] = editedStartDate.split("-");
+    const [endYear, endMonth, endDay] = editedEndDate.split("-");
+
+    const startTimestamp = Timestamp.fromDate(new Date(startYear, startMonth - 1, startDay));
+    const endTimestamp = Timestamp.fromDate(new Date(endYear, endMonth - 1, endDay));
+
     await onUpdate({
-      startDate: formatDateForDisplay(editedStartDate),
-      endDate: formatDateForDisplay(editedEndDate),
+      startDate: startTimestamp,
+      endDate: endTimestamp,
     });
     setIsAlertOpen(false);
   };
@@ -70,8 +81,8 @@ const DateRangeCard = ({
   const handleCancel = () => {
     cancelEditing();
     if (selectedItem && selectedItem.datum) {
-      setEditedStartDate(parseDate(selectedItem.datum.kezdo));
-      setEditedEndDate(parseDate(selectedItem.datum.veg));
+      setEditedStartDate(parseDate(formatDate(selectedItem.datum.kezdo)));
+      setEditedEndDate(parseDate(formatDate(selectedItem.datum.veg)));
     }
   };
 
@@ -108,7 +119,7 @@ const DateRangeCard = ({
               <Input
                 id="startDate"
                 type="date"
-                value={formatDateForInput(editedStartDate)}
+                value={editedStartDate}
                 onChange={(e) => setEditedStartDate(e.target.value)}
               />
             </div>
@@ -117,7 +128,7 @@ const DateRangeCard = ({
               <Input
                 id="endDate"
                 type="date"
-                value={formatDateForInput(editedEndDate)}
+                value={editedEndDate}
                 onChange={(e) => setEditedEndDate(e.target.value)}
               />
             </div>
@@ -143,7 +154,7 @@ const DateRangeCard = ({
           <p>
             {selectedItem && selectedItem.datum ? (
               <>
-                {parseDate(selectedItem.datum.kezdo)} - {parseDate(selectedItem.datum.veg)}
+                {formatDate(selectedItem.datum.kezdo)} - {formatDate(selectedItem.datum.veg)}
               </>
             ) : (
               "No dates set"
