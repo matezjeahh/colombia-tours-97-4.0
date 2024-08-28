@@ -162,23 +162,48 @@ export default function PageClient({ post }) {
           <div className="space-y-2">
             <div className="space-y-6 ">
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto voluptas
-                obcaecati vero facere quod voluptates cumque recusandae debitis animi ducimus
-                itaque, soluta quam iusto fugiat neque eveniet! Delectus, beatae alias a earum totam
-                deserunt vitae sed necessitatibus mollitia, quibusdam explicabo.
+                Egy olyan intenzív körutazásról van szó, ahol első kézből kapsz betekintést a Karib­
+                térség mindennapi életébe, megcsodálva a térség legszebb természeti csodáit, mindezt
+                a lehető legautentikusabb módon, dzsungeltúrával, helyi gasztronómiával és
+                folklórral fűszerezve. Betekintést ad Kolumbia legszínesebb indián kultúrája, a
+                Wayúu életébe, az Alta Guajira sivatag extrém világába, a Sierra Nevada
+                magasságaiba, a Tayrona Nemzeti park legszebb strandjain keresztül az édes-sós
+                lagúnák élővilágába, mindezt a festői szépség Cartagenában zárva. Sok időt töltünk a
+                természetben, de városnézésből, történelemből sincs hiány.
+              </p>
+              <p className="hidden lg:flex">
+                Ezt az utunkat minden olyan utazónak ajánljuk, aki egy autentikus körutazás keretein
+                belül szeretné megismerni a Karib-térség sokszínű világát, a mindennapi életet,
+                nyitott egy teljesen más kultúra megismerésére, de csak két hete van rá. Mindezt
+                privát terepjáróval, így minden korosztály számára nyugodt szívvel ajánlom. Aktív,
+                programdús körutazás sok strandolási lehetőséggel végig meleg éghajlaton,
+                megterhelőbb gyalogtúra nélkül. Egy-két programot kihagyva kifejezetten családbarát
+                körutazás, idősebb utazóinknak is ajánljuk.
               </p>
               <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga placeat corrupti
-                quisquam obcaecati alias, praesentium dolores nostrum soluta eaque quasi ut.
-                Aspernatur saepe quam, facilis animi soluta corporis, corrupti quas sit voluptates
-                ab dolor quos nostrum dignissimos consequuntur earum alias error laboriosam beatae
-                eligendi iste, nobis accusamus. Ut, iusto et!
+                Igény esetén az utazás meghosszabbítható tengerparti pihenéssel Cartagenában, vagy a
+                Tayrona térségében, illetve spirituális elvonulással is a Sierra Nevada
+                dzsungeleiben. Részletekért érdeklődj a Szervezőnél!
               </p>
             </div>
           </div>
           <div className=" flex flex-col lg:hidden space-y-1">
             <Accordion type="single" collapsible className="lg:hidden">
-              <AccordionItem value="item-1">
+              <AccordionItem value="item-1" className="lg:hidden">
+                <AccordionTrigger>Kiknek ajáljuk?</AccordionTrigger>
+                <AccordionContent>
+                  <p>
+                    Ezt az utunkat minden olyan utazónak ajánljuk, aki egy autentikus körutazás
+                    keretein belül szeretné megismerni a Karib-térség sokszínű világát, a mindennapi
+                    életet, nyitott egy teljesen más kultúra megismerésére, de csak két hete van rá.
+                    Mindezt privát terepjáróval, így minden korosztály számára nyugodt szívvel
+                    ajánlom. Aktív, programdús körutazás sok strandolási lehetőséggel végig meleg
+                    éghajlaton, megterhelőbb gyalogtúra nélkül. Egy-két programot kihagyva
+                    kifejezetten családbarát körutazás, idősebb utazóinknak is ajánljuk.
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
                 <AccordionTrigger>Az ár tartalmazza</AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-none space-y-2">
@@ -197,7 +222,7 @@ export default function PageClient({ post }) {
                   </ul>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="item-2">
+              <AccordionItem value="item-3">
                 <AccordionTrigger>Az ár nem tartalmazza</AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-none space-y-2">
