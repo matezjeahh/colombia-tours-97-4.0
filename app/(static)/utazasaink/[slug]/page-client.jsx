@@ -188,7 +188,7 @@ export default function PageClient({ post }) {
                           <CircleCheck
                             size={20}
                             strokeWidth={2.5}
-                            className="mr-2 fill-current text-green-400 stroke-white"
+                            className="mr-2 mt-0.5 fill-current text-green-400 stroke-white"
                           />
                         </span>
                         {item}
@@ -202,12 +202,12 @@ export default function PageClient({ post }) {
                 <AccordionContent>
                   <ul className="list-none space-y-2">
                     {post.nem_tartalmaz.map((item, index) => (
-                      <li key={index} className="flex items-start leading-7">
+                      <li key={index} className="flex items-start ">
                         <span>
                           <XCircle
                             size={20}
                             strokeWidth={2.5}
-                            className="mr-2 fill-current text-red-400 stroke-white"
+                            className="mr-2 mt-0.5 fill-current text-red-400 stroke-white"
                           />
                         </span>
                         {item}
