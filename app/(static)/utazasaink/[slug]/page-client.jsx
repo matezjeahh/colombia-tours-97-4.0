@@ -183,7 +183,7 @@ export default function PageClient({ post }) {
                 <AccordionContent>
                   <ul className="list-none space-y-2">
                     {post.tartalmaz.map((item, index) => (
-                      <li key={index} className="flex items-start  ">
+                      <li key={index} className="flex items-start leading-7 ">
                         <span>
                           <CircleCheck
                             size={20}
