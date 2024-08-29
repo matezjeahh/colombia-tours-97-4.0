@@ -29,7 +29,7 @@ export default function AboutUs() {
           </p>
         </div>
         <img
-          src="/kep.jpg"
+          src="/szilard2.jpg"
           alt="About Us"
           width={600}
           height={400}
@@ -39,7 +39,7 @@ export default function AboutUs() {
 
       <div className="rounded-lg  p-4 shadow-lg ">
         <img
-          src="/kep.jpg"
+          src="/szilard.jpg"
           alt="John Doe"
           width={200}
           height={200}
@@ -82,7 +82,7 @@ export default function AboutUs() {
           </p>
         </div>
         <img
-          src="/kep.jpg"
+          src="/szilard3.jpg"
           alt="About Us"
           width={600}
           height={400}

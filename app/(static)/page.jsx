@@ -7,9 +7,53 @@ import HeroBanner from "@/components/hero-banner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
-  title: "Colombia Tours 97 | Fedezd fel Kolumbiát velünk",
+  metadataBase: new URL("https://www.colombiatours97.hu"),
+  title: "Colombia Tours 97 | Felfedező Utak Kolumbiába",
   description:
-    "Üdvözlünk a Colombia Tours 97 oldalán! Fedezd fel Kolumbia lenyűgöző tájait, gazdag kultúráját és rejtett kincseit egyedi utazási programjaink segítségével. Tervezz velünk felejthetetlen kalandokat!",
+    "Fedezze fel Kolumbia csodáit a Colombia Tours 97-tel! Autentikus kalandtúrák, körutazások és egyedi élmények várják Dél-Amerika szívében.",
+  keywords: ["Kolumbia", "utazás", "kalandtúra", "körutazás", "Dél-Amerika", "Colombia Tours 97"],
+  openGraph: {
+    title: "Colombia Tours 97 | Varázslatos Utazások Kolumbiába",
+    description:
+      "Fedezze fel Kolumbia lenyűgöző tájait, kultúráját és rejtett kincseit velünk! Biztonságos és emlékezetes kalandok Dél-Amerika szívében.",
+    images: [
+      {
+        url: "/home.jpg", // Replace with your actual image path
+        width: 1200,
+        height: 630,
+        alt: "Colombia Tours 97 - Felfedező utak Kolumbiában",
+      },
+    ],
+    locale: "hu_HU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Colombia Tours 97 | Fedezd Fel Kolumbiát",
+    description:
+      "Autentikus kalandok, lenyűgöző tájak és kulturális kincsek várnak Kolumbiában. Utazz velünk és élj át felejthetetlen pillanatokat!",
+    images: ["/home.jpg"], // Replace with your actual image path
+  },
+  alternates: {
+    canonical: "https://www.colombiatours97.hu",
+    languages: {
+      "hu-HU": "https://www.colombiatours97.hu",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Replace with your actual Google verification code
+  },
 };
 
 const data = [

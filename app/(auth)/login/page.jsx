@@ -15,17 +15,20 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import React from "react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
+    setIsLoading(true);
 
     try {
       const credential = await signInWithEmailAndPassword(getAuth(app), email, password);
@@ -40,6 +43,8 @@ export default function Login() {
       router.push("/dashboard");
     } catch (e) {
       setError(e.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -64,6 +69,7 @@ export default function Login() {
                 id="email"
                 placeholder="m@example.com"
                 required
+                disabled={isLoading}
               />
             </div>
             <div className="grid gap-2">
@@ -75,20 +81,28 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 required
+                disabled={isLoading}
               />
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col items-center">
             {error && (
               <div
-                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative w-full mb-4"
                 role="alert"
               >
                 <span className="block sm:inline">{error}</span>
               </div>
             )}
-            <Button type="submit" className="w-full">
-              Bejelentkezés
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Betöltés...
+                </>
+              ) : (
+                "Bejelentkezés"
+              )}
             </Button>
           </CardFooter>
         </form>
