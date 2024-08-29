@@ -16,30 +16,6 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
     setIsEditing(editingCard !== null);
   }, [editingCard, setIsEditing]);
 
-  // Helper function to parse and format dates
-  const parseDate = (dateField) => {
-    let date;
-    if (dateField && typeof dateField.toDate === "function") {
-      // It's a Firebase Timestamp
-      date = dateField.toDate();
-    } else if (dateField && dateField.seconds && dateField.nanoseconds) {
-      // It's a Firestore Timestamp-like object
-      date = new Date(dateField.seconds * 1000 + dateField.nanoseconds / 1000000);
-    } else if (dateField instanceof Date) {
-      // It's already a Date object
-      date = dateField;
-    } else if (typeof dateField === "string") {
-      // It's a string, attempt to parse it
-      date = new Date(dateField);
-    } else {
-      console.warn("Unable to parse date:", dateField);
-      return null;
-    }
-
-    // Format date as YYYY.MM.DD
-    return date.toISOString().split("T")[0].replace(/-/g, ".");
-  };
-
   const handleUpdate = async (field, newValue) => {
     if (!selectedItem) return;
 
@@ -55,8 +31,8 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
           updatedItem = {
             ...selectedItem,
             datum: {
-              kezdo: parseDate(newValue.startDate),
-              veg: parseDate(newValue.endDate),
+              kezdo: newValue.startDate,
+              veg: newValue.endDate,
             },
           };
         } else {

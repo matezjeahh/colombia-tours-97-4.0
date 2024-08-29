@@ -70,9 +70,6 @@ export default function PageClient({ post }) {
     importImages();
   }, [post.id]);
 
-  const formattedFromDate = post.datum.kezdo || "N/A";
-  const formattedToDate = post.datum.veg || "N/A";
-
   return (
     <div className="container space-y-6 md:space-y-8 lg:space-y-8 my-5">
       <BreadcrumbNav props={post.cim} />
@@ -133,7 +130,7 @@ export default function PageClient({ post }) {
                   <p className="text-sm font-semibold">A túra dátuma</p>
                 </div>
                 <p className="text-xs ml-7">
-                  {formattedFromDate} - {formattedToDate}
+                  {post.datum.kezdo} - {post.datum.veg}
                 </p>
               </div>
               <div className="flex flex-col space-y-1">

@@ -79,7 +79,7 @@ const TourCard = ({ item, index, imageName }) => (
       <div className="flex items-center">
         <CalendarDays size={20} className="mr-2" />
         <p className="text-sm font-medium leading-none !mt-0">
-          {formatDate(item.datum.kezdo)} - {formatDate(item.datum.veg)}
+          {item.datum.kezdo} - {item.datum.veg}
         </p>
       </div>
       <div className="flex items-center">
@@ -102,25 +102,6 @@ const TourCard = ({ item, index, imageName }) => (
     </CardFooter>
   </Card>
 );
-
-const formatDate = (date) => {
-  if (date && typeof date.toDate === "function") {
-    date = date.toDate();
-  } else if (date && date.seconds) {
-    date = new Date(date.seconds * 1000);
-  }
-
-  if (date instanceof Date) {
-    return (
-      date.getFullYear() +
-      "." +
-      String(date.getMonth() + 1).padStart(2, "0") +
-      "." +
-      String(date.getDate()).padStart(2, "0")
-    );
-  }
-  return null; // or a default date string
-};
 
 export default async function Utazasaink({ params }) {
   const { id } = params;
