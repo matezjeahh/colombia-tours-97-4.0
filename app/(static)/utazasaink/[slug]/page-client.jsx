@@ -160,30 +160,9 @@ export default function PageClient({ post }) {
           </div>
           <div className="space-y-2">
             <div className="space-y-6 ">
-              <p>
-                Egy olyan intenzív körutazásról van szó, ahol első kézből kapsz betekintést a Karib­
-                térség mindennapi életébe, megcsodálva a térség legszebb természeti csodáit, mindezt
-                a lehető legautentikusabb módon, dzsungeltúrával, helyi gasztronómiával és
-                folklórral fűszerezve. Betekintést ad Kolumbia legszínesebb indián kultúrája, a
-                Wayúu életébe, az Alta Guajira sivatag extrém világába, a Sierra Nevada
-                magasságaiba, a Tayrona Nemzeti park legszebb strandjain keresztül az édes-sós
-                lagúnák élővilágába, mindezt a festői szépség Cartagenában zárva. Sok időt töltünk a
-                természetben, de városnézésből, történelemből sincs hiány.
-              </p>
-              <p className="hidden lg:flex">
-                Ezt az utunkat minden olyan utazónak ajánljuk, aki egy autentikus körutazás keretein
-                belül szeretné megismerni a Karib-térség sokszínű világát, a mindennapi életet,
-                nyitott egy teljesen más kultúra megismerésére, de csak két hete van rá. Mindezt
-                privát terepjáróval, így minden korosztály számára nyugodt szívvel ajánlom. Aktív,
-                programdús körutazás sok strandolási lehetőséggel végig meleg éghajlaton,
-                megterhelőbb gyalogtúra nélkül. Egy-két programot kihagyva kifejezetten családbarát
-                körutazás, idősebb utazóinknak is ajánljuk.
-              </p>
-              <p>
-                Igény esetén az utazás meghosszabbítható tengerparti pihenéssel Cartagenában, vagy a
-                Tayrona térségében, illetve spirituális elvonulással is a Sierra Nevada
-                dzsungeleiben. Részletekért érdeklődj a Szervezőnél!
-              </p>
+              <p>{post.utleiras}</p>
+              <p className="hidden lg:flex">{post.ajanlas}</p>
+              <p>{post.hosszabbitas}</p>
             </div>
           </div>
           <div className=" flex flex-col lg:hidden space-y-1">
@@ -191,15 +170,7 @@ export default function PageClient({ post }) {
               <AccordionItem value="item-1" className="lg:hidden">
                 <AccordionTrigger>Kiknek ajáljuk?</AccordionTrigger>
                 <AccordionContent>
-                  <p>
-                    Ezt az utunkat minden olyan utazónak ajánljuk, aki egy autentikus körutazás
-                    keretein belül szeretné megismerni a Karib-térség sokszínű világát, a mindennapi
-                    életet, nyitott egy teljesen más kultúra megismerésére, de csak két hete van rá.
-                    Mindezt privát terepjáróval, így minden korosztály számára nyugodt szívvel
-                    ajánlom. Aktív, programdús körutazás sok strandolási lehetőséggel végig meleg
-                    éghajlaton, megterhelőbb gyalogtúra nélkül. Egy-két programot kihagyva
-                    kifejezetten családbarát körutazás, idősebb utazóinknak is ajánljuk.
-                  </p>
+                  <p>{post.ajanlas}</p>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">

@@ -16,9 +16,62 @@ import { Badge } from "@/components/ui/badge";
 import { getFirstImageFromFolder } from "@/lib/images";
 
 export const metadata = {
-  title: "Utazásaink | Colombia Tours 97",
+  metadataBase: new URL("https://www.colombiatours97.hu"),
+  title: "Utazásaink | Colombia Tours 97 - Felfedezőutak Kolumbiában",
   description:
-    "Fedezd fel változatos utazási ajánlatainkat Kolumbiában! Ismerd meg egyedi programjainkat, amelyek minden korosztály és érdeklődési kör számára felejthetetlen élményeket kínálnak.",
+    "Fedezze fel Kolumbia varázslatos régióit és élvezze a különleges élményeket! Változatos körutazások és kalandtúrák Dél-Amerika szívében a Colombia Tours 97-tel.",
+  keywords: [
+    "Kolumbia utazás",
+    "körutazás",
+    "kalandtúra",
+    "északi régió",
+    "déli régió",
+    "hegyi kirándulás",
+    "tengerparti pihenés",
+    "Colombia Tours 97",
+  ],
+  openGraph: {
+    title: "Kolumbiai Utazások és Körutazások | Colombia Tours 97",
+    description:
+      "Fedezze fel Kolumbia északi, középső és déli régióit! Változatos programok, extrém kalandok és tengerparti pihenés egy helyen.",
+    images: [
+      {
+        url: "/home.jpg", // Replace with an image representing your trips
+        width: 1200,
+        height: 630,
+        alt: "Colombia Tours 97 - Változatos utazások Kolumbiában",
+      },
+    ],
+    locale: "hu_HU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kolumbiai Utazások és Túrák | Colombia Tours 97",
+    description:
+      "Aktuális túráink Kolumbia különböző régióiban: északi látványosságok, hegyi kalandok, tengerparti pihenés. Fedezze fel velünk!",
+    images: ["/home.jpg"], // Replace with your actual image path
+  },
+  alternates: {
+    canonical: "https://www.colombiatours97.hu/utazasaink",
+    languages: {
+      "hu-HU": "https://www.colombiatours97.hu/utazasaink",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Replace with your actual Google verification code
+  },
 };
 
 export const dynamic = "force-dynamic";

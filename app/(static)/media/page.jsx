@@ -43,9 +43,60 @@ const videos = [
 ];
 
 export const metadata = {
-  title: "Média | Colombia Tours 97",
+  metadataBase: new URL("https://www.colombiatours97.hu"),
+  title: "Média | Colombia Tours 97 - Kolumbiai Utazások Videói",
   description:
-    "Fedezd fel kolumbiai utazásaink lenyűgöző világát videóinkon keresztül. Csatlakozz hozzánk, hogy részese lehess kalandjainknak és kulturális felfedezéseinknek!",
+    "Fedezze fel Kolumbia lenyűgöző világát videóinkon keresztül! Kalandok, kulturális felfedezések és lélegzetelállító tájak a Colombia Tours 97 utazásain.",
+  keywords: [
+    "Kolumbia videók",
+    "utazási élmények",
+    "kalandtúra videók",
+    "kolumbiai kultúra",
+    "úti beszámolók",
+    "Colombia Tours 97",
+  ],
+  openGraph: {
+    title: "Kolumbiai Utazások Videói | Colombia Tours 97 Média",
+    description:
+      "Merüljön el Kolumbia csodálatos világában! Nézze meg videóinkat kalandjainkról, kulturális felfedezéseinkről és a lenyűgöző kolumbiai tájakról.",
+    images: [
+      {
+        url: "/home.jpg", // Replace with a thumbnail of your featured video or media content
+        width: 1200,
+        height: 630,
+        alt: "Colombia Tours 97 - Kolumbiai utazási élmények videón",
+      },
+    ],
+    locale: "hu_HU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kolumbiai Kalandok Videón | Colombia Tours 97 Média",
+    description:
+      "Csatlakozzon hozzánk virtuálisan! Nézze meg lenyűgöző videóinkat Kolumbia természeti csodáiról, kulturális kincseiről és izgalmas kalandjairól.",
+    images: ["/home.jpg"], // Replace with your actual image path
+  },
+  alternates: {
+    canonical: "https://www.colombiatours97.hu/media",
+    languages: {
+      "hu-HU": "https://www.colombiatours97.hu/media",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Replace with your actual Google verification code
+  },
 };
 
 export default function Media() {

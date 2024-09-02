@@ -3,9 +3,60 @@ import { db } from "@/firebase";
 import { getDocumentData } from "@/firebase-functions";
 
 export const metadata = {
-  title: "Kolumbiáról | Colombia Tours 97",
+  metadataBase: new URL("https://www.colombiatours97.hu"),
+  title: "Kolumbiáról | Colombia Tours 97 - Fedezze fel Kolumbia csodáit",
   description:
-    "Tudd meg, miért érdemes Kolumbiát választani úti célként! Fedezd fel az ország gazdag kulturális örökségét, lenyűgöző tájait és vibráló városait velünk.",
+    "Ismerje meg Kolumbia lenyűgöző világát! Részletes információk az ország kultúrájáról, természeti kincseiről és turisztikai lehetőségeiről a Colombia Tours 97 oldalán.",
+  keywords: [
+    "Kolumbia",
+    "kolumbiai kultúra",
+    "kolumbiai természet",
+    "dél-amerikai utazás",
+    "kolumbiai turizmus",
+    "Colombia Tours 97",
+  ],
+  openGraph: {
+    title: "Fedezze fel Kolumbia csodáit | Colombia Tours 97",
+    description:
+      "Merüljön el Kolumbia lenyűgöző világában! Ismerje meg az ország gazdag kultúráját, lélegzetelállító tájait és izgalmas turisztikai lehetőségeit.",
+    images: [
+      {
+        url: "/home.jpg", // Replace with an actual image showcasing Colombia's diversity
+        width: 1200,
+        height: 630,
+        alt: "Kolumbia sokszínűsége: kultúra, természet és kalandok",
+      },
+    ],
+    locale: "hu_HU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kolumbia felfedezése | Colombia Tours 97",
+    description:
+      "Fedezze fel Kolumbia gazdag kultúráját, lélegzetelállító tájait és izgalmas kalandjait a Colombia Tours 97 segítségével!",
+    images: ["/home.jpg"], // Replace with your actual image path
+  },
+  alternates: {
+    canonical: "https://www.colombiatours97.hu/kolumbiarol",
+    languages: {
+      "hu-HU": "https://www.colombiatours97.hu/kolumbiarol",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Replace with your actual Google verification code
+  },
 };
 
 const querySnapshot = await getDocs(collection(db, "adatok"));

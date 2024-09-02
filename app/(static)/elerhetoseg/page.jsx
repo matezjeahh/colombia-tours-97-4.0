@@ -16,9 +16,62 @@ import { Mail, Phone, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 
 export const metadata = {
-  title: "Elérhetőség | Colombia Tours 97",
+  metadataBase: new URL("https://www.colombiatours97.hu"),
+  title: "Elérhetőség | Colombia Tours 97 - Kapcsolatfelvétel",
   description:
-    "Kapcsolatba léphetsz velünk az alábbi elérhetőségeken. Örömmel válaszolunk kérdéseidre és segítünk megtervezni a tökéletes kolumbiai utazást!",
+    "Lépjen kapcsolatba a Colombia Tours 97-tel! Kérdése van az utazással kapcsolatban? Segítünk a tervezésben. Gyors válasz és személyes tanácsadás garantált.",
+  keywords: [
+    "kapcsolat",
+    "elérhetőség",
+    "Colombia Tours 97",
+    "utazási információ",
+    "kolumbiai utazás",
+    "email",
+    "WhatsApp",
+    "kapcsolatfelvétel",
+  ],
+  openGraph: {
+    title: "Kapcsolat | Colombia Tours 97 - Tervezze meg velünk kolumbiai utazását!",
+    description:
+      "Kérdése van a kolumbiai utazásról? Vegye fel velünk a kapcsolatot! Gyors válasz, személyes tanácsadás és szakértő segítség az utazástervezésben.",
+    images: [
+      {
+        url: "/home.jpg", // Replace with an image representing your contact page
+        width: 1200,
+        height: 630,
+        alt: "Colombia Tours 97 - Kapcsolatfelvétel",
+      },
+    ],
+    locale: "hu_HU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kapcsolat | Colombia Tours 97 - Segítünk az utazástervezésben",
+    description:
+      "Kérdése van? Írjon nekünk! Email: info@colombiatours97.com, WhatsApp: +57 322 6014919. Gyors és személyes válasz garantált!",
+    images: ["/home.jpg"], // Replace with your actual image path
+  },
+  alternates: {
+    canonical: "https://www.colombiatours97.hu/elerhetoseg",
+    languages: {
+      "hu-HU": "https://www.colombiatours97.hu/elerhetoseg",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Replace with your actual Google verification code
+  },
 };
 
 export default function Elerhetoseg() {
