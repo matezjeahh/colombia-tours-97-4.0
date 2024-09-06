@@ -48,13 +48,10 @@ const CookieConsent = ({ initialMandatoryCookiesAccepted }) => {
           információért a sütik használatáról, kérjük, tekintse meg süti szabályzatunkat.
         </AlertDescription>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4 md:mt-6">
-          <Button
-            onClick={handleAcceptAll}
-            className="w-full sm:flex-1 bg-black text-white hover:bg-gray-800"
-          >
+          <Button className="w-full sm:flex-1 bg-black text-white hover:bg-gray-800">
             Elfogadom
           </Button>
-          <Button onClick={handleDecline} variant="outline" className="w-full sm:flex-1">
+          <Button variant="outline" className="w-full sm:flex-1">
             Elutasítom
           </Button>
         </div>

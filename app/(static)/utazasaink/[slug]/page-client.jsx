@@ -53,10 +53,11 @@ export default function PageClient({ post }) {
         const allKeys = context.keys();
         console.log("All keys:", allKeys);
 
+        // Adjust the filtering to handle folder names consistently
         const images = allKeys
           .filter((key) => key.startsWith(`./${post.id}/`))
           .map((key) => ({
-            src: `/${post.id}${key.substring(3)}`,
+            src: key.replace("./", "/"), // Removes the './' regardless of the folder name length
           }));
 
         console.log("Filtered images:", images);
@@ -69,7 +70,6 @@ export default function PageClient({ post }) {
 
     importImages();
   }, [post.id]);
-
   return (
     <div className="container space-y-6 md:space-y-8 lg:space-y-8 my-5">
       <BreadcrumbNav props={post.cim} />

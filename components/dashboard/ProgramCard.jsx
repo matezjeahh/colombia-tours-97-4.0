@@ -32,7 +32,19 @@ const ProgramCard = ({
     setIsEditing();
   };
 
+  const replaceCharacters = (text) => {
+    const replacements = {
+      û: "ű",
+      ô: "ő",
+      ò: "ó",
+      // Add more replacements as needed
+    };
+    return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
+  };
+
   const handleSave = () => {
+    const replacedProgram = editedProgram.map((item) => replaceCharacters(item));
+    setEditedProgram(replacedProgram);
     setIsAlertOpen(true);
   };
 

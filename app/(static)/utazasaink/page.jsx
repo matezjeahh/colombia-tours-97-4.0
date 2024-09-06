@@ -127,7 +127,9 @@ const TourCard = ({ item, index, imageName }) => (
     <CardContent className="space-y-2">
       <div className="flex items-center">
         <Gauge size={20} className="mr-2" />
-        <Badge>{item.nehezseg === 0 ? "Könnyű" : item.nehezseg === 1 ? "Közepes" : "Nehéz"}</Badge>
+        <Badge className="rounded-md">
+          {item.nehezseg === 0 ? "Könnyű" : item.nehezseg === 1 ? "Közepes" : "Nehéz"}
+        </Badge>
       </div>
       <div className="flex items-center">
         <CalendarDays size={20} className="mr-2" />

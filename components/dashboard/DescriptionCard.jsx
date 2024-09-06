@@ -27,7 +27,19 @@ const DescriptionCard = ({
     setEditedContent(selectedItem?.leiras || "");
   };
 
+  const replaceCharacters = (text) => {
+    const replacements = {
+      û: "ű",
+      ô: "ő",
+      ò: "ó",
+      // Add more replacements as needed
+    };
+    return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
+  };
+
   const handleSave = () => {
+    const replacedContent = replaceCharacters(editedContent);
+    setEditedContent(replacedContent);
     setIsAlertOpen(true);
   };
 

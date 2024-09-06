@@ -6,7 +6,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { List, MoreVertical, Edit, Trash, Check, X } from "lucide-react";
@@ -33,7 +32,19 @@ const BadgeCard = ({
     setIsEditing();
   };
 
+  const replaceCharacters = (text) => {
+    const replacements = {
+      û: "ű",
+      ô: "ő",
+      ò: "ó",
+      // Add more replacements as needed
+    };
+    return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
+  };
+
   const handleSave = () => {
+    const replacedBadge = editedBadge.map((item) => replaceCharacters(item));
+    setEditedBadge(replacedBadge);
     setIsAlertOpen(true);
   };
 

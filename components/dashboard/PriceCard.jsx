@@ -94,7 +94,7 @@ const PriceCard = ({
             </div>
           </div>
         ) : (
-          <p>{selectedItem ? `${selectedItem.ar} Ft` : "No price set"}</p>
+          <p>{selectedItem ? `${selectedItem.ar} USD` : "No price set"}</p>
         )}
       </CardContent>
     </Card>
