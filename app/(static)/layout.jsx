@@ -5,7 +5,7 @@ import Navbar from "@/components/responsive-navbar";
 import Footer from "@/components/responsive-footer";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
-import CookieConsentWrapper from "@/components/CookieConsentWrapper";
+import CookieBanner from "@/components/cookie";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,9 +25,8 @@ export default function RootLayout({ children }) {
           <Navbar />
           {children}
           <Toaster />
-
+          <CookieBanner />
           <Footer />
-          <CookieConsentWrapper />
         </ThemeProvider>
       </body>
     </html>

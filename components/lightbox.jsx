@@ -14,7 +14,7 @@ export default function LightBox({ className, slides }) {
   return (
     <>
       <Button
-        variant="outline"
+        variant="default"
         onClick={() => setOpen(true)}
         className={`items-center ${className}`}
       >

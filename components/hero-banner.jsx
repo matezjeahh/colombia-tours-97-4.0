@@ -9,7 +9,13 @@ export default function HeroBanner() {
       style={{ height: "calc(100vh - var(--navbar-height, 0px))" }}
       className="relative bg-black"
     >
-      <Image src="/home.jpg" alt="Kolumbia" fill className="opacity-50 object-cover" />
+      <Image
+        src="/home.jpg"
+        alt="Kolumbia"
+        fill
+        className="opacity-50 object-cover"
+        priority={true}
+      />
       <div className="absolute inset-0 flex flex-col items-center justify-center container m-auto text-center space-y-2">
         <h1 className="text-white !text-4xl !font-bold !lg:text-5xl">
           Fedezd fel a Föld legcsodálatosabb országát

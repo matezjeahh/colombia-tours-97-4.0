@@ -102,15 +102,16 @@ const PageHeader = () => (
 // Extracted TourCard component for better reusability
 const TourCard = ({ item, index, imageName }) => (
   <Card className="flex flex-col justify-between h-full overflow-hidden">
-    <Image
-      alt="Product image"
-      className="h-60 w-full object-cover rounded-t-lg"
-      height={240}
-      width={400}
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      src={imageName ? `/${index}/${imageName}` : "/fallback-image.jpg"}
-      priority={true}
-    />
+    <div className="relative h-60 w-full">
+      <Image
+        alt={`Tour image for ${item.cim}`}
+        className="object-cover rounded-t-lg"
+        src={imageName ? `/${index}/${imageName}` : "/fallback-image.jpg"}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        priority={index < 3}
+      />
+    </div>
     <CardHeader className="flex-grow">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
