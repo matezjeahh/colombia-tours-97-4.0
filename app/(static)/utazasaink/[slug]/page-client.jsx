@@ -247,7 +247,7 @@ export default function PageClient({ post }) {
             </div>
           ))}
         </div>
-        <div className="absolute bottom-3 right-3 z-10">
+        <div className="absolute bottom-3 right-3 ">
           <LightBox slides={slides} />
         </div>
       </div>
