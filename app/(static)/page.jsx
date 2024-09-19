@@ -11,6 +11,20 @@ export const metadata = {
   title: "Colombia Tours 97 | Felfedező Utak Kolumbiába",
   description:
     "Fedezze fel Kolumbia csodáit a Colombia Tours 97-tel! Autentikus kalandtúrák, körutazások és egyedi élmények várják Dél-Amerika szívében.",
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/icon-light.ico",
+        href: "/icon-light.ico",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/icon.ico",
+        href: "/icon-dark.ico",
+      },
+    ],
+  },
   keywords: ["Kolumbia", "utazás", "kalandtúra", "körutazás", "Dél-Amerika", "Colombia Tours 97"],
   openGraph: {
     title: "Colombia Tours 97 | Varázslatos Utazások Kolumbiába",

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, isSupported } from "firebase/analytics";
 import { clientConfig } from "@/config";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -26,3 +26,6 @@ export const app = initializeApp(firebaseConfig, clientConfig);
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
+
+// Initialize Analytics and export it
+export const analytics = isSupported().then((yes) => (yes ? getAnalytics(app) : null));

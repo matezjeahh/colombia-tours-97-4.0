@@ -63,7 +63,6 @@ export default function Navbar() {
         </Link>
         <SheetContent side="left">
           <Link href="/" prefetch={false} className="flex items-center">
-            <MountainIcon className="h-6 w-6" />
             <span className="font-bold">Colombia Tours 97</span>
           </Link>
           <div className="grid gap-2 py-4">
@@ -83,10 +82,8 @@ export default function Navbar() {
         </SheetContent>
       </Sheet>
       <div className="container lg:flex items-center justify-between hidden">
-        <Link href="/" className="mr-6 hidden lg:flex" prefetch={false}>
-          <MountainIcon className="h-6 w-6" />
-          <span className="font-bold items-center ml-4">Colombia Tours 97</span>
-          <span className="sr-only">Acme Inc</span>
+        <Link href="/" className=" hidden lg:flex font-bold items-center" prefetch={false}>
+          Colombia Tours 97
         </Link>
         <div className="hidden lg:flex">
           <NavigationMenu>
@@ -113,24 +110,5 @@ export default function Navbar() {
       </div>
       <ModeToggle className="lg:hidden ml-auto" />
     </header>
-  );
-}
-
-function MountainIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
   );
 }

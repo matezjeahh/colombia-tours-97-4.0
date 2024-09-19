@@ -40,14 +40,14 @@ export default function AboutUs() {
       <div className="rounded-lg  p-4 shadow-lg ">
         <img
           src="/szilard.jpg"
-          alt="John Doe"
+          alt="Bélafi szilárd"
           width={200}
           height={200}
           className="mx-auto h-32 w-32 rounded-full object-cover"
         />
         <div className="mt-4 text-center">
-          <h3 className="text-lg font-bold">John Doe</h3>
-          <p className="">Co-Founder &amp; CEO</p>
+          <h3 className="text-lg font-bold">Bélafi Szilárd</h3>
+          <p className="">Alapító és cégvezető</p>
           <p className="mt-2 text-sm ">
             Szilárd tapasztalt vállalkozó, aki szenvedélyesen építi a Colombia Tours 97-et, hogy
             egyedülálló utazási élményeket nyújtson.
