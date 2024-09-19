@@ -8,7 +8,7 @@ module.exports = {
   // optional
   robotsTxtOptions: {
     additionalSitemaps: [
-      "https://yourdomain.com/server-sitemap.xml", // If you have additional sitemaps
+      "https://colombiatours97.hu/server-sitemap.xml", // If you have additional sitemaps
     ],
   },
 };
