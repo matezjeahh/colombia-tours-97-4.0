@@ -5,10 +5,10 @@ import { collection, getDocs } from "firebase/firestore";
 export async function GET(request) {
   // Method to source URLs from Firebase (utazasaink collection)
   const getUrls = async () => {
-    // Correcting the collection reference
     const blogPostsSnapshot = await getDocs(collection(db, "utazasaink"));
     return blogPostsSnapshot.docs.map((doc) => {
-      const lastModified = doc.data().lastModified;
+      const data = doc.data();
+      const lastModified = data.lastModified;
       let lastModifiedISO;
 
       // Check if lastModified is a valid date
@@ -23,7 +23,7 @@ export async function GET(request) {
       }
 
       return {
-        loc: `https://colombiatours97.hu/utazasaink/${doc.slug}`, // Construct the correct URL
+        loc: `https://colombiatours97.hu/utazasaink/${data.slug}`, // Use data.slug instead of doc.slug
         lastmod: lastModifiedISO,
       };
     });
@@ -31,5 +31,14 @@ export async function GET(request) {
 
   // Generate sitemap
   const urls = await getUrls();
+
+  // Ensure we have at least one URL
+  if (urls.length === 0) {
+    urls.push({
+      loc: "https://colombiatours97.hu",
+      lastmod: new Date().toISOString(),
+    });
+  }
+
   return getServerSideSitemap(urls);
 }
