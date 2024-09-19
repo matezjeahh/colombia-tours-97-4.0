@@ -9,7 +9,6 @@ export default function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    // Check if the cookie exists
     const cookieConsent = Cookies.get("cookieConsent");
     const sessionRejection = sessionStorage.getItem("cookieRejected");
 
@@ -19,14 +18,15 @@ export default function CookieBanner() {
   }, []);
 
   const handleAccept = () => {
-    // Set the cookie when user accepts
-    Cookies.set("cookieConsent", "accepted", { expires: 365 }); // Cookie expires in 1 year
+    Cookies.set("cookieConsent", "accepted", { expires: 365 });
+    Cookies.set("analyticsConsent", "true", { expires: 365 }); // Set analytics consent
     setShowBanner(false);
+    window.location.reload(); // Reload to enable analytics
   };
 
   const handleReject = () => {
-    // Store rejection in session storage
     sessionStorage.setItem("cookieRejected", "true");
+    Cookies.set("analyticsConsent", "false", { expires: 365 }); // Set analytics rejection
     setShowBanner(false);
   };
 

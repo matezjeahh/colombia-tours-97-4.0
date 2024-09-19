@@ -19,13 +19,16 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig, clientConfig);
-//const analytics = getAnalytics(app);
 
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
 
-// Initialize Analytics and export it
-export const analytics = isSupported().then((yes) => (yes ? getAnalytics(app) : null));
+// Initialize Analytics only if consent is given
+export const analytics = isSupported().then((yes) => {
+  if (yes && typeof window !== "undefined" && Cookies.get("analyticsConsent") === "true") {
+    return getAnalytics(app);
+  }
+  return null;
+});
