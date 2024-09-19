@@ -23,7 +23,7 @@ export async function GET(request) {
       }
 
       return {
-        loc: `https://colombiatours97.com/utazasaink/${doc.slug}`, // Construct the correct URL
+        loc: `https://colombiatours97.hu/utazasaink/${doc.slug}`, // Construct the correct URL
         lastmod: lastModifiedISO,
       };
     });
