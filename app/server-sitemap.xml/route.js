@@ -3,36 +3,33 @@ import { db } from "@/firebase"; // Adjust import path as needed
 import { collection, getDocs } from "firebase/firestore";
 
 export async function GET(request) {
-  // Method to source urls from Firebase
+  // Method to source URLs from Firebase (utazasaink collection)
   const getUrls = async () => {
-    const blogPostsSnapshot = await getDocs(collection(db, "adatok"));
+    // Correcting the collection reference
+    const blogPostsSnapshot = await getDocs(collection(db, "utazasaink"));
     return blogPostsSnapshot.docs.map((doc) => {
       const lastModified = doc.data().lastModified;
       let lastModifiedISO;
 
       // Check if lastModified is a valid date
       if (lastModified && lastModified.toDate instanceof Function) {
-        // Firestore Timestamp
-        lastModifiedISO = lastModified.toDate().toISOString();
+        lastModifiedISO = lastModified.toDate().toISOString(); // Firestore Timestamp
       } else if (lastModified instanceof Date) {
-        // JavaScript Date object
-        lastModifiedISO = lastModified.toISOString();
+        lastModifiedISO = lastModified.toISOString(); // JS Date object
       } else if (typeof lastModified === "string") {
-        // String date
-        lastModifiedISO = new Date(lastModified).toISOString();
+        lastModifiedISO = new Date(lastModified).toISOString(); // String date
       } else {
-        // Fallback to current date if invalid
-        lastModifiedISO = new Date().toISOString();
+        lastModifiedISO = new Date().toISOString(); // Fallback to current date
       }
 
       return {
-        loc: `https://colombiatours97.com/utazasaink/${doc.id}`,
+        loc: `https://colombiatours97.com/utazasaink/${doc.slug}`, // Construct the correct URL
         lastmod: lastModifiedISO,
       };
     });
   };
 
-  // Generate sitemap here
+  // Generate sitemap
   const urls = await getUrls();
   return getServerSideSitemap(urls);
 }
