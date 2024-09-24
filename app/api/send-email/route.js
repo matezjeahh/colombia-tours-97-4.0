@@ -1,4 +1,3 @@
-// app/api/send-email/route.js
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
@@ -8,7 +7,7 @@ export async function POST(request) {
   // Create a transporter using Outlook's SMTP settings
   const transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com", // Outlook's SMTP server
-    port: 465,
+    port: 587,
     secure: false, // Use TLS
     auth: {
       user: process.env.OUTLOOK_EMAIL,
@@ -28,7 +27,17 @@ export async function POST(request) {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+          reject(error);
+        } else {
+          console.log("Email sent:", info.response);
+          resolve();
+        }
+      });
+    });
     return NextResponse.json({ message: "Email sent successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error sending email:", error);
