@@ -251,7 +251,7 @@ export default function Adatvedelem() {
               Érintett: bármely információ alapján azonosított vagy azonosítható természetes személy
             </li>
             <li>
-              Felhasználók: az Adatkezelő által üzemeltetett, http://www.colombiatours97.com
+              Felhasználók: az Adatkezelő által üzemeltetett, http://www.colombiatours97.hu
               weboldalon és az ott meghatározott egyéb címeken elérhető weboldalak látogatói
             </li>
             <li>

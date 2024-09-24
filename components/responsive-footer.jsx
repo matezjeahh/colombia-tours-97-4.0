@@ -65,7 +65,7 @@ export default function Footer() {
         <div className="grid gap-1">
           <h4 className="font-semibold ">Kapcsolat</h4>
           <p className="text-sm font-medium text-muted-foreground">+57 322 6014919</p>
-          <p className="text-sm font-medium text-muted-foreground">info@colombiatours97.com</p>
+          <p className="text-sm font-medium text-muted-foreground">colombiatours97@hotmail.com</p>
           <p className="text-sm font-medium text-muted-foreground">
             Carrera 6 #2-39 Mingueo, La Guajira Kolumbia
           </p>

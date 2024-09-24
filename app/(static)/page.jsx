@@ -8,23 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
   metadataBase: new URL("https://www.colombiatours97.hu"),
-  title: "Colombia Tours 97 | Felfedező Utak Kolumbiába",
+  title: "Colombia Tours 97 | Fedezd fel a Föld legcsodálatosabb országát",
   description:
     "Fedezze fel Kolumbia csodáit a Colombia Tours 97-tel! Autentikus kalandtúrák, körutazások és egyedi élmények várják Dél-Amerika szívében.",
-  icons: {
-    icon: [
-      {
-        media: "(prefers-color-scheme: light)",
-        url: "/icon-light.ico",
-        href: "/icon-light.ico",
-      },
-      {
-        media: "(prefers-color-scheme: dark)",
-        url: "/icon.ico",
-        href: "/icon-dark.ico",
-      },
-    ],
-  },
   keywords: ["Kolumbia", "utazás", "kalandtúra", "körutazás", "Dél-Amerika", "Colombia Tours 97"],
   openGraph: {
     title: "Colombia Tours 97 | Varázslatos Utazások Kolumbiába",
@@ -66,7 +52,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: "your-google-verification-code", // Replace with your actual Google verification code
+    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU", // Replace with your actual Google verification code
   },
 };
 

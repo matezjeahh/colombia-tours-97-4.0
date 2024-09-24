@@ -95,7 +95,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: "your-google-verification-code", // Replace with your actual Google verification code
+    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU", // Replace with your actual Google verification code
   },
 };
 

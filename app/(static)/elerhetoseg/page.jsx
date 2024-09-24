@@ -49,7 +49,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Kapcsolat | Colombia Tours 97 - Segítünk az utazástervezésben",
     description:
-      "Kérdése van? Írjon nekünk! Email: info@colombiatours97.com, WhatsApp: +57 322 6014919. Gyors és személyes válasz garantált!",
+      "Kérdése van? Írjon nekünk! Email: colombiatours97@hotmail.com, WhatsApp: +57 322 6014919. Gyors és személyes válasz garantált!",
     images: ["/home.jpg"], // Replace with your actual image path
   },
   alternates: {
@@ -70,7 +70,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: "your-google-verification-code", // Replace with your actual Google verification code
+    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU", // Replace with your actual Google verification code
   },
 };
 
@@ -109,7 +109,7 @@ export default function Elerhetoseg() {
               <Mail size={20} className="mr-2 mt-0.5" />
               <div>
                 <h3 className="mt-0">Email</h3>
-                <p>info@colombiatours97.com</p>
+                <p>colombiatours97@hotmail.com</p>
               </div>
             </div>
             <div className="flex">

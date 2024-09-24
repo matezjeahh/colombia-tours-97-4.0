@@ -34,7 +34,7 @@ export default function NextJsImage({ slide, offset, rect }) {
     <div style={{ position: "relative", width, height }}>
       <Image
         fill
-        alt=""
+        alt="Kolumbia"
         src={slide}
         loading="eager"
         draggable={false}

@@ -22,11 +22,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const OptimizedImage = ({ src, alt, className, priority = false }) => (
+const OptimizedImage = ({ src, className, priority = false }) => (
   <div className={`relative w-full h-full overflow-hidden ${className}`}>
     <Image
       src={src}
-      alt={alt}
+      alt="Kolumbia"
       fill
       style={{ objectFit: "cover" }}
       sizes="(max-width: 768px) 100vw, 50vw"
@@ -230,7 +230,7 @@ export default function PageClient({ post }) {
           <div className="col-span-4 lg:col-span-3 h-full">
             <OptimizedImage
               src={slides[0].src}
-              alt="Main tour image"
+              alt="Kolumbia"
               className="rounded-lg lg:rounded-r-none lg:rounded-l-lg"
               priority
             />
@@ -241,7 +241,7 @@ export default function PageClient({ post }) {
             <div key={index} className="flex-1">
               <OptimizedImage
                 src={slide.src}
-                alt={`Tour image ${index + 2}`}
+                alt={`Kolumbia ${index + 2}`}
                 className={index === 0 ? "rounded-tr-lg" : "rounded-br-lg"}
               />
             </div>

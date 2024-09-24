@@ -40,7 +40,7 @@ export default function AboutUs() {
       <div className="rounded-lg  p-4 shadow-lg ">
         <img
           src="/szilard.jpg"
-          alt="Bélafi szilárd"
+          alt="Bélafi Szilárd"
           width={200}
           height={200}
           className="mx-auto h-32 w-32 rounded-full object-cover"

@@ -70,7 +70,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: "your-google-verification-code", // Replace with your actual Google verification code
+    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU", // Replace with your actual Google verification code
   },
 };
 
@@ -104,7 +104,7 @@ const TourCard = ({ item, index, imageName }) => (
   <Card className="flex flex-col justify-between h-full overflow-hidden">
     <div className="relative h-60 w-full">
       <Image
-        alt={`Tour image for ${item.cim}`}
+        alt={`Kolumbia ${item.cim}`}
         className="object-cover rounded-t-lg"
         src={imageName ? `/${index}/${imageName}` : "/fallback-image.jpg"}
         fill
