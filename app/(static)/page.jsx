@@ -109,7 +109,7 @@ export default function Home() {
                 height={0}
                 sizes="100vw"
                 className="w-full h-60 lg:h-96 object-cover rounded-lg"
-                src="/kep.jpg"
+                src="/home1.jpg"
                 alt="kolumbia"
               />
             </div>
@@ -119,7 +119,7 @@ export default function Home() {
                 height={0}
                 sizes="100vw"
                 className="w-full h-60 lg:h-96 object-cover rounded-lg"
-                src="/kep.jpg"
+                src="/home2.jpg"
                 alt="kolumbia"
               />
             </div>
@@ -132,7 +132,7 @@ export default function Home() {
               height={0}
               sizes="100vw"
               className="w-full h-60 lg:h-96 object-cover rounded-lg"
-              src="/kep.jpg"
+              src="/home3.jpg"
               alt="kolumbia"
             />
           </div>
