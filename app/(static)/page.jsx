@@ -133,7 +133,7 @@ export default function Home() {
               sizes="100vw"
               className="w-full h-60 lg:h-96 object-cover rounded-lg"
               src="/home3.jpg"
-              alt="kolumbia"
+              alt="kolumbiaa"
             />
           </div>
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
