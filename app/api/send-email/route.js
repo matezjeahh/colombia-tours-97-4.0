@@ -4,11 +4,10 @@ import nodemailer from "nodemailer";
 export async function POST(request) {
   const { name, email, subject, message } = await request.json();
 
-  // Create a transporter using Outlook's SMTP settings
   const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com", // Outlook's SMTP server
-    port: 465,
-    secure: true, // Use TLS
+    host: "smtp-mail.outlook.com",
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.OUTLOOK_EMAIL,
       pass: process.env.OUTLOOK_PASSWORD,
@@ -18,20 +17,43 @@ export async function POST(request) {
     },
   });
 
-  const mailOptions = {
-    from: process.env.OUTLOOK_EMAIL,
-    to: process.env.OUTLOOK_EMAIL, // You can send to the same email or a different one
-    replyTo: email, // The email address of the person who filled out the form
+  // Verify connection configuration
+  await new Promise((resolve, reject) => {
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        console.log("Server is ready to take our messages");
+        resolve(success);
+      }
+    });
+  });
+
+  const mailData = {
+    from: {
+      name: name,
+      address: process.env.OUTLOOK_EMAIL,
+    },
+    replyTo: email,
+    to: process.env.OUTLOOK_EMAIL,
     subject: subject ? `Érdeklődés: ${subject}` : "Általános érdeklődés",
-    text: `${name}\n\nEmail: ${email}\n\n${message}`,
+    text: message,
+    html: `<p>${message.replace(/\n/g, "<br>")}</p>`,
   };
 
-  try {
-    // Use await here to ensure the email is sent before responding
-    await transporter.sendMail(mailOptions);
-    return NextResponse.json({ message: "Email sent successfully" }, { status: 200 });
-  } catch (error) {
-    console.error("Error sending email:", error);
-    return NextResponse.json({ message: "Error sending email" }, { status: 500 });
-  }
+  // Send mail
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailData, (err, info) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        console.log(info);
+        resolve(info);
+      }
+    });
+  });
+
+  return NextResponse.json({ status: "OK" }, { status: 200 });
 }
