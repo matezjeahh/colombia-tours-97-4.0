@@ -2,12 +2,8 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export const config = {
-  api: {
-    bodyParser: true,
-  },
+  runtime: "nodejs",
 };
-
-export const runtime = "nodejs"; // Add this line to use Node.js runtime
 
 export async function POST(request) {
   const { name, email, subject, message } = await request.json();
@@ -24,7 +20,6 @@ export async function POST(request) {
     },
     tls: {
       ciphers: "SSLv3",
-      rejectUnauthorized: false,
     },
   });
 
@@ -38,9 +33,22 @@ export async function POST(request) {
 
   try {
     console.log("Attempting to send email...");
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully:", info.response);
-    return NextResponse.json({ message: "Email sent successfully", info }, { status: 200 });
+
+    // Use Promise to ensure we wait for the email to be sent
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+          reject(error);
+        } else {
+          console.log("Email sent successfully:", info.response);
+          resolve(info);
+        }
+      });
+    });
+
+    console.log("Email sending process completed.");
+    return NextResponse.json({ message: "Email sent successfully" }, { status: 200 });
   } catch (error) {
     console.error("Detailed error sending email:", error);
     return NextResponse.json(
