@@ -66,7 +66,7 @@ const data = [
   {
     title: "Zavartalan Utazás",
     subtitle:
-      "Gondoskodunk róla, hogy minden utas biztonságban érezze magát és az utazás zavartalanul teljen. Szilárd és Laura, a Colombia Tours 97 alapítói, mindig rendelkezésedre állnak.",
+      "Gondoskodunk róla, hogy minden utas biztonságban érezze magát és egész életre szóló élményeket szerezzen.",
     icon: <ShieldCheck className="mr-2" />,
   },
   {

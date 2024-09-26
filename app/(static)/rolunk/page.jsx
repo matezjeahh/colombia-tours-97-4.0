@@ -14,18 +14,24 @@ export default function AboutUs() {
         <div className="space-y-4">
           <h2>Rólunk</h2>
           <p>
-            Üdvözöljük a Colombia Tours 97 oldalán, ahol Kolumbia autentikus arcát mutatjuk be
-            Önnek! Cégünk immár öt éve szervez egyedülálló körutazásokat és kalandtúrákat a világ
-            harmadik legszebb országában. Célunk, hogy vendégeink a turisztikai zónákon kívül
-            megismerjék Kolumbia valódi értékeit és kultúráját, melyhez sokszor szükség van a
-            komfortzónából való kilépésre.
+            Bélafi Szilárd vagyok, a Colombia Tours 97 alapítója és túravezetője. Nyolc éve élek
+            Kolumbiában. Röviden összefoglalva a világ legszebb országát, Kolumbiát mutatom meg
+            idelátogató vendégeimnek; autentikus körutazások és kalandtúrák keretein belül immár
+            ötödik éve. Azt vallom, hogy egy távoli egzotikus országot úgy lehet a legjobban
+            megismerni, ha az utazó kilép a turisztikai zónából és megismeri az ország valódi arcát,
+            amihez viszont sokszor ki kell majd lépj a megszokott komfortzónádból. Az általam
+            vezetett utak során olyan részletes betekintést kapsz az adott országrész hétköznapi
+            valóságába, mintha csak egy Márquez regénybe csöppentél volna. Hiszen nem ugyanaz
+            átutazni egy országon vagy pedig átélni azt.
           </p>
           <p>
-            Útjaink során olyan mélyreható élményekkel gazdagodhat, mintha egy Márquez-regénybe
-            csöppent volna. Kétféle Kolumbiát ismerhet meg: egyet, amely a külföldi turisták
-            elvárásaihoz igazodik, és egy másikat, amely a helyi közösségek autentikus valóságát
-            tükrözi. Mi ez utóbbit képviseljük minden körutunkon, helyi vezetőkkel, campesinókkal és
-            indián közösségekkel együttműködve.
+            Sokszor mondtam már hogy kétféle Kolumbia létezik: az egyik amit átformáltak a külföldi
+            turisták elvárásai szerint, a másik pedig amit nem. Ez utóbbit képviselem én és a
+            Colombia Tours 97 csapata minden körutunkon, amikor a helyi vezetőkkel, 'campesinó' és
+            indián közösségekkel együttműködve mutatjuk meg az ország lenyűgöző természeti és
+            kultúrális látnivalóit. Így értelemszerűen az én útjaim bevételéből a vidéki közösségek
+            részesednek, hozzájárulva a kolumbiai vidéki turizmus fejlődéséhez, bevételt adva a
+            helyi családoknak bármely országrészben. Cserébe élvezheted végtelen vendégszeretetüket.
           </p>
         </div>
         <img
@@ -37,7 +43,7 @@ export default function AboutUs() {
         />
       </div>
 
-      <div className="rounded-lg  p-4 shadow-lg ">
+      <div className="rounded-lg mx-auto max-w-md p-4 shadow-lg ">
         <img
           src="/szilard.jpg"
           alt="Bélafi Szilárd"
@@ -59,26 +65,16 @@ export default function AboutUs() {
         <div className="space-y-4">
           <h2>Túráink</h2>
           <p>
-            Túráink bevételeiből a vidéki közösségek részesednek, ezzel hozzájárulva a kolumbiai
-            vidéki turizmus fejlődéséhez és támogatva a helyi családokat. Cserébe vendégeink
-            élvezhetik a helyiek végtelen vendégszeretetét.
-          </p>
-          <p>
-            Kínálatunk azokat az utazókat célozza meg, akik mélyrehatóan szeretnék megismerni
-            Kolumbia kultúráját, kevésbé ismert, ám lenyűgöző természeti látnivalóit és az ott élő
-            natív embereket. Olyan helyszínekre juttatjuk el Önt, amelyeket az átlagos turista nem
-            ismer, mivel sokuk nem turisztikai látványosság.
-          </p>
-          <p>
-            Az elmúlt évtizedben részletesen beutaztuk az országot, így mára mind a 32 tartományra
-            kidolgozott útvonalaink és rengeteg kiegészítő programunk van. Folyamatosan bővülő
-            kínálatunk jelenleg több tucat nemzeti parkot és több mint 20 natív indián közösség
-            látogatását tartalmazza, hála az egész országra kiterjedő kapcsolati tőkénknek.
-          </p>
-          <p>
-            Privát terepjárós körutazásainkon olyan módon mutatjuk be Kolumbiát, mint senki más,
-            magyar nyelven és a kolumbiai életérzéssel fűszerezve! Csatlakozzon hozzánk, és fedezze
-            fel Kolumbiát a Colombia Tours 97 segítségével!
+            Az én útjaim azon utazóközönségnek szólnak, akik részletesen szeretnék megismerni az
+            adott országrész kultúráját, kevésbé ismert, ám bámulatos természeti látnivalóit, és az
+            ott élő natív embereket. A mi útjainkon olyan helyszínekre juthatsz el, amiről az
+            átlagos turista nem is tud, hiszen sokuk nem is turisztikai látványosság. Az elmúlt
+            évtized alatt nagyon részletesen beutaztam az országot, így mára már Kolumbia mind a 32
+            tartományára van útvonalam és rengeteg kiegészítő programom. Folyamatosan bővülő
+            kínálatunkban jelenleg több tucat Nemzeti Park, több mint 20 natív indián közösség
+            látogatása szerepel, hála az egész országra kiterjedő kapcsolati tőkémnek. Privát
+            terepjáròs körutazásainkon úgy mutatom meg ezt az országot, mint senki más: magyarul
+            kolumbiai életérzéssel fűszerezve!
           </p>
         </div>
         <img
