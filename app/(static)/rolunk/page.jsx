@@ -27,11 +27,12 @@ export default function AboutUs() {
           <p>
             Sokszor mondtam már hogy kétféle Kolumbia létezik: az egyik amit átformáltak a külföldi
             turisták elvárásai szerint, a másik pedig amit nem. Ez utóbbit képviselem én és a
-            Colombia Tours 97 csapata minden körutunkon, amikor a helyi vezetőkkel, 'campesinó' és
-            indián közösségekkel együttműködve mutatjuk meg az ország lenyűgöző természeti és
-            kultúrális látnivalóit. Így értelemszerűen az én útjaim bevételéből a vidéki közösségek
-            részesednek, hozzájárulva a kolumbiai vidéki turizmus fejlődéséhez, bevételt adva a
-            helyi családoknak bármely országrészben. Cserébe élvezheted végtelen vendégszeretetüket.
+            Colombia Tours 97 csapata minden körutunkon, amikor a helyi vezetőkkel,
+            &apos;campesinó&apos; és indián közösségekkel együttműködve mutatjuk meg az ország
+            lenyűgöző természeti és kultúrális látnivalóit. Így értelemszerűen az én útjaim
+            bevételéből a vidéki közösségek részesednek, hozzájárulva a kolumbiai vidéki turizmus
+            fejlődéséhez, bevételt adva a helyi családoknak bármely országrészben. Cserébe
+            élvezheted végtelen vendégszeretetüket.
           </p>
         </div>
         <img
