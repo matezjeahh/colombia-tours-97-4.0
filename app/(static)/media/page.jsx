@@ -30,15 +30,22 @@ const videos = [
     id: 4,
     youtubeId: "2MaOoi_eGg8",
     title: "Bélafi Szilárd portréfilm",
-    description: "...",
+    description: "Így kezdődött Kolumbiában...",
     channel: "Norbert Tihanics",
   },
   {
     id: 5,
     youtubeId: "TD4MQV2wdDU",
     title: "Itthon, Kolumbiában!",
-    description: "...",
+    description: "Látogass meg minket!",
     channel: "Colombia Tours 97 S.A.S",
+  },
+  {
+    id: 6,
+    youtubeId: "RdVNUBzVnXI",
+    title: "A Föld örzői",
+    description: "Kogui indiánok között",
+    channel: "Bizony, Isten!",
   },
 ];
 
