@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./mode-toggle";
-import { Menu, Facebook, MessageCircle } from "lucide-react";
+import { Menu, Facebook, MessageCircle, Phone } from "lucide-react";
 
 export default function Navbar() {
   const navbarRef = useRef(null);
@@ -106,11 +106,11 @@ export default function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
           <div className="flex items-center ml-4 space-x-2">
-            <Link href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+            <Link href="https://wa.me/+573226014919" target="_blank" rel="noopener noreferrer">
+              <Phone className="w-5 h-5 text-muted-foreground hover:text-foreground" />
             </Link>
             <Link
-              href="https://www.facebook.com/yourpage"
+              href="https://www.facebook.com/colombiatours97"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -121,8 +121,8 @@ export default function Navbar() {
         </div>
       </div>
       <div className="lg:hidden ml-auto flex items-center space-x-2">
-        <Link href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer">
-          <MessageCircle className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+        <Link href="https://wa.me/+573226014919" target="_blank" rel="noopener noreferrer">
+          <Phone className="w-5 h-5 text-muted-foreground hover:text-foreground" />
         </Link>
         <Link
           href="https://www.facebook.com/colombiatours97"
