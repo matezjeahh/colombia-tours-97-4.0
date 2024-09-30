@@ -58,9 +58,9 @@ export const metadata = {
 
 const data = [
   {
-    title: "Precíz Ügyintézés",
+    title: "Precíz szervezés",
     subtitle:
-      "Minden apró részletre odafigyelünk, hogy az utazásod zökkenőmentes és kellemes legyen. A tervezéstől a szállásfoglalásig és a programok megszervezéséig mindent megteszünk.",
+      "A körutakat én magam személyesen szervezem és vezetem, beleértve a szállást, utazást és a felejthetetlen programokat.",
     icon: <FileText className="mr-2" />,
   },
   {
@@ -72,13 +72,13 @@ const data = [
   {
     title: "Rejtett Kincsek",
     subtitle:
-      "Fedezd fel velünk azokat a rejtett gyöngyszemeket, amelyeket más turisták sosem fedeznek fel. Vezetőink helyi szakértők, akik a legizgalmasabb úti célokat ismerik.",
+      "Fedezd fel velünk azokat a kultúrális és természeti értékeket melyek az átlag turista számára elérhetetlenek.",
     icon: <Camera className="mr-2" />,
   },
   {
     title: "Tapasztalt Idegenvezetők",
     subtitle:
-      "Tapasztalt és barátságos idegenvezetők kísérik utazásodat Kolumbiában, akik a helyi kultúra, történelem és látnivalók legjobb ismerői.",
+      "A körutakat én magam vezetem, tapasztalt helyi vezetôkkel karöltve akik az adott közösséghez tartoznak.",
     icon: <Users className="mr-2" />,
   },
 ];

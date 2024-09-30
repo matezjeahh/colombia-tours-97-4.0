@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./mode-toggle";
-import { Menu } from "lucide-react";
+import { Menu, Facebook, MessageCircle } from "lucide-react";
 
 export default function Navbar() {
   const navbarRef = useRef(null);
@@ -82,10 +82,10 @@ export default function Navbar() {
         </SheetContent>
       </Sheet>
       <div className="container lg:flex items-center justify-between hidden">
-        <Link href="/" className=" hidden lg:flex font-bold items-center" prefetch={false}>
+        <Link href="/" className="hidden lg:flex font-bold items-center" prefetch={false}>
           Colombia Tours 97
         </Link>
-        <div className="hidden lg:flex">
+        <div className="hidden lg:flex items-center">
           <NavigationMenu>
             <NavigationMenuList>
               {navigation.map((item) => (
@@ -103,12 +103,36 @@ export default function Navbar() {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
-              <ModeToggle />
             </NavigationMenuList>
           </NavigationMenu>
+          <div className="flex items-center ml-4 space-x-2">
+            <Link href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+            </Link>
+            <Link
+              href="https://www.facebook.com/yourpage"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+            </Link>
+            <ModeToggle />
+          </div>
         </div>
       </div>
-      <ModeToggle className="lg:hidden ml-auto" />
+      <div className="lg:hidden ml-auto flex items-center space-x-2">
+        <Link href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer">
+          <MessageCircle className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+        </Link>
+        <Link
+          href="https://www.facebook.com/colombiatours97"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Facebook className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+        </Link>
+        <ModeToggle />
+      </div>
     </header>
   );
 }

@@ -21,9 +21,9 @@ export default function HeroBanner() {
           Fedezd fel a Föld legcsodálatosabb országát
         </h1>
         <p className="text-white font-medium text-primary-foreground ">
-          Ha igazi kalandra vágysz, és szeretnél felfedezni egy varázslatos országot, akkor nincs
-          más dolgod, mint felkerekedni, és Kolumbiába utazni - a Föld egyik legcsodálatosabb
-          helyére!
+          Ha szeretnéd felfedezni a világ legcsodálatosabb országának valódi értékeit, nincs más
+          dolgod mint jelentkezni induló utazásaink valamelyikére, vagy egyéni útként megrendelni
+          azt. Válaszd a magyar nyelvű Kolumbia-specialistát, ha felejthetetlen élményekre vágysz.
         </p>
         <Button asChild className="items-center !mt-4">
           <Link href="/utazasaink">Utazásaink</Link>
