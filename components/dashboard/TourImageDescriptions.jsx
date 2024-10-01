@@ -111,7 +111,7 @@ const TourImageDescriptions = ({
           <div className="mt-4 space-y-4">
             {images.map((image, index) => (
               <div key={index} className="p-4">
-                <div className="relative w-full h-48 mb-2">
+                <div className="relative w-full h-64 mb-2">
                   <Image
                     src={image.src}
                     alt={`Tour image ${index + 1}`}
