@@ -24,6 +24,21 @@ const TourImageDescriptions = ({
   const [editedDescriptions, setEditedDescriptions] = useState([]);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const unicodeSafeBase64Decode = (str) => {
+    try {
+      return decodeURIComponent(
+        Array.prototype.map
+          .call(atob(str), (c) => {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+    } catch (error) {
+      console.error("Error decoding string:", error);
+      return str; // Return the original string if decoding fails
+    }
+  };
+
   useEffect(() => {
     const importImagesAndDescriptions = async () => {
       try {
@@ -35,7 +50,10 @@ const TourImageDescriptions = ({
         const descriptionsModule = await import(
           `/public/${selectedItem.id}/image-descriptions.json`
         );
-        const descriptions = descriptionsModule.default.descriptions;
+        const encodedDescriptions = descriptionsModule.default.descriptions;
+
+        // Decode the descriptions
+        const decodedDescriptions = encodedDescriptions.map(unicodeSafeBase64Decode);
 
         const context = require.context("/public", true, /\.(png|jpe?g|svg)$/);
         const allKeys = context.keys();
@@ -44,7 +62,7 @@ const TourImageDescriptions = ({
           .filter((key) => key.startsWith(`./${selectedItem.id}/`))
           .map((key, index) => ({
             src: key.replace("./", "/"),
-            description: descriptions[index] || "Nincs leírás",
+            description: decodedDescriptions[index] || "Nincs leírás",
           }));
 
         setImages(images);
