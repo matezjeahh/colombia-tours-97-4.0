@@ -120,6 +120,7 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
       }
 
       toast.success(`${field} updated successfully on GitHub`);
+      setEditingCard(null);
     } catch (error) {
       console.error(`Error updating ${field} on GitHub:`, error);
       toast.error(`Failed to update ${field} on GitHub: ${error.message}`);

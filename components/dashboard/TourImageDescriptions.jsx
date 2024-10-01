@@ -61,13 +61,41 @@ const TourImageDescriptions = ({
     setIsEditing();
   };
 
+  const replaceCharacters = (text) => {
+    const replacements = {
+      û: "ű",
+      ô: "ő",
+      ò: "ó",
+      // Add more replacements as needed
+    };
+    return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
+  };
+
+  // Custom Unicode-safe base64 encoding function
+  const unicodeSafeBase64Encode = (str) => {
+    return btoa(
+      encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
+        String.fromCharCode(parseInt(p1, 16))
+      )
+    );
+  };
+
   const handleSave = () => {
+    const replacedDescriptions = editedDescriptions.map(replaceCharacters);
+    setEditedDescriptions(replacedDescriptions);
     setIsAlertOpen(true);
   };
 
   const handleConfirm = async () => {
-    await onUpdate(editedDescriptions);
-    setIsAlertOpen(false);
+    try {
+      // Encode descriptions using the custom Unicode-safe base64 encoding function
+      const encodedDescriptions = editedDescriptions.map(unicodeSafeBase64Encode);
+      await onUpdate(encodedDescriptions);
+      setIsAlertOpen(false);
+    } catch (error) {
+      console.error("Error updating descriptions:", error);
+      // Handle the error (e.g., show an error message to the user)
+    }
   };
 
   const handleCancel = () => {

@@ -181,6 +181,21 @@ export default function PageClient({ post }) {
   const [slides, setSlides] = useState([]);
 
   useEffect(() => {
+    const unicodeSafeBase64Decode = (str) => {
+      try {
+        return decodeURIComponent(
+          Array.prototype.map
+            .call(atob(str), (c) => {
+              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+        );
+      } catch (error) {
+        console.error("Error decoding string:", error);
+        return str; // Return the original string if decoding fails
+      }
+    };
+
     const importImages = async () => {
       try {
         console.log("PageClient id:", post.id);
@@ -192,7 +207,10 @@ export default function PageClient({ post }) {
 
         // Import the JSON file
         const descriptionsModule = await import(`/public/${post.id}/image-descriptions.json`);
-        const descriptions = descriptionsModule.default.descriptions;
+        const encodedDescriptions = descriptionsModule.default.descriptions;
+
+        // Decode the descriptions
+        const descriptions = encodedDescriptions.map(unicodeSafeBase64Decode);
 
         const context = require.context("/public", true, /\.(png|jpe?g|svg)$/);
 
