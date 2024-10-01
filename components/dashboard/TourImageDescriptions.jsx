@@ -44,7 +44,7 @@ const TourImageDescriptions = ({
           .filter((key) => key.startsWith(`./${selectedItem.id}/`))
           .map((key, index) => ({
             src: key.replace("./", "/"),
-            description: descriptions[index] || "No description available",
+            description: descriptions[index] || "Nincs leírás",
           }));
 
         setImages(images);
