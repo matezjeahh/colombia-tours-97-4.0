@@ -190,6 +190,10 @@ export default function PageClient({ post }) {
           return;
         }
 
+        // Import the JSON file
+        const descriptionsModule = await import(`/public/${post.id}/image-descriptions.json`);
+        const descriptions = descriptionsModule.default.descriptions;
+
         const context = require.context("/public", true, /\.(png|jpe?g|svg)$/);
 
         const allKeys = context.keys();
@@ -198,15 +202,16 @@ export default function PageClient({ post }) {
         // Adjust the filtering to handle folder names consistently
         const images = allKeys
           .filter((key) => key.startsWith(`./${post.id}/`))
-          .map((key) => ({
-            src: key.replace("./", "/"), // Removes the './' regardless of the folder name length
+          .map((key, index) => ({
+            src: key.replace("./", "/"),
+            description: descriptions[index] || "Nincs leírás",
           }));
 
         console.log("Filtered images:", images);
 
         setSlides(images);
       } catch (error) {
-        console.error("Error importing images:", error);
+        console.error("Error importing images or descriptions:", error);
       }
     };
 

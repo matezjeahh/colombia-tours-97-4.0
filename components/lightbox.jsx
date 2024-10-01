@@ -7,6 +7,8 @@ import { Image } from "lucide-react";
 import NextJsImage from "./next-js-image";
 // Removed the import for the thumbnails plugin and its CSS
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Captions from "yet-another-react-lightbox/plugins/captions";
+import "yet-another-react-lightbox/plugins/captions.css";
 
 export default function LightBox({ className, slides }) {
   const [open, setOpen] = useState(false);
@@ -28,8 +30,12 @@ export default function LightBox({ className, slides }) {
         slides={slides}
         render={{ slide: NextJsImage }}
         // Removed thumbnail: NextJsImage since it's for the thumbnail rendering
-        plugins={[Zoom]} // Removed Thumbnails from the plugins array
+        plugins={[Zoom, Captions]} // Removed Thumbnails from the plugins array
         animation={{ swipe: 200, fade: 200 }}
+        captions={{
+          descriptionTextAlign: "center",
+          captionContainerStyle: { textAlign: "center" },
+        }}
       />
     </>
   );
