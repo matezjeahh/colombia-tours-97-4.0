@@ -9,7 +9,7 @@ const Modifying = ({ data }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <div className="container my-10 space-y-10">
+    <div className="my-10 space-y-10">
       <SelectTour data={data} setSelectedItem={setSelectedItem} disabled={isEditing} />
       {selectedItem && (
         <EditableCards

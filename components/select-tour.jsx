@@ -16,7 +16,7 @@ export default function SelectTour({ data, setSelectedItem }) {
   };
 
   return (
-    <div className="container my-10 space-y-10">
+    <div className="my-10 space-y-10">
       <Select onValueChange={handleSelectChange}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Válassz egy utat" />
