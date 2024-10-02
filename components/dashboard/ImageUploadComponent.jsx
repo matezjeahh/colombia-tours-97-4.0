@@ -42,7 +42,7 @@ const ImageUploadComponent = ({ onUpload }) => {
           fileInputRef.current.value = "";
         }
       } catch (error) {
-        console.error("Error during upload:", error);
+        console.error("Hiba a feltöltés során:", error);
         // Handle error (e.g., show error message to user)
       }
     }
@@ -51,20 +51,20 @@ const ImageUploadComponent = ({ onUpload }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Upload New Image</CardTitle>
+        <CardTitle>Új kép feltöltése</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input type="file" onChange={handleFileChange} accept="image/*" ref={fileInputRef} />
           <Input
             type="text"
-            placeholder="Enter image description"
+            placeholder="Lép leírása"
             value={description}
             onChange={handleDescriptionChange}
           />
           <Button type="submit" disabled={!file || !description}>
             <Upload className="mr-2 h-4 w-4" />
-            Upload Image
+            Kép feltöltése
           </Button>
         </form>
       </CardContent>

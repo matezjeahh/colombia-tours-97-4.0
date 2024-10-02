@@ -55,12 +55,12 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
 
         setSelectedItem(updatedItem);
 
-        toast.success(`${field} updated successfully`);
+        toast.success(`${field} sikeresen módosítva`);
         setEditingCard(null);
       }
     } catch (error) {
       console.error(`Error updating ${field}:`, error);
-      toast.error(`Failed to update ${field}`);
+      toast.error(`Sikertelen módosítás: ${field}`);
     }
   };
 
@@ -120,7 +120,7 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         throw new Error(`Failed to update file: ${errorData.message}`);
       }
 
-      toast.success(`${field} updated successfully on GitHub`);
+      toast.success(`${field} sikeresen módosítva`);
       setEditingCard(null);
     } catch (error) {
       console.error(`Error updating ${field} on GitHub:`, error);
@@ -181,7 +181,7 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         jsonData.sha
       );
 
-      toast.success(`Image ${newFileName} uploaded and description added successfully`);
+      toast.success(`Kép ${newFileName} sikeresen módosítva`);
       return true; // Indicate successful upload
     } catch (error) {
       console.error("Error uploading image and updating JSON:", error);

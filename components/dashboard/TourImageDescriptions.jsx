@@ -111,7 +111,7 @@ const TourImageDescriptions = ({
       await onUpdate(encodedDescriptions);
       setIsAlertOpen(false);
     } catch (error) {
-      console.error("Error updating descriptions:", error);
+      console.error("Hiba a leírás módosítása során:", error);
       // Handle the error (e.g., show an error message to the user)
     }
   };
@@ -132,7 +132,7 @@ const TourImageDescriptions = ({
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center">
           <Pencil size={18} className="mr-2" />
-          Tour Image Descriptions
+          Kép leírás szerkesztése
         </CardTitle>
         {!isEditing && (
           <DropdownMenu>
@@ -142,11 +142,11 @@ const TourImageDescriptions = ({
             <DropdownMenuContent>
               <DropdownMenuItem onClick={handleEdit} disabled={isAnyCardEditing && !isEditing}>
                 <Edit className="mr-2 h-4 w-4" />
-                <span>Edit</span>
+                <span>Szerkesztés</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Trash className="mr-2 h-4 w-4" />
-                <span>Delete</span>
+                <span>Mégse</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -184,7 +184,7 @@ const TourImageDescriptions = ({
           <div className="flex justify-end space-x-2 mt-4">
             <Button onClick={handleCancel} variant="outline" size="sm">
               <X className="mr-2 h-4 w-4" />
-              Cancel
+              Mégse
             </Button>
             <CustomAlertDialog
               isOpen={isAlertOpen}
@@ -193,7 +193,7 @@ const TourImageDescriptions = ({
               triggerButton={
                 <Button onClick={handleSave} size="sm">
                   <Check className="mr-2 h-4 w-4" />
-                  Save
+                  Mentés
                 </Button>
               }
             />
