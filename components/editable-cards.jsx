@@ -9,6 +9,7 @@ import DateRangeCard from "./dashboard/DateRangeCard";
 import ProgramCard from "./dashboard/ProgramCard";
 import BadgeCard from "./dashboard/BadgeCard";
 import TourImageDescriptions from "./dashboard/TourImageDescriptions";
+import ImageUploadComponent from "./dashboard/ImageUploadComponent";
 
 console.log("GITHUB_REPO:", process.env.NEXT_PUBLIC_GITHUB_REPO);
 console.log(
@@ -127,6 +128,52 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
     }
   };
 
+  const handleImageUpload = async (file, description) => {
+    if (!selectedItem) return;
+
+    const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
+    const GITHUB_IMAGE_PATH = `public/${selectedItem.id}/${file.name}`;
+    const GITHUB_JSON_PATH = `public/${selectedItem.id}/image-descriptions.json`;
+    const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
+    const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+
+    try {
+      // 1. Upload the image file
+      const imageContent = await readFileAsArrayBuffer(file);
+      const base64Image = arrayBufferToBase64(imageContent);
+
+      await uploadToGitHub(
+        `${GITHUB_API_URL}${GITHUB_IMAGE_PATH}`,
+        base64Image,
+        `Upload new image for tour ${selectedItem.id}`,
+        GITHUB_TOKEN
+      );
+
+      // 2. Update the JSON file
+      const jsonData = await fetchFromGitHub(`${GITHUB_API_URL}${GITHUB_JSON_PATH}`, GITHUB_TOKEN);
+      const currentContent = JSON.parse(atob(jsonData.content));
+
+      // Encode the new description
+      const encodedDescription = btoa(unescape(encodeURIComponent(description)));
+      currentContent.descriptions.push(encodedDescription);
+
+      const updatedContentBase64 = btoa(JSON.stringify(currentContent, null, 2));
+
+      await uploadToGitHub(
+        `${GITHUB_API_URL}${GITHUB_JSON_PATH}`,
+        updatedContentBase64,
+        `Update image descriptions for tour ${selectedItem.id}`,
+        GITHUB_TOKEN,
+        jsonData.sha
+      );
+
+      toast.success("Image uploaded and description added successfully");
+    } catch (error) {
+      console.error("Error uploading image and updating JSON:", error);
+      toast.error(`Failed to upload image and update JSON: ${error.message}`);
+    }
+  };
+
   const isAnyCardEditing = editingCard !== null;
 
   return (
@@ -179,6 +226,7 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         cancelEditing={() => setEditingCard(null)}
         isAnyCardEditing={isAnyCardEditing}
       />
+      <ImageUploadComponent onUpload={handleImageUpload} />
       <TourImageDescriptions
         selectedItem={selectedItem}
         onUpdate={(newDescriptions) => handleUpdateGitHub("descriptions", newDescriptions)}
@@ -189,6 +237,59 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
       />
     </div>
   );
+};
+
+const readFileAsArrayBuffer = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => resolve(event.target.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsArrayBuffer(file);
+  });
+};
+
+const arrayBufferToBase64 = (buffer) => {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+};
+
+const uploadToGitHub = async (url, content, message, token, sha = null) => {
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message,
+      content,
+      sha,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to upload to GitHub: ${response.statusText}`);
+  }
+
+  return response.json();
+};
+
+const fetchFromGitHub = async (url, token) => {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch from GitHub: ${response.statusText}`);
+  }
+
+  return response.json();
 };
 
 export default EditableCards;
