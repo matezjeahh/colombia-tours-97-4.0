@@ -128,24 +128,38 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
     }
   };
 
+  const generateFileName = (originalFileName) => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+
+    const extension = originalFileName.split(".").pop();
+    return `photo_${year}_${month}_${day}_${hours}_${minutes}_${seconds}.${extension}`;
+  };
+
   const handleImageUpload = async (file, description) => {
     if (!selectedItem) return;
 
     const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
-    const GITHUB_IMAGE_PATH = `public/${selectedItem.id}/${file.name}`;
+    const newFileName = generateFileName(file.name);
+    const GITHUB_IMAGE_PATH = `public/${selectedItem.id}/${newFileName}`;
     const GITHUB_JSON_PATH = `public/${selectedItem.id}/image-descriptions.json`;
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
     try {
-      // 1. Upload the image file
+      // 1. Upload the image file with the new name
       const imageContent = await readFileAsArrayBuffer(file);
       const base64Image = arrayBufferToBase64(imageContent);
 
       await uploadToGitHub(
         `${GITHUB_API_URL}${GITHUB_IMAGE_PATH}`,
         base64Image,
-        `Upload new image for tour ${selectedItem.id}`,
+        `Upload new image ${newFileName} for tour ${selectedItem.id}`,
         GITHUB_TOKEN
       );
 
@@ -167,10 +181,12 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         jsonData.sha
       );
 
-      toast.success("Image uploaded and description added successfully");
+      toast.success(`Image ${newFileName} uploaded and description added successfully`);
+      return true; // Indicate successful upload
     } catch (error) {
       console.error("Error uploading image and updating JSON:", error);
       toast.error(`Failed to upload image and update JSON: ${error.message}`);
+      throw error; // Re-throw the error to be caught in the ImageUploadComponent
     }
   };
 
