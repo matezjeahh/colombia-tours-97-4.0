@@ -17,11 +17,24 @@ const ImageUploadComponent = ({ onUpload }) => {
     setDescription(e.target.value);
   };
 
+  // Character replacement function
+  const replaceCharacters = (text) => {
+    const replacements = {
+      û: "ű",
+      ô: "ő",
+      ò: "ó",
+      // Add more replacements as needed
+    };
+    return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (file && description) {
       try {
-        await onUpload(file, description);
+        // Replace characters in the description before uploading
+        const replacedDescription = replaceCharacters(description);
+        await onUpload(file, replacedDescription);
         // Clear the input fields after successful upload
         setFile(null);
         setDescription("");
