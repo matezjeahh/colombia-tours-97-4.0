@@ -2,6 +2,7 @@ import React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import matter from "gray-matter";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
