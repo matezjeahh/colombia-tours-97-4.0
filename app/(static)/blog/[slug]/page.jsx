@@ -120,8 +120,8 @@ export default async function BlogPost({ params }) {
             className="object-cover w-full h-56"
           />
           <div className="p-4">
-            <h3 className="text-lg font-semibold">"asd"</h3>
-            <p className="text-sm text-gray-600">"asfsdagfs</p>
+            <h3 className="text-lg font-semibold">asd</h3>
+            <p className="text-sm text-gray-600">asfsdagfs</p>
             <a href="#" className="inline-block mt-2 text-blue-500 hover:underline">
               Read Full Story
             </a>
@@ -136,8 +136,8 @@ export default async function BlogPost({ params }) {
             className="object-cover w-full h-56"
           />
           <div className="p-4">
-            <h3 className="text-lg font-semibold">"asd"</h3>
-            <p className="text-sm text-gray-600">"asfsdagfs</p>
+            <h3 className="text-lg font-semibold">asd</h3>
+            <p className="text-sm text-gray-600">sfsdagfs</p>
             <a href="#" className="inline-block mt-2 text-blue-500 hover:underline">
               Read Full Story
             </a>
