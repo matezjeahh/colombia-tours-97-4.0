@@ -157,8 +157,8 @@ const MDXEditorAndUploader = () => {
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
 
-    const timestamp = new Date().toISOString().replace(/[:.-]/g, "_");
-    const filename = `${timestamp}_${file.name}`;
+    // Use the original filename
+    const filename = file.name;
     const content = await new Promise((resolve) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result.split(",")[1]);
@@ -181,8 +181,8 @@ const MDXEditorAndUploader = () => {
       throw new Error(`Failed to upload image to GitHub: ${response.statusText}`);
     }
 
-    const result = await response.json();
-    return result.content.download_url;
+    // Return just the filename instead of the full URL
+    return `/images/${filename}`;
   };
 
   const createAndUploadMDX = async () => {
@@ -191,9 +191,9 @@ const MDXEditorAndUploader = () => {
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
 
     // Upload image if present
-    let imageUrl = "";
+    let imagePath = "";
     if (image) {
-      imageUrl = await uploadImage(image);
+      imagePath = await uploadImage(image);
     }
 
     // Get content from Tiptap editor
@@ -212,7 +212,7 @@ const MDXEditorAndUploader = () => {
 title: "${title}"
 date: "${now.toISOString()}"
 description: "${description}"
-image: "${imageUrl}"
+image: ${imagePath}
 ---
 
 `;
