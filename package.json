@@ -35,7 +35,7 @@
     "gray-matter": "^4.0.3",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.408.0",
-    "next": "14.2.5",
+    "next": "^14.2.15",
     "next-firebase-auth-edge": "^1.7.0-canary.2",
     "next-mdx-remote": "^5.0.0",
     "next-sitemap": "^4.2.3",
