@@ -87,7 +87,7 @@ export default async function BlogPost({ params }) {
       <div className="grid grid-cols-3 gap-10">
         <div className="col-span-1 bg-muted rounded-lg overflow-hidden">
           <Image
-            src={"/kep.jpg"}
+            src={"/images/Wallpaper.jpg"}
             alt="asd"
             width={400}
             height={250}
