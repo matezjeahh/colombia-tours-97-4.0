@@ -1,9 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
+import React, { useState, useMemo, useCallback } from "react";
+import { createEditor, Transforms, Editor, Text } from "slate";
+import { Slate, Editable, withReact } from "slate-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,101 +20,143 @@ import {
   Quote,
 } from "lucide-react";
 
-const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
+const CustomEditor = {
+  isBoldMarkActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.bold === true,
+      universal: true,
+    });
+    return !!match;
+  },
 
-  const addLink = () => {
-    const url = window.prompt("URL");
-    if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-  };
+  isItalicMarkActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.italic === true,
+      universal: true,
+    });
+    return !!match;
+  },
 
+  isUnderlineMarkActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.underline === true,
+      universal: true,
+    });
+    return !!match;
+  },
+
+  isCodeBlockActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.type === "code",
+    });
+    return !!match;
+  },
+
+  toggleBoldMark(editor) {
+    const isActive = CustomEditor.isBoldMarkActive(editor);
+    Transforms.setNodes(
+      editor,
+      { bold: isActive ? null : true },
+      { match: (n) => Text.isText(n), split: true }
+    );
+  },
+
+  toggleItalicMark(editor) {
+    const isActive = CustomEditor.isItalicMarkActive(editor);
+    Transforms.setNodes(
+      editor,
+      { italic: isActive ? null : true },
+      { match: (n) => Text.isText(n), split: true }
+    );
+  },
+
+  toggleUnderlineMark(editor) {
+    const isActive = CustomEditor.isUnderlineMarkActive(editor);
+    Transforms.setNodes(
+      editor,
+      { underline: isActive ? null : true },
+      { match: (n) => Text.isText(n), split: true }
+    );
+  },
+
+  toggleCodeBlock(editor) {
+    const isActive = CustomEditor.isCodeBlockActive(editor);
+    Transforms.setNodes(
+      editor,
+      { type: isActive ? null : "code" },
+      { match: (n) => Editor.isBlock(editor, n) }
+    );
+  },
+
+  toggleHeading(editor, level) {
+    Transforms.setNodes(
+      editor,
+      { type: `heading-${level}` },
+      { match: (n) => Editor.isBlock(editor, n) }
+    );
+  },
+};
+
+const Toolbar = ({ editor }) => {
   return (
     <div className="flex flex-wrap gap-1 mb-4 p-2 bg-gray-100 rounded-md">
       <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive("bold") ? "bg-gray-200" : ""}`}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          CustomEditor.toggleBoldMark(editor);
+        }}
+        className={`p-2 rounded hover:bg-gray-200 ${
+          CustomEditor.isBoldMarkActive(editor) ? "bg-gray-200" : ""
+        }`}
       >
         <Bold size={16} />
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          CustomEditor.toggleItalicMark(editor);
+        }}
         className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("italic") ? "bg-gray-200" : ""
+          CustomEditor.isItalicMarkActive(editor) ? "bg-gray-200" : ""
         }`}
       >
         <Italic size={16} />
       </button>
       <button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          CustomEditor.toggleUnderlineMark(editor);
+        }}
         className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("underline") ? "bg-gray-200" : ""
+          CustomEditor.isUnderlineMarkActive(editor) ? "bg-gray-200" : ""
         }`}
       >
         <UnderlineIcon size={16} />
       </button>
+      {[1, 2, 3].map((level) => (
+        <button
+          key={level}
+          onMouseDown={(event) => {
+            event.preventDefault();
+            CustomEditor.toggleHeading(editor, level);
+          }}
+          className="p-2 rounded hover:bg-gray-200"
+        >
+          {level === 1 && <Heading1 size={16} />}
+          {level === 2 && <Heading2 size={16} />}
+          {level === 3 && <Heading3 size={16} />}
+        </button>
+      ))}
       <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          CustomEditor.toggleCodeBlock(editor);
+        }}
         className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("heading", { level: 1 }) ? "bg-gray-200" : ""
+          CustomEditor.isCodeBlockActive(editor) ? "bg-gray-200" : ""
         }`}
-      >
-        <Heading1 size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("heading", { level: 2 }) ? "bg-gray-200" : ""
-        }`}
-      >
-        <Heading2 size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("heading", { level: 3 }) ? "bg-gray-200" : ""
-        }`}
-      >
-        <Heading3 size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("bulletList") ? "bg-gray-200" : ""
-        }`}
-      >
-        <List size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("orderedList") ? "bg-gray-200" : ""
-        }`}
-      >
-        <ListOrdered size={16} />
-      </button>
-      <button
-        onClick={addLink}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive("link") ? "bg-gray-200" : ""}`}
-      >
-        <LinkIcon size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${editor.isActive("code") ? "bg-gray-200" : ""}`}
       >
         <Code size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          editor.isActive("blockquote") ? "bg-gray-200" : ""
-        }`}
-      >
-        <Quote size={16} />
       </button>
     </div>
   );
@@ -126,30 +166,74 @@ const MDXEditorAndUploader = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const editor = useMemo(() => withReact(createEditor()), []);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link.configure({
-        openOnClick: false,
-      }),
-    ],
-    content: "",
-    editorProps: {
-      attributes: {
-        class: "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none",
-      },
-    },
-  });
+  const renderElement = useCallback((props) => {
+    switch (props.element.type) {
+      case "code":
+        return (
+          <pre {...props.attributes}>
+            <code>{props.children}</code>
+          </pre>
+        );
+      case "heading-1":
+        return <h1 {...props.attributes}>{props.children}</h1>;
+      case "heading-2":
+        return <h2 {...props.attributes}>{props.children}</h2>;
+      case "heading-3":
+        return <h3 {...props.attributes}>{props.children}</h3>;
+      default:
+        return <p {...props.attributes}>{props.children}</p>;
+    }
+  }, []);
 
-  const replaceCharacters = (text) => {
-    const replacements = {
-      û: "ű",
-      ô: "ő",
-      ò: "ó",
-    };
-    return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
+  const renderLeaf = useCallback((props) => {
+    let { attributes, children, leaf } = props;
+    if (leaf.bold) {
+      children = <strong>{children}</strong>;
+    }
+    if (leaf.italic) {
+      children = <em>{children}</em>;
+    }
+    if (leaf.underline) {
+      children = <u>{children}</u>;
+    }
+    return <span {...attributes}>{children}</span>;
+  }, []);
+
+  const serializeToMDX = (nodes) => {
+    return nodes
+      .map((n) => {
+        if (Text.isText(n)) {
+          let string = n.text;
+          if (n.bold) {
+            string = `**${string}**`;
+          }
+          if (n.italic) {
+            string = `*${string}*`;
+          }
+          if (n.underline) {
+            string = `<u>${string}</u>`;
+          }
+          return string;
+        }
+
+        const children = n.children.map((n) => serializeToMDX([n])).join("");
+
+        switch (n.type) {
+          case "heading-1":
+            return `# ${children}\n\n`;
+          case "heading-2":
+            return `## ${children}\n\n`;
+          case "heading-3":
+            return `### ${children}\n\n`;
+          case "code":
+            return `\`\`\`\n${children}\n\`\`\`\n\n`;
+          default:
+            return `${children}\n\n`;
+        }
+      })
+      .join("");
   };
 
   const uploadImage = async (file) => {
@@ -190,24 +274,17 @@ const MDXEditorAndUploader = () => {
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
 
-    // Upload image if present
     let imagePath = "";
     if (image) {
       imagePath = await uploadImage(image);
     }
 
-    // Get content from Tiptap editor
-    let markdown = editor.getHTML();
+    const mdxContent = serializeToMDX(editor.children);
 
-    // Apply character replacements
-    markdown = replaceCharacters(markdown);
-
-    // Generate a unique filename
     const now = new Date();
     const timestamp = now.toISOString().split("T")[0].replace(/-/g, "_");
     const filename = `${timestamp}_${title.toLowerCase().replace(/\s+/g, "_")}.mdx`;
 
-    // Create front matter
     const frontMatter = `---
 title: "${title}"
 date: "${now.toISOString()}"
@@ -217,14 +294,10 @@ image: ${imagePath}
 
 `;
 
-    // Combine front matter and content
-    const fullContent = frontMatter + markdown;
-
-    // Prepare the file content
+    const fullContent = frontMatter + mdxContent;
     const content = btoa(unescape(encodeURIComponent(fullContent)));
 
     try {
-      // Upload the MDX file to GitHub
       const response = await fetch(`${GITHUB_API_URL}public/${filename}`, {
         method: "PUT",
         headers: {
@@ -282,8 +355,14 @@ image: ${imagePath}
         className="mb-4"
       />
       <Input type="file" onChange={handleImageChange} accept="image/*" className="mb-4" />
-      <MenuBar editor={editor} />
-      <EditorContent editor={editor} className="border p-4 rounded-md min-h-[300px] mb-4" />
+      <Slate editor={editor} initialValue={[{ type: "paragraph", children: [{ text: "" }] }]}>
+        <Toolbar editor={editor} />
+        <Editable
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          className="border p-4 rounded-md min-h-[300px] mb-4"
+        />
+      </Slate>
       <Button onClick={handleMDXCreationAndUpload} className="w-full">
         Create and Upload MDX
       </Button>
