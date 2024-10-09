@@ -71,12 +71,10 @@ export default async function BlogPost({ params }) {
 
       {frontMatter.image && (
         <div className="relative w-full h-64 md:h-96 mb-8">
-          <Image
+          <img
             src={frontMatter.image}
             alt={frontMatter.title}
-            fill
-            style={{ objectFit: "cover" }}
-            sizes="100vw"
+            className="object-cover w-full h-full"
           />
         </div>
       )}
