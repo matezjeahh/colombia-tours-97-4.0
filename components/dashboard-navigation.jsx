@@ -24,7 +24,10 @@ export default function DashboardNavbar() {
     router.push("/login");
   }
 
-  const navigation = [{ name: "Utazások módosítása", path: "/dashboard/utazasok-modositasa" }];
+  const navigation = [
+    { name: "Utazások módosítása", path: "/dashboard/utazasok-modositasa" },
+    { name: "Blog", path: "/dashboard/blog" },
+  ];
 
   useEffect(() => {
     setIsSheetOpen(false);
