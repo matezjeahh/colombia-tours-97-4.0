@@ -1,6 +1,9 @@
 import React from "react";
-import BlogPostCard from "@/components/BlogPostCard";
+import dynamic from "next/dynamic";
 import matter from "gray-matter";
+
+// Dynamically import BlogPostCard with no SSR
+const BlogPostCard = dynamic(() => import("@/components/BlogPostCard"), { ssr: false });
 
 async function getPosts() {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
