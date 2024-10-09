@@ -8,7 +8,7 @@ const BlogPostCard = dynamic(() => import("@/components/BlogPostCard"), { ssr: f
 async function getPosts() {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/static/blog/posts`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/app/(static)/blog/posts`;
 
   const response = await fetch(GITHUB_API_URL, {
     headers: {

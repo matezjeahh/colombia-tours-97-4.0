@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/static/blog/posts/${slug}.mdx`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/app/(static)/blog/posts/${slug}.mdx`;
 
   const response = await fetch(GITHUB_API_URL, {
     headers: {
@@ -29,7 +29,7 @@ async function getPost(slug) {
 export async function generateStaticParams() {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/static/blog/posts`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/app/(static)/blog/posts`;
 
   const response = await fetch(GITHUB_API_URL, {
     headers: {
