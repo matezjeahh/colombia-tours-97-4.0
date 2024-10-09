@@ -1,7 +1,6 @@
 import React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import matter from "gray-matter";
-import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
@@ -10,7 +9,7 @@ import { Button } from "@/components/ui/button";
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/${slug}.mdx`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/static/blog/posts/${slug}.mdx`;
 
   const response = await fetch(GITHUB_API_URL, {
     headers: {
@@ -30,7 +29,7 @@ async function getPost(slug) {
 export async function generateStaticParams() {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/public`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/static/blog/posts`;
 
   const response = await fetch(GITHUB_API_URL, {
     headers: {
@@ -84,13 +83,8 @@ export default async function BlogPost({ params }) {
       <h3>További cikkek</h3>
       <div className="grid grid-cols-3 gap-10">
         <div className="col-span-1 bg-muted rounded-lg overflow-hidden">
-          <Image
-            src={"/images/Wallpaper.jpg"}
-            alt="asd"
-            width={400}
-            height={250}
-            className="object-cover w-full h-56"
-          />
+          <img src={"/images/Wallpaper.jpg"} alt="kolumbia" className="object-cover w-full h-56" />
+
           <div className="p-4 space-y-4">
             <h3 className="text-lg line-clamp-2 font-semibold">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt molestias ducimus
@@ -107,38 +101,6 @@ export default async function BlogPost({ params }) {
                 Olvass tovább...
               </Button>
             </Link>
-          </div>
-        </div>
-        <div className="col-span-1 bg-muted rounded-lg overflow-hidden">
-          <Image
-            src={"/kep.jpg"}
-            alt="asd"
-            width={400}
-            height={250}
-            className="object-cover w-full h-56"
-          />
-          <div className="p-4">
-            <h3 className="text-lg font-semibold">asd</h3>
-            <p className="text-sm text-gray-600">asfsdagfs</p>
-            <a href="#" className="inline-block mt-2 text-blue-500 hover:underline">
-              Read Full Story
-            </a>
-          </div>
-        </div>
-        <div className="col-span-1 bg-muted rounded-lg overflow-hidden">
-          <Image
-            src={"/kep.jpg"}
-            alt="asd"
-            width={400}
-            height={250}
-            className="object-cover w-full h-56"
-          />
-          <div className="p-4">
-            <h3 className="text-lg font-semibold">asd</h3>
-            <p className="text-sm text-gray-600">sfsdagfs</p>
-            <a href="#" className="inline-block mt-2 text-blue-500 hover:underline">
-              Read Full Story
-            </a>
           </div>
         </div>
       </div>
