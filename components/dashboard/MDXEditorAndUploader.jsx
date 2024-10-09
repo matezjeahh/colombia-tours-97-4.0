@@ -1,13 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import { EditorState, convertToRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
 import draftToMarkdown from "draftjs-to-markdown";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+const Editor = dynamic(() => import("react-draft-wysiwyg").then((mod) => mod.Editor), {
+  ssr: false, // Disable server-side rendering
+});
 
 const MDXEditorAndUploader = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
