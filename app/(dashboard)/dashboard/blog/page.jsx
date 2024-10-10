@@ -1,10 +1,9 @@
-import MDXEditorAndUploader from "@/components/dashboard/MDXEditorAndUploader";
 import React from "react";
-
+import RichTextMDXEditorUploader from "@/components/dashboard/MDXEditorAndUploader";
 export default function page() {
   return (
     <div>
-      <MDXEditorAndUploader />
+      <RichTextMDXEditorUploader />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useMemo, useCallback } from "react";
-import { createEditor, Transforms, Editor, Text } from "slate";
-import { Slate, Editable, withReact } from "slate-react";
+import { createEditor, Transforms, Editor, Text, Element as SlateElement } from "slate";
+import { Slate, Editable, withReact, useSlate } from "slate-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,186 +9,163 @@ import { Button } from "@/components/ui/button";
 import {
   Bold,
   Italic,
-  Underline as UnderlineIcon,
+  Underline,
+  Code,
+  List,
+  ListOrdered,
+  Quote,
   Heading1,
   Heading2,
   Heading3,
-  List,
-  ListOrdered,
-  Link as LinkIcon,
-  Code,
-  Quote,
 } from "lucide-react";
 
 const CustomEditor = {
-  isBoldMarkActive(editor) {
+  toggleMark(editor, format) {
+    const isActive = this.isMarkActive(editor, format);
+    if (isActive) {
+      Editor.removeMark(editor, format);
+    } else {
+      Editor.addMark(editor, format, true);
+    }
+  },
+
+  toggleBlock(editor, format) {
+    const isActive = this.isBlockActive(editor, format);
+    const isList = ["numbered-list", "bulleted-list"].includes(format);
+
+    Transforms.unwrapNodes(editor, {
+      match: (n) =>
+        !Editor.isEditor(n) &&
+        SlateElement.isElement(n) &&
+        ["numbered-list", "bulleted-list"].includes(n.type),
+      split: true,
+    });
+
+    const newProperties = {
+      type: isActive ? "paragraph" : isList ? "list-item" : format,
+    };
+    Transforms.setNodes(editor, newProperties);
+
+    if (!isActive && isList) {
+      const block = { type: format, children: [] };
+      Transforms.wrapNodes(editor, block);
+    }
+  },
+
+  isMarkActive(editor, format) {
+    const marks = Editor.marks(editor);
+    return marks ? marks[format] === true : false;
+  },
+
+  isBlockActive(editor, format) {
     const [match] = Editor.nodes(editor, {
-      match: (n) => n.bold === true,
-      universal: true,
+      match: (n) => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format,
     });
     return !!match;
-  },
-
-  isItalicMarkActive(editor) {
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.italic === true,
-      universal: true,
-    });
-    return !!match;
-  },
-
-  isUnderlineMarkActive(editor) {
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.underline === true,
-      universal: true,
-    });
-    return !!match;
-  },
-
-  isCodeBlockActive(editor) {
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.type === "code",
-    });
-    return !!match;
-  },
-
-  toggleBoldMark(editor) {
-    const isActive = CustomEditor.isBoldMarkActive(editor);
-    Transforms.setNodes(
-      editor,
-      { bold: isActive ? null : true },
-      { match: (n) => Text.isText(n), split: true }
-    );
-  },
-
-  toggleItalicMark(editor) {
-    const isActive = CustomEditor.isItalicMarkActive(editor);
-    Transforms.setNodes(
-      editor,
-      { italic: isActive ? null : true },
-      { match: (n) => Text.isText(n), split: true }
-    );
-  },
-
-  toggleUnderlineMark(editor) {
-    const isActive = CustomEditor.isUnderlineMarkActive(editor);
-    Transforms.setNodes(
-      editor,
-      { underline: isActive ? null : true },
-      { match: (n) => Text.isText(n), split: true }
-    );
-  },
-
-  toggleCodeBlock(editor) {
-    const isActive = CustomEditor.isCodeBlockActive(editor);
-    Transforms.setNodes(
-      editor,
-      { type: isActive ? null : "code" },
-      { match: (n) => Editor.isBlock(editor, n) }
-    );
-  },
-
-  toggleHeading(editor, level) {
-    Transforms.setNodes(
-      editor,
-      { type: `heading-${level}` },
-      { match: (n) => Editor.isBlock(editor, n) }
-    );
   },
 };
 
-const Toolbar = ({ editor }) => {
+const ToolbarButton = ({ format, icon, isBlock = false }) => {
+  const editor = useSlate();
+  const isActive = isBlock
+    ? CustomEditor.isBlockActive(editor, format)
+    : CustomEditor.isMarkActive(editor, format);
+
   return (
-    <div className="flex flex-wrap gap-1 mb-4 p-2 bg-gray-100 rounded-md">
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          CustomEditor.toggleBoldMark(editor);
-        }}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          CustomEditor.isBoldMarkActive(editor) ? "bg-gray-200" : ""
-        }`}
-      >
-        <Bold size={16} />
-      </button>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          CustomEditor.toggleItalicMark(editor);
-        }}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          CustomEditor.isItalicMarkActive(editor) ? "bg-gray-200" : ""
-        }`}
-      >
-        <Italic size={16} />
-      </button>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          CustomEditor.toggleUnderlineMark(editor);
-        }}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          CustomEditor.isUnderlineMarkActive(editor) ? "bg-gray-200" : ""
-        }`}
-      >
-        <UnderlineIcon size={16} />
-      </button>
-      {[1, 2, 3].map((level) => (
-        <button
-          key={level}
-          onMouseDown={(event) => {
-            event.preventDefault();
-            CustomEditor.toggleHeading(editor, level);
-          }}
-          className="p-2 rounded hover:bg-gray-200"
-        >
-          {level === 1 && <Heading1 size={16} />}
-          {level === 2 && <Heading2 size={16} />}
-          {level === 3 && <Heading3 size={16} />}
-        </button>
-      ))}
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          CustomEditor.toggleCodeBlock(editor);
-        }}
-        className={`p-2 rounded hover:bg-gray-200 ${
-          CustomEditor.isCodeBlockActive(editor) ? "bg-gray-200" : ""
-        }`}
-      >
-        <Code size={16} />
-      </button>
-    </div>
+    <Button
+      type="button"
+      variant={isActive ? "default" : "secondary"}
+      onMouseDown={(event) => {
+        event.preventDefault();
+        isBlock
+          ? CustomEditor.toggleBlock(editor, format)
+          : CustomEditor.toggleMark(editor, format);
+      }}
+      className="mr-2"
+    >
+      {icon}
+    </Button>
   );
 };
 
-const MDXEditorAndUploader = () => {
+const Toolbar = () => (
+  <div className="flex flex-wrap gap-1 mb-4 p-2 bg-gray-100 rounded-md">
+    <ToolbarButton format="bold" icon={<Bold size={18} />} />
+    <ToolbarButton format="italic" icon={<Italic size={18} />} />
+    <ToolbarButton format="underline" icon={<Underline size={18} />} />
+    <ToolbarButton format="code" icon={<Code size={18} />} />
+    <ToolbarButton format="heading-one" icon={<Heading1 size={18} />} isBlock />
+    <ToolbarButton format="heading-two" icon={<Heading2 size={18} />} isBlock />
+    <ToolbarButton format="heading-three" icon={<Heading3 size={18} />} isBlock />
+    <ToolbarButton format="block-quote" icon={<Quote size={18} />} isBlock />
+    <ToolbarButton format="numbered-list" icon={<ListOrdered size={18} />} isBlock />
+    <ToolbarButton format="bulleted-list" icon={<List size={18} />} isBlock />
+  </div>
+);
+
+const RichTextMDXEditorUploader = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const editor = useMemo(() => withReact(createEditor()), []);
 
   const renderElement = useCallback((props) => {
-    switch (props.element.type) {
+    const { attributes, children, element } = props;
+    switch (element.type) {
+      case "heading-one":
+        return (
+          <h1 {...attributes} className="text-3xl font-bold my-4">
+            {children}
+          </h1>
+        );
+      case "heading-two":
+        return (
+          <h2 {...attributes} className="text-2xl font-bold my-3">
+            {children}
+          </h2>
+        );
+      case "heading-three":
+        return (
+          <h3 {...attributes} className="text-xl font-bold my-2">
+            {children}
+          </h3>
+        );
+      case "block-quote":
+        return (
+          <blockquote {...attributes} className="border-l-4 pl-4 italic my-4">
+            {children}
+          </blockquote>
+        );
+      case "numbered-list":
+        return (
+          <ol {...attributes} className="list-decimal pl-5 my-4">
+            {children}
+          </ol>
+        );
+      case "bulleted-list":
+        return (
+          <ul {...attributes} className="list-disc pl-5 my-4">
+            {children}
+          </ul>
+        );
+      case "list-item":
+        return <li {...attributes}>{children}</li>;
       case "code":
         return (
-          <pre {...props.attributes}>
-            <code>{props.children}</code>
+          <pre {...attributes} className="bg-gray-100 p-2 rounded my-4">
+            <code>{children}</code>
           </pre>
         );
-      case "heading-1":
-        return <h1 {...props.attributes}>{props.children}</h1>;
-      case "heading-2":
-        return <h2 {...props.attributes}>{props.children}</h2>;
-      case "heading-3":
-        return <h3 {...props.attributes}>{props.children}</h3>;
       default:
-        return <p {...props.attributes}>{props.children}</p>;
+        return (
+          <p {...attributes} className="my-2">
+            {children}
+          </p>
+        );
     }
   }, []);
 
-  const renderLeaf = useCallback((props) => {
-    let { attributes, children, leaf } = props;
+  const renderLeaf = useCallback(({ attributes, children, leaf }) => {
     if (leaf.bold) {
       children = <strong>{children}</strong>;
     }
@@ -198,8 +175,32 @@ const MDXEditorAndUploader = () => {
     if (leaf.underline) {
       children = <u>{children}</u>;
     }
+    if (leaf.code) {
+      children = <code className="bg-gray-100 px-1 rounded">{children}</code>;
+    }
     return <span {...attributes}>{children}</span>;
   }, []);
+
+  const createSlug = (text) => {
+    return text
+      .toLowerCase()
+      .replace(/á/g, "a")
+      .replace(/é/g, "e")
+      .replace(/í/g, "i")
+      .replace(/ó/g, "o")
+      .replace(/ö/g, "o")
+      .replace(/ő/g, "o")
+      .replace(/ú/g, "u")
+      .replace(/ü/g, "u")
+      .replace(/ű/g, "u")
+      .replace(/ñ/g, "n")
+      .replace(/ç/g, "c")
+      .replace(/ß/g, "ss")
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/--+/g, "-")
+      .trim();
+  };
 
   const serializeToMDX = (nodes) => {
     return nodes
@@ -215,18 +216,29 @@ const MDXEditorAndUploader = () => {
           if (n.underline) {
             string = `<u>${string}</u>`;
           }
+          if (n.code) {
+            string = `\`${string}\``;
+          }
           return string;
         }
 
         const children = n.children.map((n) => serializeToMDX([n])).join("");
 
         switch (n.type) {
-          case "heading-1":
+          case "heading-one":
             return `# ${children}\n\n`;
-          case "heading-2":
+          case "heading-two":
             return `## ${children}\n\n`;
-          case "heading-3":
+          case "heading-three":
             return `### ${children}\n\n`;
+          case "block-quote":
+            return `> ${children}\n\n`;
+          case "numbered-list":
+            return children; // The list items will handle the numbering
+          case "bulleted-list":
+            return children; // The list items will handle the bullets
+          case "list-item":
+            return `- ${children}\n`;
           case "code":
             return `\`\`\`\n${children}\n\`\`\`\n\n`;
           default:
@@ -241,8 +253,13 @@ const MDXEditorAndUploader = () => {
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
 
-    // Use the original filename
-    const filename = file.name;
+    const datePrefix = new Date().toISOString().split("T")[0];
+    const originalFilename = file.name;
+    const fileExtension = originalFilename.split(".").pop();
+    const filename = `${datePrefix}-${createSlug(
+      originalFilename.replace(`.${fileExtension}`, "")
+    )}.${fileExtension}`;
+
     const content = await new Promise((resolve) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result.split(",")[1]);
@@ -265,7 +282,6 @@ const MDXEditorAndUploader = () => {
       throw new Error(`Failed to upload image to GitHub: ${response.statusText}`);
     }
 
-    // Return just the filename instead of the full URL
     return `/images/${filename}`;
   };
 
@@ -282,14 +298,14 @@ const MDXEditorAndUploader = () => {
     const mdxContent = serializeToMDX(editor.children);
 
     const now = new Date();
-    const timestamp = now.toISOString().split("T")[0].replace(/-/g, "_");
-    const filename = `${timestamp}_${title.toLowerCase().replace(/\s+/g, "_")}.mdx`;
+    const slug = createSlug(title);
+    const filename = `${slug}.mdx`;
 
     const frontMatter = `---
 title: "${title}"
 date: "${now.toISOString()}"
 description: "${description}"
-image: ${imagePath}
+image: "${imagePath}"
 ---
 
 `;
@@ -298,7 +314,7 @@ image: ${imagePath}
     const content = btoa(unescape(encodeURIComponent(fullContent)));
 
     try {
-      const response = await fetch(`${GITHUB_API_URL}public/${filename}`, {
+      const response = await fetch(`${GITHUB_API_URL}app/(static)/blog/posts/${filename}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -345,29 +361,30 @@ image: ${imagePath}
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Enter blog post title"
+        placeholder="Blog címe"
         className="mb-4"
       />
       <Textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Enter blog post description"
+        placeholder="Blog leírása (1-2 mondat)..."
         className="mb-4"
       />
       <Input type="file" onChange={handleImageChange} accept="image/*" className="mb-4" />
       <Slate editor={editor} initialValue={[{ type: "paragraph", children: [{ text: "" }] }]}>
-        <Toolbar editor={editor} />
+        <Toolbar />
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}
+          placeholder="Blog helye..."
           className="border p-4 rounded-md min-h-[300px] mb-4"
         />
       </Slate>
       <Button onClick={handleMDXCreationAndUpload} className="w-full">
-        Create and Upload MDX
+        Mentés
       </Button>
     </div>
   );
 };
 
-export default MDXEditorAndUploader;
+export default RichTextMDXEditorUploader;
