@@ -18,6 +18,7 @@ import {
   Heading2,
   Heading3,
 } from "lucide-react";
+import CustomAlertDialog from "@/components/custom-alert-dialog";
 
 const CustomEditor = {
   toggleMark(editor, format) {
@@ -108,6 +109,10 @@ const RichTextMDXEditorUploader = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const editor = useMemo(() => withReact(createEditor()), []);
+  const [editorContent, setEditorContent] = useState([
+    { type: "paragraph", children: [{ text: "" }] },
+  ]);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const renderElement = useCallback((props) => {
     const { attributes, children, element } = props;
@@ -344,8 +349,30 @@ image: "${imagePath}"
   const handleMDXCreationAndUpload = async () => {
     try {
       await createAndUploadMDX();
+      // Reset all inputs and editor content after successful upload
+      setTitle("");
+      setDescription("");
+      setImage(null);
+      // Clear the Slate editor content
+      Transforms.delete(editor, {
+        at: {
+          anchor: Editor.start(editor, []),
+          focus: Editor.end(editor, []),
+        },
+      });
+      // Set the initial content for the editor
+      Transforms.insertNodes(editor, [{ type: "paragraph", children: [{ text: "" }] }]);
+      // Update the editorContent state
+      setEditorContent([{ type: "paragraph", children: [{ text: "" }] }]);
+      // Reset the file input
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) {
+        fileInput.value = "";
+      }
+      toast.success("MDX file created and uploaded successfully");
     } catch (error) {
       console.error("Error creating and uploading MDX file:", error);
+      toast.error(`Failed to create and upload MDX file: ${error.message}`);
     }
   };
 
@@ -361,28 +388,40 @@ image: "${imagePath}"
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Blog címe"
+        placeholder="Enter blog post title"
         className="mb-4"
       />
       <Textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Blog leírása (1-2 mondat)..."
+        placeholder="Enter blog post description"
         className="mb-4"
       />
       <Input type="file" onChange={handleImageChange} accept="image/*" className="mb-4" />
-      <Slate editor={editor} initialValue={[{ type: "paragraph", children: [{ text: "" }] }]}>
+      <Slate
+        editor={editor}
+        value={editorContent}
+        onChange={setEditorContent}
+        initialValue={[{ type: "paragraph", children: [{ text: "" }] }]}
+      >
         <Toolbar />
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}
-          placeholder="Blog helye..."
+          placeholder="Enter your blog post content here..."
           className="border p-4 rounded-md min-h-[300px] mb-4"
         />
       </Slate>
-      <Button onClick={handleMDXCreationAndUpload} className="w-full">
-        Mentés
-      </Button>
+      <CustomAlertDialog
+        isOpen={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onConfirm={handleMDXCreationAndUpload}
+        triggerButton={
+          <Button onClick={() => setIsAlertOpen(true)} className="w-full">
+            Mentés
+          </Button>
+        }
+      />
     </div>
   );
 };
