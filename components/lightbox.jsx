@@ -10,18 +10,18 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import "yet-another-react-lightbox/plugins/captions.css";
 
-export default function LightBox({ className, slides }) {
+export default function LightBox({ className, slides, variant, text }) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <Button
-        variant="default"
+        variant={variant}
         onClick={() => setOpen(true)}
         className={`items-center ${className}`}
       >
         <Image size={18} className="mr-1" />
-        Galéria
+        {text}
       </Button>
 
       <Lightbox

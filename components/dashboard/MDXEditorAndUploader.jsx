@@ -17,6 +17,8 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Plus,
+  X,
 } from "lucide-react";
 import CustomAlertDialog from "@/components/custom-alert-dialog";
 
@@ -113,6 +115,9 @@ const RichTextMDXEditorUploader = () => {
     { type: "paragraph", children: [{ text: "" }] },
   ]);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState([
+    { id: Date.now(), file: null, description: "" },
+  ]);
 
   const renderElement = useCallback((props) => {
     const { attributes, children, element } = props;
@@ -193,10 +198,13 @@ const RichTextMDXEditorUploader = () => {
       .replace(/é/g, "e")
       .replace(/í/g, "i")
       .replace(/ó/g, "o")
+      .replace(/ô/g, "o")
+      .replace(/ò/g, "o")
       .replace(/ö/g, "o")
       .replace(/ő/g, "o")
       .replace(/ú/g, "u")
       .replace(/ü/g, "u")
+      .replace(/û/g, "u")
       .replace(/ű/g, "u")
       .replace(/ñ/g, "n")
       .replace(/ç/g, "c")
@@ -207,11 +215,21 @@ const RichTextMDXEditorUploader = () => {
       .trim();
   };
 
+  const replaceCharacters = (text) => {
+    const replacements = {
+      û: "ű",
+      ô: "ő",
+      ò: "ó",
+      // Add more replacements as needed
+    };
+    return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
+  };
+
   const serializeToMDX = (nodes) => {
     return nodes
       .map((n) => {
         if (Text.isText(n)) {
-          let string = n.text;
+          let string = replaceCharacters(n.text);
           if (n.bold) {
             string = `**${string}**`;
           }
@@ -243,7 +261,7 @@ const RichTextMDXEditorUploader = () => {
           case "bulleted-list":
             return children; // The list items will handle the bullets
           case "list-item":
-            return `- ${children}\n`;
+            return `- ${replaceCharacters(children)}\n`;
           case "code":
             return `\`\`\`\n${children}\n\`\`\`\n\n`;
           default:
@@ -253,7 +271,7 @@ const RichTextMDXEditorUploader = () => {
       .join("");
   };
 
-  const uploadImage = async (file) => {
+  const uploadImage = async (file, folder = "") => {
     const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
@@ -271,14 +289,16 @@ const RichTextMDXEditorUploader = () => {
       reader.readAsDataURL(file);
     });
 
-    const response = await fetch(`${GITHUB_API_URL}public/images/${filename}`, {
+    const path = folder ? `${folder}/${filename}` : `public/images/${filename}`;
+
+    const response = await fetch(`${GITHUB_API_URL}${path}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: `Upload image for blog post: ${title}`,
+        message: `Upload image: ${filename}`,
         content: content,
       }),
     });
@@ -287,7 +307,7 @@ const RichTextMDXEditorUploader = () => {
       throw new Error(`Failed to upload image to GitHub: ${response.statusText}`);
     }
 
-    return `/images/${filename}`;
+    return path.replace("public/", "/");
   };
 
   const createAndUploadMDX = async () => {
@@ -295,22 +315,57 @@ const RichTextMDXEditorUploader = () => {
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
 
-    let imagePath = "";
+    let mainImagePath = "";
     if (image) {
-      imagePath = await uploadImage(image);
+      mainImagePath = await uploadImage(image);
     }
 
-    const mdxContent = serializeToMDX(editor.children);
+    // Upload lightbox images
+    const lightboxImageInfo = await Promise.all(
+      lightboxImages.map(async (img) => {
+        if (img.file) {
+          const path = await uploadImage(img.file, "blog/lightbox-images");
+          return {
+            path: path,
+            description: img.description,
+          };
+        }
+        return null;
+      })
+    );
+
+    // Filter out any null values (images that failed to upload)
+    const validLightboxImages = lightboxImageInfo.filter((img) => img !== null);
+
+    // Apply replaceCharacters to title and description
+    const replacedTitle = replaceCharacters(title);
+    const replacedDescription = replaceCharacters(description);
+
+    // Apply replaceCharacters to editor content
+    const replacedEditorContent = editor.children.map((node) => {
+      if (Text.isText(node)) {
+        return { ...node, text: replaceCharacters(node.text) };
+      }
+      return {
+        ...node,
+        children: node.children.map((child) =>
+          Text.isText(child) ? { ...child, text: replaceCharacters(child.text) } : child
+        ),
+      };
+    });
+
+    const mdxContent = serializeToMDX(replacedEditorContent);
 
     const now = new Date();
-    const slug = createSlug(title);
+    const slug = createSlug(replacedTitle);
     const filename = `${slug}.mdx`;
 
     const frontMatter = `---
-title: "${title}"
+title: "${replacedTitle}"
 date: "${now.toISOString()}"
-description: "${description}"
-image: "${imagePath}"
+description: "${replacedDescription}"
+image: "${mainImagePath}"
+lightboxImages: ${JSON.stringify(validLightboxImages)}
 ---
 
 `;
@@ -326,7 +381,7 @@ image: "${imagePath}"
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: `Create MDX file: ${title}`,
+          message: `Create MDX file: ${replacedTitle}`,
           content: content,
         }),
       });
@@ -376,10 +431,33 @@ image: "${imagePath}"
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleMainImageChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     }
+  };
+
+  const handleLightboxImageChange = (id, e) => {
+    const newImages = lightboxImages.map((img) =>
+      img.id === id ? { ...img, file: e.target.files[0] } : img
+    );
+    setLightboxImages(newImages);
+  };
+
+  const handleLightboxDescriptionChange = (id, e) => {
+    const newImages = lightboxImages.map((img) =>
+      img.id === id ? { ...img, description: e.target.value } : img
+    );
+    setLightboxImages(newImages);
+  };
+
+  const addLightboxImageInput = () => {
+    setLightboxImages([...lightboxImages, { id: Date.now(), file: null, description: "" }]);
+  };
+
+  const removeLightboxImageInput = (id) => {
+    const newImages = lightboxImages.filter((img) => img.id !== id);
+    setLightboxImages(newImages);
   };
 
   return (
@@ -397,7 +475,43 @@ image: "${imagePath}"
         placeholder="Enter blog post description"
         className="mb-4"
       />
-      <Input type="file" onChange={handleImageChange} accept="image/*" className="mb-4" />
+
+      {/* Existing main image upload */}
+      <Input type="file" onChange={handleMainImageChange} accept="image/*" className="mb-4" />
+
+      {/* New section for lightbox image uploads */}
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold mb-2">Lightbox Images</h3>
+        {lightboxImages.map((image) => (
+          <div key={image.id} className="flex items-center mb-2">
+            <Input
+              type="file"
+              onChange={(e) => handleLightboxImageChange(image.id, e)}
+              accept="image/*"
+              className="mr-2"
+            />
+            <Input
+              type="text"
+              value={image.description}
+              onChange={(e) => handleLightboxDescriptionChange(image.id, e)}
+              placeholder="Image description"
+              className="mr-2"
+            />
+            <Button
+              onClick={() => removeLightboxImageInput(image.id)}
+              variant="outline"
+              size="icon"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
+        <Button onClick={addLightboxImageInput} variant="outline" size="sm">
+          <Plus className="mr-2 h-4 w-4" />
+          Add Lightbox Image
+        </Button>
+      </div>
+
       <Slate
         editor={editor}
         value={editorContent}

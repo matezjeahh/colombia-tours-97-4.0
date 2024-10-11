@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import LightBox from "@/components/lightbox";
 
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
@@ -77,6 +78,9 @@ export default async function BlogPost({ params }) {
           />
         </div>
       )}
+      <div className="flex justify-end">
+        <LightBox variant={"link"} text={"További képek..."} />
+      </div>
       <div className="prose dark:prose-invert lg:prose-xl max-w-none">
         <MDXRemote source={content} />
       </div>
