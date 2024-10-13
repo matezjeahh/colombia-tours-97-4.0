@@ -2,32 +2,53 @@ import React from "react";
 import dynamic from "next/dynamic";
 import matter from "gray-matter";
 
-// Dynamically import BlogPostCard with no SSR
 const BlogPostCard = dynamic(() => import("@/components/BlogPostCard"), { ssr: false });
 
 async function getPosts() {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/app/(static)/blog/posts`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/blog`;
 
-  const response = await fetch(GITHUB_API_URL, {
-    headers: {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
-    },
-    next: { revalidate: 60 }, // Revalidate every minute
-  });
+  async function fetchContents(url) {
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${GITHUB_TOKEN}`,
+      },
+      next: { revalidate: 60 },
+    });
+    return response.json();
+  }
 
-  const files = await response.json();
-  const mdxFiles = files.filter((file) => file.name.endsWith(".mdx"));
+  async function traverseDirectory(url) {
+    const contents = await fetchContents(url);
+    let mdxFiles = [];
+
+    for (const item of contents) {
+      if (item.type === "dir") {
+        const subDirFiles = await traverseDirectory(item.url);
+        mdxFiles = [...mdxFiles, ...subDirFiles];
+      } else if (item.name.endsWith(".mdx")) {
+        mdxFiles.push(item);
+      }
+    }
+
+    return mdxFiles;
+  }
+
+  const mdxFiles = await traverseDirectory(GITHUB_API_URL);
 
   const posts = await Promise.all(
     mdxFiles.map(async (file) => {
       const content = await fetch(file.download_url).then((res) => res.text());
       const { data } = matter(content);
+
+      // Extract the folder name from the file path and use it as the slug
+      const slug = file.path.split("/")[2]; // Assuming the path is "public/blog/{folder}/{file.mdx}"
+
       return {
         ...data,
-        slug: file.name.replace(/\.mdx$/, ""),
-        image: data.image || null, // Include the image URL from frontmatter
+        slug: slug, // Use only the folder name as the slug
+        image: data.image || null,
       };
     })
   );

@@ -5,50 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LightBox from "@/components/lightbox";
 
 export default function BlogPostClient({ frontMatter, slug }) {
-  const [slides, setSlides] = useState([]);
-
-  useEffect(() => {
-    const importImages = async () => {
-      try {
-        console.log("BlogPostClient slug:", slug);
-
-        if (!slug) {
-          console.error("Invalid slug:", slug);
-          return;
-        }
-
-        // Adjust path to match your folder structure
-        const context = require.context(
-          "/app/(static)/blog/lightbox-images",
-          true,
-          /\.(png|jpe?g|svg)$/ // Handles jpg, jpeg, png, svg
-        );
-
-        const allKeys = context.keys();
-        console.log("All keys:", allKeys);
-
-        // Filter and map through the images to match the slug folder
-        const images = allKeys
-          .filter((key) => key.startsWith(`./${slug}/`)) // Filter for the current slug
-          .map((key) => ({
-            // Correcting the path to match how the app is serving them
-            src: `/blog/lightbox-images${key.replace(".", "")}`,
-            alt: key.split("/").pop().split(".")[0], // Filename without extension as alt text
-          }));
-
-        setSlides(images);
-      } catch (error) {
-        console.error("Error importing images or descriptions:", error);
-      }
-    };
-
-    importImages();
-  }, [slug]);
-
+  const slides = frontMatter.lightboxImages.map((image) => ({ src: image }));
   return (
     <>
       <h1 className="text-4xl font-bold">{frontMatter.title}</h1>
-      <div className="flex items-center justify-center gap-2 ">
+      <div className="flex items-center justify-center gap-2">
         <Avatar className="w-8 h-8 border">
           <AvatarImage src="/placeholder-user.jpg" alt="@username" />
           <AvatarFallback>BS</AvatarFallback>
@@ -74,6 +35,7 @@ export default function BlogPostClient({ frontMatter, slug }) {
           />
         </div>
       )}
+
       <div className="flex justify-end">
         <LightBox variant={"link"} text={"További képek..."} slides={slides} />
       </div>

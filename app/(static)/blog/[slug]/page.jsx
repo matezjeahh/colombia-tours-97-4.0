@@ -6,7 +6,7 @@ import BlogPostClient from "./BlogPostClient";
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/app/(static)/blog/posts/${slug}.mdx`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/blog/${slug}/${slug}.mdx`;
 
   const response = await fetch(GITHUB_API_URL, {
     headers: {
@@ -26,20 +26,46 @@ async function getPost(slug) {
 export async function generateStaticParams() {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/app/(static)/blog/posts`;
+  const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/blog`;
 
+  // Fetch the list of folders in the 'blog' directory
   const response = await fetch(GITHUB_API_URL, {
     headers: {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
     },
   });
 
-  const files = await response.json();
-  return files
-    .filter((file) => file.name.endsWith(".mdx"))
-    .map((file) => ({
-      slug: file.name.replace(/\.mdx$/, ""),
-    }));
+  const folders = await response.json();
+
+  // Now, map through the folders and fetch the .mdx files within each folder
+  const slugs = await Promise.all(
+    folders
+      .filter((folder) => folder.type === "dir") // Ensure it's a directory
+      .map(async (folder) => {
+        const folderUrl = `${GITHUB_API_URL}/${folder.name}`;
+
+        const folderResponse = await fetch(folderUrl, {
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+          },
+        });
+
+        const folderContents = await folderResponse.json();
+
+        // Find the .mdx file in the folder (we don't use it in the slug, just ensure it exists)
+        const mdxFile = folderContents.find((file) => file.name.endsWith(".mdx"));
+
+        // Only return the slug based on the folder name if an .mdx file is present
+        if (mdxFile) {
+          return {
+            slug: folder.name, // Only the folder name as the slug
+          };
+        }
+      })
+  );
+
+  // Filter out any undefined values (in case a folder doesn't have an .mdx file)
+  return slugs.filter(Boolean);
 }
 
 export default async function BlogPost({ params }) {
