@@ -14,7 +14,6 @@ import {
   Heading2,
   Heading3,
 } from "lucide-react";
-import ImageUploaderAndLightboxManager from "./ImageUploaderAndLightboxManager";
 
 const CustomEditor = {
   toggleMark(editor, format) {

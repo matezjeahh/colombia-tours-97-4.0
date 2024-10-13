@@ -7,16 +7,16 @@ import { Button } from "@/components/ui/button";
 import CustomAlertDialog from "@/components/custom-alert-dialog";
 import RichTextEditor from "./RichTextEditor";
 import ImageUploaderAndLightboxManager from "./ImageUploaderAndLightboxManager";
+import { batchUploadToGithub } from "./batchUploadToGithub";
 
 const RichTextMDXEditorUploader = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+  const [mainImage, setMainImage] = useState(null);
   const [editorContent, setEditorContent] = useState([
     { type: "paragraph", children: [{ text: "" }] },
   ]);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [mainImage, setMainImage] = useState(null);
   const [lightboxImages, setLightboxImages] = useState([
     { id: Date.now(), file: null, description: "" },
   ]);
@@ -140,136 +140,68 @@ const RichTextMDXEditorUploader = () => {
     }
   };
 
-  const uploadJSONFile = async (content, filename) => {
-    const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
-    const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-    const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
-
-    const encodedContent = btoa(unescape(encodeURIComponent(JSON.stringify(content))));
-
-    try {
-      const response = await fetch(
-        `${GITHUB_API_URL}app/(static)/blog/image-descriptions/${filename}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: `Create JSON file: ${filename}`,
-            content: encodedContent,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to upload JSON file to GitHub: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      console.log(`JSON file uploaded successfully: ${result.content.html_url}`);
-      return result.content.html_url;
-    } catch (error) {
-      console.error("Error uploading JSON file to GitHub:", error);
-      throw error;
-    }
-  };
-
   const createAndUploadMDX = async () => {
     const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-    const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
 
-    let mainImagePath = "";
-    if (image) {
-      mainImagePath = await uploadImage(image);
+    const slug = createSlug(title);
+    const now = new Date();
+
+    // Prepare files for upload
+    const files = [];
+    if (mainImage) {
+      files.push({ file: mainImage, path: `public/images/${slug}-main.jpg` });
     }
-
-    // Upload lightbox images and create descriptions array
-    const lightboxImageInfo = await Promise.all(
-      lightboxImages.map(async (img) => {
-        if (img.file) {
-          const path = await uploadImage(img.file, "app/(static)/blog/lightbox-images");
-          return {
-            path: path,
-            description: img.description,
-          };
-        }
-        return null;
-      })
-    );
-
-    // Filter out any null values (images that failed to upload)
-    const validLightboxImages = lightboxImageInfo.filter((img) => img !== null);
-
-    // Create and upload JSON file with image descriptions
-    const imageDescriptions = validLightboxImages.map((img) => img.description);
-    const jsonFilename = `${createSlug(title)}-image-descriptions.json`;
-    const jsonFileUrl = await uploadJSONFile(imageDescriptions, jsonFilename);
-
-    // Apply replaceCharacters to title and description
-    const replacedTitle = replaceCharacters(title);
-    const replacedDescription = replaceCharacters(description);
-
-    // Apply replaceCharacters to editor content
-    const replacedEditorContent = editorContent.map((node) => {
-      if (node.text) {
-        return { ...node, text: replaceCharacters(node.text) };
+    lightboxImages.forEach((img, index) => {
+      if (img.file) {
+        files.push({
+          file: img.file,
+          path: `app/(static)/blog/lightbox-images/${slug}/${index}.jpg`,
+        });
       }
-      return {
-        ...node,
-        children: node.children.map((child) =>
-          child.text ? { ...child, text: replaceCharacters(child.text) } : child
-        ),
-      };
     });
 
-    const mdxContent = serializeToMDX(replacedEditorContent);
+    // Prepare image descriptions
+    const imageDescriptions = lightboxImages
+      .filter((img) => img.file)
+      .map((img) => img.description);
 
-    const now = new Date();
-    const slug = createSlug(replacedTitle);
-    const filename = `${slug}.mdx`;
-
-    const frontMatter = `---
-title: "${replacedTitle}"
+    // Prepare MDX content
+    const mdxContent = `---
+title: "${replaceCharacters(title)}"
 date: "${now.toISOString()}"
-description: "${replacedDescription}"
-image: "${mainImagePath}"
-lightboxImages: ${JSON.stringify(validLightboxImages.map((img) => img.path))}
-imageDescriptionsUrl: "${jsonFileUrl}"
+description: "${replaceCharacters(description)}"
+image: /images/${slug}-main.jpg
+lightboxImages: ${JSON.stringify(
+      files.map((f) => f.path).filter((p) => p.includes("lightbox-images"))
+    )}
+imageDescriptionsUrl: /app/(static)/blog/image-descriptions/${slug}.json
 ---
 
+${serializeToMDX(editorContent)}
 `;
 
-    const fullContent = frontMatter + mdxContent;
-    const content = btoa(unescape(encodeURIComponent(fullContent)));
-
     try {
-      const response = await fetch(`${GITHUB_API_URL}app/(static)/blog/posts/${filename}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: `Create MDX file: ${replacedTitle}`,
-          content: content,
-        }),
-      });
+      const commitSha = await batchUploadToGithub(
+        files,
+        mdxContent,
+        imageDescriptions,
+        slug,
+        GITHUB_REPO,
+        GITHUB_TOKEN
+      );
+      console.log("Batch upload successful. Commit SHA:", commitSha);
+      toast.success("Blog post created and uploaded successfully");
 
-      if (!response.ok) {
-        throw new Error(`Failed to upload MDX file to GitHub: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      console.log(`MDX file uploaded successfully: ${result.content.html_url}`);
-      toast.success(`MDX file and JSON file created and uploaded successfully`);
-      return result.content.html_url;
+      // Reset form
+      setTitle("");
+      setDescription("");
+      setMainImage(null);
+      setEditorContent([{ type: "paragraph", children: [{ text: "" }] }]);
+      setLightboxImages([{ id: Date.now(), file: null, description: "" }]);
     } catch (error) {
-      console.error("Error uploading MDX file to GitHub:", error);
-      toast.error(`Failed to create and upload MDX file: ${error.message}`);
-      throw error;
+      console.error("Error in batch upload:", error);
+      toast.error(`Failed to create and upload blog post: ${error.message}`);
     }
   };
 
@@ -279,7 +211,7 @@ imageDescriptionsUrl: "${jsonFileUrl}"
       // Reset all inputs and editor content after successful upload
       setTitle("");
       setDescription("");
-      setImage(null);
+      setMainImage(null);
       setEditorContent([{ type: "paragraph", children: [{ text: "" }] }]);
       // Reset the file input
       const fileInput = document.querySelector('input[type="file"]');

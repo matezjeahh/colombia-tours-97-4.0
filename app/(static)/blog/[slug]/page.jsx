@@ -1,11 +1,7 @@
 import React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import matter from "gray-matter";
-import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import LightBox from "@/components/lightbox";
+import BlogPostClient from "./BlogPostClient";
 
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
@@ -51,62 +47,14 @@ export default async function BlogPost({ params }) {
 
   return (
     <div className="container max-w-5xl py-8 space-y-8">
-      <h1 className="text-4xl font-bold">{frontMatter.title}</h1>
-      <div className="flex items-center justify-center gap-2 ">
-        <Avatar className="w-8 h-8 border">
-          <AvatarImage src="/placeholder-user.jpg" alt="@username" />
-          <AvatarFallback>BS</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col">
-          <span>Bélafi Szilárd</span>
-          <span className="text-xs text-muted-foreground">
-            {new Date(frontMatter.date).toLocaleDateString("hu-HU", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
-        </div>
-      </div>
-
-      {frontMatter.image && (
-        <div className="relative w-full h-64 md:h-96 mb-8">
-          <img
-            src={frontMatter.image}
-            alt={frontMatter.title}
-            className="object-cover w-full h-full"
-          />
-        </div>
-      )}
-      <div className="flex justify-end">
-        <LightBox variant={"link"} text={"További képek..."} />
-      </div>
+      <BlogPostClient frontMatter={frontMatter} slug={params.slug} />
       <div className="prose dark:prose-invert lg:prose-xl max-w-none">
         <MDXRemote source={content} />
       </div>
+      {/* Server-side rendered related posts component */}
       <h3>További cikkek</h3>
       <div className="grid grid-cols-3 gap-10">
-        <div className="col-span-1 bg-muted rounded-lg overflow-hidden">
-          <img src={"/images/Wallpaper.jpg"} alt="kolumbia" className="object-cover w-full h-56" />
-
-          <div className="p-4 space-y-4">
-            <h3 className="text-lg line-clamp-2 font-semibold">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt molestias ducimus
-              unde. Porro iste vel inventore veritatis, consequatur dignissimos molestiae?
-            </h3>
-            <p className="text-sm line-clamp-3 text-muted-foreground">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci error doloremque est
-              iure ex voluptatum sunt dolorem eveniet possimus architecto. Lorem ipsum dolor sit
-              amet consectetur adipisicing elit. Adipisci error doloremque est iure ex voluptatum
-              sunt dolorem eveniet possimus architecto.
-            </p>
-            <Link href={"/"} passHref>
-              <Button variant="link" className="pl-0">
-                Olvass tovább...
-              </Button>
-            </Link>
-          </div>
-        </div>
+        {/* Add server-side logic for fetching and rendering related posts */}
       </div>
     </div>
   );
