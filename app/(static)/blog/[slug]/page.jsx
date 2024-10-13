@@ -2,6 +2,8 @@ import React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import matter from "gray-matter";
 import BlogPostClient from "./BlogPostClient";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
@@ -23,12 +25,11 @@ async function getPost(slug) {
   return { content, frontMatter: data };
 }
 
-export async function generateStaticParams() {
+async function getAllPosts() {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
   const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/blog`;
 
-  // Fetch the list of folders in the 'blog' directory
   const response = await fetch(GITHUB_API_URL, {
     headers: {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -37,39 +38,40 @@ export async function generateStaticParams() {
 
   const folders = await response.json();
 
-  // Now, map through the folders and fetch the .mdx files within each folder
-  const slugs = await Promise.all(
+  const posts = await Promise.all(
     folders
-      .filter((folder) => folder.type === "dir") // Ensure it's a directory
+      .filter((folder) => folder.type === "dir")
       .map(async (folder) => {
-        const folderUrl = `${GITHUB_API_URL}/${folder.name}`;
-
-        const folderResponse = await fetch(folderUrl, {
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-          },
-        });
-
-        const folderContents = await folderResponse.json();
-
-        // Find the .mdx file in the folder (we don't use it in the slug, just ensure it exists)
-        const mdxFile = folderContents.find((file) => file.name.endsWith(".mdx"));
-
-        // Only return the slug based on the folder name if an .mdx file is present
-        if (mdxFile) {
-          return {
-            slug: folder.name, // Only the folder name as the slug
-          };
-        }
+        const { content, frontMatter } = await getPost(folder.name);
+        return {
+          slug: folder.name,
+          title: frontMatter.title,
+          description: frontMatter.description,
+          image: frontMatter.image,
+        };
       })
   );
 
-  // Filter out any undefined values (in case a folder doesn't have an .mdx file)
-  return slugs.filter(Boolean);
+  return posts;
+}
+
+function getRandomPosts(posts, count, currentSlug) {
+  const filteredPosts = posts.filter((post) => post.slug !== currentSlug);
+  const shuffled = filteredPosts.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
 export default async function BlogPost({ params }) {
   const { content, frontMatter } = await getPost(params.slug);
+  const allPosts = await getAllPosts();
+  const randomPosts = getRandomPosts(allPosts, 3, params.slug);
 
   return (
     <div className="container max-w-5xl py-8 space-y-8">
@@ -77,10 +79,22 @@ export default async function BlogPost({ params }) {
       <div className="prose dark:prose-invert lg:prose-xl max-w-none">
         <MDXRemote source={content} />
       </div>
-      {/* Server-side rendered related posts component */}
       <h3>További cikkek</h3>
-      <div className="grid grid-cols-3 gap-10">
-        {/* Add server-side logic for fetching and rendering related posts */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {randomPosts.map((post) => (
+          <div key={post.slug} className="col-span-1 bg-muted rounded-lg overflow-hidden">
+            <img src={post.image} alt={post.title} className="object-cover w-full h-56" />
+            <div className="p-4 space-y-4">
+              <h3 className="text-lg line-clamp-2 font-semibold">{post.title}</h3>
+              <p className="text-sm line-clamp-3 text-muted-foreground">{post.description}</p>
+              <Link href={`/blog/${post.slug}`} passHref>
+                <Button variant="link" className="pl-0">
+                  Olvass tovább...
+                </Button>
+              </Link>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

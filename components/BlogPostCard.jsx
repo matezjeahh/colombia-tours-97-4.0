@@ -23,7 +23,6 @@ const BlogPostCard = ({ title, date, description, slug, image }) => {
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <Avatar className="w-5 h-5 border">
-              <AvatarImage src="/placeholder-user.jpg" alt="@username" />
               <AvatarFallback>BS</AvatarFallback>
             </Avatar>
             <span>Bélafi Szilárd</span>

@@ -175,9 +175,12 @@ date: "${now.toISOString()}"
 description: "${replaceCharacters(description)}"
 image: /images/${slug}-main.jpg
 lightboxImages: ${JSON.stringify(
-      files.map((f) => f.path).filter((p) => p.includes("lightbox-images"))
+      files
+        .map((f) => f.path)
+        .filter((p) => p.includes("lightbox-images"))
+        .map((path) => path.replace(/^public/, ""))
     )}
-imageDescriptionsUrl: /blog/${slug}/${slug}.json
+imageDescriptions: ${JSON.stringify(imageDescriptions)}
 ---
 
 ${serializeToMDX(editorContent)}
@@ -187,7 +190,6 @@ ${serializeToMDX(editorContent)}
       const commitSha = await batchUploadToGithub(
         files,
         mdxContent,
-        imageDescriptions,
         slug,
         GITHUB_REPO,
         GITHUB_TOKEN
