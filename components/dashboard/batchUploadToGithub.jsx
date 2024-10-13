@@ -27,7 +27,7 @@ export async function batchUploadToGithub(files, mdxContent, imageDescriptions, 
   // Create blob for MDX content
   const mdxBlob = await createBlob(mdxContent);
   blobPromises.push({
-    path: `app/(static)/blog/posts/${slug}.mdx`,
+    path: `/blog/${slug}/${slug}.mdx`,
     sha: mdxBlob.sha,
     mode: "100644",
     type: "blob",
@@ -37,7 +37,7 @@ export async function batchUploadToGithub(files, mdxContent, imageDescriptions, 
   const jsonContent = JSON.stringify(imageDescriptions, null, 2);
   const jsonBlob = await createBlob(jsonContent);
   blobPromises.push({
-    path: `app/(static)/blog/image-descriptions/${slug}.json`,
+    path: `/blog/${slug}/${slug}.json`,
     sha: jsonBlob.sha,
     mode: "100644",
     type: "blob",

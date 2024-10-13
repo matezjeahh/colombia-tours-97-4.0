@@ -104,7 +104,9 @@ const RichTextMDXEditorUploader = () => {
       reader.readAsDataURL(file);
     });
 
-    const path = folder ? `${folder}/${filename}` : `public/images/${filename}`;
+    const path = folder
+      ? `public/blog/${slug}/lightbox-images/${filename}`
+      : `public/images/${filename}`;
 
     try {
       const response = await fetch(`${GITHUB_API_URL}${path}`, {
@@ -156,7 +158,7 @@ const RichTextMDXEditorUploader = () => {
       if (img.file) {
         files.push({
           file: img.file,
-          path: `app/(static)/blog/lightbox-images/${slug}/${index}.jpg`,
+          path: `public/blog/${slug}/lightbox-images/${index}.jpg`,
         });
       }
     });
@@ -175,7 +177,7 @@ image: /images/${slug}-main.jpg
 lightboxImages: ${JSON.stringify(
       files.map((f) => f.path).filter((p) => p.includes("lightbox-images"))
     )}
-imageDescriptionsUrl: /app/(static)/blog/image-descriptions/${slug}.json
+imageDescriptionsUrl: /blog/${slug}/${slug}.json
 ---
 
 ${serializeToMDX(editorContent)}
