@@ -159,6 +159,7 @@ const TourImageDescriptions = ({
               <div key={index} className="p-4">
                 <div className="relative w-full h-64 mb-2">
                   <Image
+                    unoptimized
                     src={image.src}
                     alt={`Tour image ${index + 1}`}
                     fill
