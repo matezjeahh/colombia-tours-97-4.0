@@ -21,7 +21,10 @@ const ArticleEditor = () => {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [mainImage, setMainImage] = useState("");
+  const [originalDate, setOriginalDate] = useState("");
   const [lightboxImages, setLightboxImages] = useState([]);
+  const [existingLightboxImages, setExistingLightboxImages] = useState([]);
   const [editorContent, setEditorContent] = useState([
     { type: "paragraph", children: [{ text: "" }] },
   ]);
@@ -49,15 +52,16 @@ const ArticleEditor = () => {
       setSelectedArticle(article);
       setTitle(article.title);
       setDescription(article.description);
+      setMainImage(article.image || "");
+      setOriginalDate(article.date || "");
       setEditorContent(article.content);
-      setLightboxImages(
-        article.lightboxImages?.map((img, index) => ({
-          id: Date.now() + index,
-          file: null,
-          description: img.description || "",
-          existingPath: img.path,
+      setExistingLightboxImages(
+        article.lightboxImages?.map((path, index) => ({
+          path,
+          description: article.imageDescriptions[index] || "",
         })) || []
       );
+      setLightboxImages([]);
     } catch (error) {
       console.error("Error loading article:", error);
       toast.error("Failed to load article");
@@ -72,7 +76,10 @@ const ArticleEditor = () => {
     setSelectedArticle(null);
     setTitle("");
     setDescription("");
+    setMainImage("");
+    setOriginalDate("");
     setLightboxImages([]);
+    setExistingLightboxImages([]);
     setEditorContent([{ type: "paragraph", children: [{ text: "" }] }]);
   };
 
@@ -80,34 +87,41 @@ const ArticleEditor = () => {
     try {
       const slug = selectedArticle.slug;
 
-      // Prepare lightbox images
-      const lightboxImageFiles = lightboxImages.map((img, index) => ({
+      // Prepare new lightbox images
+      const newLightboxImageFiles = lightboxImages.map((img, index) => ({
         file: img.file,
-        path: img.existingPath
-          ? `public${img.existingPath}`
-          : `public/blog/${slug}/lightbox-images/${index}${img.file.name.substring(
-              img.file.name.lastIndexOf(".")
-            )}`,
-        isExisting: !!img.existingPath,
+        path: `public/blog/${slug}/lightbox-images/${
+          existingLightboxImages.length + index
+        }${img.file.name.substring(img.file.name.lastIndexOf("."))}`,
         description: img.description,
       }));
+
+      // Combine existing and new lightbox images for MDX frontmatter
+      const allLightboxImages = [
+        ...existingLightboxImages.map((img) => img.path),
+        ...newLightboxImageFiles.map((img) => "/" + img.path.replace("public/", "")),
+      ];
+
+      const allImageDescriptions = [
+        ...existingLightboxImages.map((img) => img.description),
+        ...newLightboxImageFiles.map((img) => img.description),
+      ];
 
       // Prepare MDX content
       const mdxContent = `---
 title: "${title}"
-date: "${new Date().toISOString()}"
+date: "${originalDate}"
 description: "${description}"
-lightboxImages: ${JSON.stringify(
-        lightboxImageFiles.map((img) => "/" + img.path.replace("public/", ""))
-      ).replace(/"/g, "")}
-imageDescriptions: ${JSON.stringify(lightboxImageFiles.map((img) => img.description))}
+image: ${mainImage}
+lightboxImages: ${JSON.stringify(allLightboxImages).replace(/"/g, "")}
+imageDescriptions: ${JSON.stringify(allImageDescriptions)}
 ---
 
 ${editorContent}`;
 
       // Upload files and MDX content
       await batchUploadToGithub(
-        lightboxImageFiles.filter((img) => !img.isExisting),
+        newLightboxImageFiles,
         mdxContent,
         slug,
         process.env.NEXT_PUBLIC_GITHUB_REPO,
@@ -121,6 +135,13 @@ ${editorContent}`;
       console.error("Error updating article:", error);
       toast.error(`Failed to update article: ${error.message}`);
     }
+  };
+
+  const handleExistingImageDescriptionChange = (index, newDescription) => {
+    const updatedExistingImages = existingLightboxImages.map((img, i) =>
+      i === index ? { ...img, description: newDescription } : img
+    );
+    setExistingLightboxImages(updatedExistingImages);
   };
 
   return (
@@ -151,6 +172,26 @@ ${editorContent}`;
         placeholder="Enter blog post description"
         className="mb-4"
       />
+
+      {/* Display existing lightbox images with editable descriptions */}
+      {existingLightboxImages.length > 0 && (
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold mb-2">Existing Lightbox Images</h3>
+          <div className="grid grid-cols-2 gap-4">
+            {existingLightboxImages.map((img, index) => (
+              <div key={index} className="border p-2">
+                <img src={img.path} alt={`Lightbox image ${index + 1}`} className="w-full h-auto" />
+                <Textarea
+                  value={img.description}
+                  onChange={(e) => handleExistingImageDescriptionChange(index, e.target.value)}
+                  placeholder="Image description"
+                  className="mt-2"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <LightboxImageManager
         lightboxImages={lightboxImages}
