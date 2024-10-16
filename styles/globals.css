@@ -82,3 +82,22 @@
     @apply text-sm font-medium leading-none;
   }
 }
+
+.my-prose h2 {
+  @apply scroll-m-20 mb-5 text-3xl font-semibold tracking-tight;
+}
+
+.my-prose h3 {
+  @apply scroll-m-20 mb-5 text-xl font-semibold tracking-tight;
+}
+
+.my-prose blockquote {
+  @apply scroll-m-20 border-l-2 pl-6 italic tracking-tight;
+}
+
+.my-prose p {
+  @apply mb-2 leading-7;
+}
+.my-prose ul {
+  @apply my-6 ml-6 list-disc [&>li]:mt-2;
+}

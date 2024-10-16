@@ -76,7 +76,7 @@ export default async function BlogPost({ params }) {
   return (
     <div className="container max-w-5xl py-8 space-y-8">
       <BlogPostClient frontMatter={frontMatter} slug={params.slug} />
-      <div className="prose dark:prose-invert lg:prose-xl max-w-none">
+      <div className="my-prose">
         <MDXRemote source={content} />
       </div>
       <h3>További cikkek</h3>
