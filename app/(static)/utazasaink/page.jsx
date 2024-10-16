@@ -104,6 +104,7 @@ const TourCard = ({ item, index, imageName }) => (
   <Card className="flex flex-col justify-between h-full overflow-hidden">
     <div className="relative h-60 w-full">
       <Image
+        unoptimized
         alt={`Kolumbia ${item.cim}`}
         className="object-cover rounded-t-lg"
         src={imageName ? `/${index}/${imageName}` : "/fallback-image.jpg"}
