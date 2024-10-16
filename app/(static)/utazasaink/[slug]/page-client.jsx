@@ -25,6 +25,7 @@ import {
 const OptimizedImage = ({ src, className, priority = false }) => (
   <div className={`relative w-full h-full overflow-hidden ${className}`}>
     <Image
+      unoptimized
       src={src}
       alt="Kolumbia"
       fill
