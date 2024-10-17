@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Pencil, MoreVertical, Edit, Trash, Check, X } from "lucide-react";
 import CustomAlertDialog from "../custom-alert-dialog";
 import Image from "next/image";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const TourImageDescriptions = ({
   selectedItem,
@@ -24,7 +25,7 @@ const TourImageDescriptions = ({
   const [images, setImages] = useState([]);
   const [editedDescriptions, setEditedDescriptions] = useState([]);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [deleteIndex, setDeleteIndex] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const unicodeSafeBase64Decode = (str) => {
     try {
@@ -134,19 +135,31 @@ const TourImageDescriptions = ({
     setIsAlertOpen(true);
   };
 
+  const handleCheckboxChange = (index) => {
+    setSelectedImages((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+  const handleDeleteSelected = () => {
+    if (selectedImages.length > 0) {
+      setIsAlertOpen(true);
+    }
+  };
+
   const handleConfirmDelete = async () => {
     try {
-      await onDelete(deleteIndex);
-      const newImages = [...images];
-      newImages.splice(deleteIndex, 1);
+      await onDelete(selectedImages);
+      const newImages = images.filter((_, index) => !selectedImages.includes(index));
       setImages(newImages);
-      const newDescriptions = [...editedDescriptions];
-      newDescriptions.splice(deleteIndex, 1);
+      const newDescriptions = editedDescriptions.filter(
+        (_, index) => !selectedImages.includes(index)
+      );
       setEditedDescriptions(newDescriptions);
+      setSelectedImages([]);
       setIsAlertOpen(false);
-      setDeleteIndex(null);
     } catch (error) {
-      console.error("Error deleting image:", error);
+      console.error("Error deleting images:", error);
       // Handle the error (e.g., show an error message to the user)
     }
   };
@@ -176,39 +189,49 @@ const TourImageDescriptions = ({
         {images.length > 0 ? (
           <div className="mt-4 space-y-4">
             {images.map((image, index) => (
-              <div key={index} className="p-4 border rounded">
-                <div className="relative w-full h-64 mb-2">
-                  <Image
-                    unoptimized
-                    src={image.src}
-                    alt={`Tour image ${index + 1}`}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
+              <div key={index} className="p-4 border rounded flex items-start">
+                <Checkbox
+                  checked={selectedImages.includes(index)}
+                  onCheckedChange={() => handleCheckboxChange(index)}
+                  className="mr-2 mt-2"
+                />
+                <div className="flex-grow">
+                  <div className="relative w-full h-64 mb-2">
+                    <Image
+                      unoptimized
+                      src={image.src}
+                      alt={`Tour image ${index + 1}`}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  {isEditing ? (
+                    <Textarea
+                      value={editedDescriptions[index]}
+                      onChange={(e) => handleDescriptionChange(index, e.target.value)}
+                      className="min-h-[100px]"
+                    />
+                  ) : (
+                    <p>{image.description}</p>
+                  )}
                 </div>
-                {isEditing ? (
-                  <Textarea
-                    value={editedDescriptions[index]}
-                    onChange={(e) => handleDescriptionChange(index, e.target.value)}
-                    className="min-h-[100px]"
-                  />
-                ) : (
-                  <p>{image.description}</p>
-                )}
-                <Button
-                  onClick={() => handleDelete(index)}
-                  variant="destructive"
-                  size="sm"
-                  className="mt-2"
-                >
-                  <Trash className="mr-2 h-4 w-4" />
-                  Törlés
-                </Button>
               </div>
             ))}
           </div>
         ) : (
           <p>Nincs leírás</p>
+        )}
+        {!isEditing && (
+          <Button
+            onClick={handleDeleteSelected}
+            variant="destructive"
+            size="sm"
+            className="mt-4"
+            disabled={selectedImages.length === 0}
+          >
+            <Trash className="mr-2 h-4 w-4" />
+            Kijelölt képek törlése ({selectedImages.length})
+          </Button>
         )}
         {isEditing && (
           <div className="flex justify-end space-x-2 mt-4">
@@ -234,8 +257,8 @@ const TourImageDescriptions = ({
         isOpen={isAlertOpen}
         onOpenChange={setIsAlertOpen}
         onConfirm={handleConfirmDelete}
-        title="Kép törlése"
-        description="Biztosan törölni szeretné ezt a képet és a hozzá tartozó leírást?"
+        title="Képek törlése"
+        description={`Biztosan törölni szeretné a kijelölt ${selectedImages.length} képet és a hozzájuk tartozó leírásokat?`}
         confirmText="Törlés"
         cancelText="Mégse"
       />

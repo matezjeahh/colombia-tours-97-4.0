@@ -190,7 +190,7 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
     }
   };
 
-  const deleteImageAndDescription = async (imageIndex) => {
+  const deleteImagesAndDescriptions = async (imageIndexes) => {
     if (!selectedItem) return;
 
     const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
@@ -209,24 +209,26 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         (file) => file.type === "file" && /\.(jpg|jpeg|png|gif)$/i.test(file.name)
       );
 
-      if (imageIndex >= imageFiles.length) {
-        throw new Error("Image index out of bounds");
+      // 2. Delete the image files
+      for (const index of imageIndexes) {
+        if (index >= imageFiles.length) {
+          console.warn(`Image index ${index} out of bounds, skipping`);
+          continue;
+        }
+
+        const imageToDelete = imageFiles[index];
+        await fetch(`${GITHUB_API_URL}public/${selectedItem.id}/${imageToDelete.name}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: `Delete image ${imageToDelete.name} for tour ${selectedItem.id}`,
+            sha: imageToDelete.sha,
+          }),
+        });
       }
-
-      const imageToDelete = imageFiles[imageIndex];
-
-      // 2. Delete the image file
-      await fetch(`${GITHUB_API_URL}public/${selectedItem.id}/${imageToDelete.name}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: `Delete image ${imageToDelete.name} for tour ${selectedItem.id}`,
-          sha: imageToDelete.sha,
-        }),
-      });
 
       // 3. Update the JSON file
       const jsonPath = `public/${selectedItem.id}/image-descriptions.json`;
@@ -238,8 +240,10 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
       const jsonData = await jsonResponse.json();
       const currentContent = JSON.parse(atob(jsonData.content));
 
-      // Remove the description at the specified index
-      currentContent.descriptions.splice(imageIndex, 1);
+      // Remove the descriptions at the specified indexes
+      currentContent.descriptions = currentContent.descriptions.filter(
+        (_, index) => !imageIndexes.includes(index)
+      );
 
       const updatedContentBase64 = btoa(JSON.stringify(currentContent, null, 2));
 
@@ -256,11 +260,11 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         }),
       });
 
-      toast.success("Image and description successfully deleted");
+      toast.success(`${imageIndexes.length} image(s) and description(s) successfully deleted`);
       return true; // Indicate successful deletion
     } catch (error) {
-      console.error("Error deleting image and updating JSON:", error);
-      toast.error(`Failed to delete image and description: ${error.message}`);
+      console.error("Error deleting images and updating JSON:", error);
+      toast.error(`Failed to delete images and descriptions: ${error.message}`);
       throw error;
     }
   };
@@ -321,7 +325,7 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
       <TourImageDescriptions
         selectedItem={selectedItem}
         onUpdate={(newDescriptions) => handleUpdateGitHub("descriptions", newDescriptions)}
-        onDelete={deleteImageAndDescription}
+        onDelete={deleteImagesAndDescriptions}
         isEditing={editingCard === "tourImages"}
         setIsEditing={() => setEditingCard("tourImages")}
         cancelEditing={() => setEditingCard(null)}
