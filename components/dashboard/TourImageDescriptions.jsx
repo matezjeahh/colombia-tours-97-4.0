@@ -15,6 +15,7 @@ import Image from "next/image";
 const TourImageDescriptions = ({
   selectedItem,
   onUpdate,
+  onDelete,
   isEditing,
   setIsEditing,
   cancelEditing,
@@ -23,6 +24,7 @@ const TourImageDescriptions = ({
   const [images, setImages] = useState([]);
   const [editedDescriptions, setEditedDescriptions] = useState([]);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
 
   const unicodeSafeBase64Decode = (str) => {
     try {
@@ -127,6 +129,28 @@ const TourImageDescriptions = ({
     setEditedDescriptions(newDescriptions);
   };
 
+  const handleDelete = (index) => {
+    setDeleteIndex(index);
+    setIsAlertOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(deleteIndex);
+      const newImages = [...images];
+      newImages.splice(deleteIndex, 1);
+      setImages(newImages);
+      const newDescriptions = [...editedDescriptions];
+      newDescriptions.splice(deleteIndex, 1);
+      setEditedDescriptions(newDescriptions);
+      setIsAlertOpen(false);
+      setDeleteIndex(null);
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      // Handle the error (e.g., show an error message to the user)
+    }
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -144,10 +168,6 @@ const TourImageDescriptions = ({
                 <Edit className="mr-2 h-4 w-4" />
                 <span>Szerkesztés</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Trash className="mr-2 h-4 w-4" />
-                <span>Mégse</span>
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}
@@ -156,7 +176,7 @@ const TourImageDescriptions = ({
         {images.length > 0 ? (
           <div className="mt-4 space-y-4">
             {images.map((image, index) => (
-              <div key={index} className="p-4">
+              <div key={index} className="p-4 border rounded">
                 <div className="relative w-full h-64 mb-2">
                   <Image
                     unoptimized
@@ -175,6 +195,15 @@ const TourImageDescriptions = ({
                 ) : (
                   <p>{image.description}</p>
                 )}
+                <Button
+                  onClick={() => handleDelete(index)}
+                  variant="destructive"
+                  size="sm"
+                  className="mt-2"
+                >
+                  <Trash className="mr-2 h-4 w-4" />
+                  Törlés
+                </Button>
               </div>
             ))}
           </div>
@@ -201,6 +230,15 @@ const TourImageDescriptions = ({
           </div>
         )}
       </CardContent>
+      <CustomAlertDialog
+        isOpen={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onConfirm={handleConfirmDelete}
+        title="Kép törlése"
+        description="Biztosan törölni szeretné ezt a képet és a hozzá tartozó leírást?"
+        confirmText="Törlés"
+        cancelText="Mégse"
+      />
     </Card>
   );
 };
