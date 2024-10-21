@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { Instagram, Phone, Facebook, Youtube } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -13,6 +15,28 @@ export default function Footer() {
           <p className="text-sm font-medium text-muted-foreground">
             Az autentikus kalandtúrák és körutazások specialistája.
           </p>
+          <div className="flex space-x-4">
+            <Link href="https://www.instagram.com/colombiatours97" target="_blank">
+              <Button variant="outline" size="icon">
+                <Instagram />
+              </Button>
+            </Link>
+            <Link href="https://www.youtube.com/channel/UCiWqrA-vRBjOKG7rCn-7vDQ" target="_blank">
+              <Button variant="outline" size="icon">
+                <Youtube />
+              </Button>
+            </Link>
+            <Link href="https://www.facebook.com/colombiatours97" target="_blank">
+              <Button variant="outline" size="icon">
+                <Facebook />
+              </Button>
+            </Link>
+            <Link href="https://wa.me/+573226014919" target="_blank">
+              <Button variant="outline" size="icon">
+                <Phone />
+              </Button>
+            </Link>
+          </div>
         </div>
         <div className="grid gap-1">
           <h4 className="font-semibold">Általános információ</h4>

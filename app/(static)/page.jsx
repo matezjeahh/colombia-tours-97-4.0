@@ -1,7 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, FileText, Camera, Users, ChevronRight } from "lucide-react";
+import {
+  ShieldCheck,
+  FileText,
+  Camera,
+  Users,
+  ChevronRight,
+  Instagram,
+  Facebook,
+  Youtube,
+  Phone,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HeroBanner from "@/components/hero-banner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -87,6 +97,7 @@ export default function Home() {
   return (
     <>
       <HeroBanner />
+
       <div className="container space-y-20 lg:space-y-32 mt-10 mb-5 lg:mt-32">
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center ">
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
@@ -149,6 +160,71 @@ export default function Home() {
             </Button>
           </div>
         </section>
+        <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
+          <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
+            <h2>Kövess minket az úton!</h2>
+            <p>
+              Kövess minket közösségi média oldalainkon, hogy elsőként értesülj az izgalmas úti
+              célokról, különleges ajánlatokról és utazási tippekről. Csatlakozz a kalandvágyó
+              utazók közösségéhez!
+            </p>
+            <div className="lg:flex space-x-4 hidden ">
+              <Link href="https://www.instagram.com/colombiatours97" target="_blank">
+                <Button variant="ghost" size="icon">
+                  <Instagram />
+                </Button>
+              </Link>
+              <Link href="https://www.youtube.com/channel/UCiWqrA-vRBjOKG7rCn-7vDQ" target="_blank">
+                <Button variant="ghost" size="icon">
+                  <Youtube />
+                </Button>
+              </Link>
+              <Link href="https://www.facebook.com/colombiatours97" target="_blank">
+                <Button variant="ghost" size="icon">
+                  <Facebook />
+                </Button>
+              </Link>
+              <Link href="https://wa.me/+573226014919" target="_blank">
+                <Button variant="ghost" size="icon">
+                  <Phone />
+                </Button>
+              </Link>
+            </div>
+          </div>
+          <div className="cols-span-1 rounded-xl  ">
+            <Image
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-60 lg:h-96 object-cover rounded-lg"
+              src="/home4.jpg"
+              alt="kolumbia"
+            />
+          </div>
+          <div className="flex space-x-4 lg:hidden ">
+            <Link href="https://www.instagram.com/colombiatours97" target="_blank">
+              <Button variant="ghost" size="icon">
+                <Instagram />
+              </Button>
+            </Link>
+            <Link href="https://www.youtube.com/channel/UCiWqrA-vRBjOKG7rCn-7vDQ" target="_blank">
+              <Button variant="ghost" size="icon">
+                <Youtube />
+              </Button>
+            </Link>
+            <Link href="https://www.facebook.com/colombiatours97" target="_blank">
+              <Button variant="ghost" size="icon">
+                <Facebook />
+              </Button>
+            </Link>
+            <Link href="https://wa.me/+573226014919" target="_blank">
+              <Button variant="ghost" size="icon">
+                <Phone />
+              </Button>
+            </Link>
+          </div>
+        </section>
+
         <section className="space-y-2 lg:space-y-6">
           <div className="flex flex-col space-y-2 lg:space-y-6 max-w-none text-start sm:text-center ">
             <h2>Miért érdemes velünk utazni Kolumbiába?</h2>

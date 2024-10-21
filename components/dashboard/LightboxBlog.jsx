@@ -29,7 +29,7 @@ const LightboxImageManager = ({ lightboxImages, onLightboxImagesChange }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold mb-2">Lightbox Images</h3>
+      <h3 className="text-lg font-semibold mb-2">Új kép feltöltése</h3>
       {lightboxImages.map((image) => (
         <div key={image.id} className="flex items-center mb-2">
           <Input
@@ -42,7 +42,7 @@ const LightboxImageManager = ({ lightboxImages, onLightboxImagesChange }) => {
             type="text"
             value={image.description}
             onChange={(e) => handleLightboxDescriptionChange(image.id, e)}
-            placeholder="Image description"
+            placeholder="Kép leírása"
             className="mr-2"
           />
           <Button onClick={() => removeLightboxImageInput(image.id)} variant="outline" size="icon">
@@ -52,7 +52,7 @@ const LightboxImageManager = ({ lightboxImages, onLightboxImagesChange }) => {
       ))}
       <Button onClick={addLightboxImageInput} variant="outline" size="sm">
         <Plus className="mr-2 h-4 w-4" />
-        Add Lightbox Image
+        Új kép hozzáadása
       </Button>
     </div>
   );

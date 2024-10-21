@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
+import Image from "next/image";
 
 const ImageUploaderAndLightboxManager = ({
   mainImage,
@@ -9,6 +10,20 @@ const ImageUploaderAndLightboxManager = ({
   lightboxImages,
   onLightboxImagesChange,
 }) => {
+  const [mainImagePreview, setMainImagePreview] = useState(null);
+
+  useEffect(() => {
+    if (mainImage) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMainImagePreview(reader.result);
+      };
+      reader.readAsDataURL(mainImage);
+    } else {
+      setMainImagePreview(null);
+    }
+  }, [mainImage]);
+
   const handleMainImageChange = (e) => {
     if (e.target.files[0]) {
       onMainImageChange(e.target.files[0]);
@@ -41,17 +56,25 @@ const ImageUploaderAndLightboxManager = ({
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Main Image</h3>
+        <h3 className="text-lg font-semibold mb-2">Főkép kiválasztása</h3>
         <Input type="file" onChange={handleMainImageChange} accept="image/*" />
-        {mainImage && (
-          <div className="mt-2">
-            <p>Selected file: {mainImage.name}</p>
+
+        {mainImagePreview && (
+          <div className="mt-4">
+            <h4 className="text-md font-semibold mb-2">Főkép előnézete</h4>
+            <Image
+              src={mainImagePreview}
+              alt="Main image preview"
+              width={200}
+              height={200}
+              className="object-cover rounded-md"
+            />
           </div>
         )}
       </div>
 
       <div>
-        <h3 className="text-lg font-semibold mb-2">Lightbox Images</h3>
+        <h3 className="text-lg font-semibold mb-2">További képek feltöltése</h3>
         {lightboxImages.map((image) => (
           <div key={image.id} className="flex items-center mb-2">
             <Input
@@ -64,7 +87,7 @@ const ImageUploaderAndLightboxManager = ({
               type="text"
               value={image.description}
               onChange={(e) => handleLightboxDescriptionChange(image.id, e)}
-              placeholder="Image description"
+              placeholder="Kép leírása"
               className="mr-2"
             />
             <Button
@@ -78,7 +101,7 @@ const ImageUploaderAndLightboxManager = ({
         ))}
         <Button onClick={addLightboxImageInput} variant="outline" size="sm">
           <Plus className="mr-2 h-4 w-4" />
-          Add Lightbox Image
+          Új kép hozzáadása
         </Button>
       </div>
     </div>

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./mode-toggle";
-import { Menu, Facebook, MessageCircle, Phone } from "lucide-react";
+import { Menu, Facebook, Phone, Instagram, Youtube } from "lucide-react";
 
 export default function Navbar() {
   const navbarRef = useRef(null);
@@ -49,7 +49,7 @@ export default function Navbar() {
   return (
     <header
       ref={navbarRef}
-      className="flex h-16 w-full shrink-0 sticky top-0 z-10 items-center px-4 md:px-6 lg:px-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+      className="flex h-14 lg:h-16 w-full shrink-0 sticky top-0 z-10 items-center px-4 md:px-6 lg:px-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
     >
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
@@ -78,6 +78,28 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
+          </div>
+          <div className="flex space-x-4 ml-2">
+            <Link href="https://www.instagram.com/colombiatours97" target="_blank">
+              <Button variant="outline" size="icon">
+                <Instagram />
+              </Button>
+            </Link>
+            <Link href="https://www.youtube.com/channel/UCiWqrA-vRBjOKG7rCn-7vDQ" target="_blank">
+              <Button variant="outline" size="icon">
+                <Youtube />
+              </Button>
+            </Link>
+            <Link href="https://www.facebook.com/colombiatours97" target="_blank">
+              <Button variant="outline" size="icon">
+                <Facebook />
+              </Button>
+            </Link>
+            <Link href="https://wa.me/+573226014919" target="_blank">
+              <Button variant="outline" size="icon">
+                <Phone />
+              </Button>
+            </Link>
           </div>
         </SheetContent>
       </Sheet>
@@ -121,16 +143,6 @@ export default function Navbar() {
         </div>
       </div>
       <div className="lg:hidden ml-auto flex items-center space-x-2">
-        <Link href="https://wa.me/+573226014919" target="_blank" rel="noopener noreferrer">
-          <Phone className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-        </Link>
-        <Link
-          href="https://www.facebook.com/colombiatours97"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Facebook className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-        </Link>
         <ModeToggle />
       </div>
     </header>

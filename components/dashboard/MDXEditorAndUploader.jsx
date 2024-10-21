@@ -1,25 +1,35 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import CustomAlertDialog from "@/components/custom-alert-dialog";
-import RichTextEditor from "./RichTextEditor";
 import ImageUploaderAndLightboxManager from "./ImageUploaderAndLightboxManager";
 import { batchUploadToGithub } from "./batchUploadToGithub";
+import MDXEditorComponent from "./LexicalEditor";
 
 const RichTextMDXEditorUploader = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [mainImage, setMainImage] = useState(null);
-  const [editorContent, setEditorContent] = useState([
-    { type: "paragraph", children: [{ text: "" }] },
-  ]);
+  const [editorContent, setEditorContent] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState([
     { id: Date.now(), file: null, description: "" },
   ]);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+
+  useEffect(() => {
+    // Load the selected article if needed
+    // This is just a placeholder, you'll need to implement the actual loading logic
+    if (selectedArticle) {
+      setTitle(selectedArticle.title || "");
+      setDescription(selectedArticle.description || "");
+      setEditorContent(selectedArticle.content || "");
+      // Load main image and lightbox images if needed
+    }
+  }, [selectedArticle]);
 
   const createSlug = (text) => {
     return text
@@ -52,52 +62,6 @@ const RichTextMDXEditorUploader = () => {
       ò: "ó",
     };
     return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
-  };
-
-  const serializeToMDX = (nodes) => {
-    return nodes
-      .map((n) => {
-        if (n.text) {
-          let string = replaceCharacters(n.text);
-          if (n.bold) {
-            string = `**${string}**`;
-          }
-          if (n.italic) {
-            string = `*${string}*`;
-          }
-          if (n.underline) {
-            string = `<u>${string}</u>`;
-          }
-          if (n.code) {
-            string = `\`${string}\``;
-          }
-          return string;
-        }
-
-        const children = n.children.map((child) => serializeToMDX([child])).join("");
-
-        switch (n.type) {
-          case "heading-one":
-            return `# ${children}\n\n`;
-          case "heading-two":
-            return `## ${children}\n\n`;
-          case "heading-three":
-            return `### ${children}\n\n`;
-          case "block-quote":
-            return `> ${children}\n\n`;
-          case "numbered-list":
-            return children;
-          case "bulleted-list":
-            return children;
-          case "list-item":
-            return `- ${replaceCharacters(children)}\n`;
-          case "code":
-            return `\`\`\`\n${children}\n\`\`\`\n\n`;
-          default:
-            return `${children}\n\n`;
-        }
-      })
-      .join("");
   };
 
   const uploadImage = async (file, folder = "", retryCount = 0) => {
@@ -198,7 +162,7 @@ lightboxImages: ${JSON.stringify(
 imageDescriptions: ${JSON.stringify(imageDescriptions)}
 ---
 
-${serializeToMDX(editorContent)}
+${editorContent}
 `;
 
     try {
@@ -210,17 +174,17 @@ ${serializeToMDX(editorContent)}
         GITHUB_TOKEN
       );
       console.log("Batch upload successful. Commit SHA:", commitSha);
-      toast.success("Blog post created and uploaded successfully");
+      toast.success("Blogbejegyzés sikeresen létrehozva és feltöltve");
 
       // Reset form
       setTitle("");
       setDescription("");
       setMainImage(null);
-      setEditorContent([{ type: "paragraph", children: [{ text: "" }] }]);
+      setEditorContent("");
       setLightboxImages([{ id: Date.now(), file: null, description: "" }]);
     } catch (error) {
       console.error("Error in batch upload:", error);
-      toast.error(`Failed to create and upload blog post: ${error.message}`);
+      toast.error(`Nem sikerült létrehozni és feltölteni a blogbejegyzést: ${error.message}`);
     }
   };
 
@@ -231,7 +195,7 @@ ${serializeToMDX(editorContent)}
       setTitle("");
       setDescription("");
       setMainImage(null);
-      setEditorContent([{ type: "paragraph", children: [{ text: "" }] }]);
+      setEditorContent("");
       // Reset the file input
       const fileInput = document.querySelector('input[type="file"]');
       if (fileInput) {
@@ -239,48 +203,60 @@ ${serializeToMDX(editorContent)}
       }
       // Reset lightbox images
       setLightboxImages([{ id: Date.now(), file: null, description: "" }]);
-      toast.success("MDX file created and uploaded successfully");
+      toast.success("MDX fájl sikeresen létrehozva és feltöltve");
     } catch (error) {
       console.error("Error creating and uploading MDX file:", error);
-      toast.error(`Failed to create and upload MDX file: ${error.message}`);
+      toast.error(`Nem sikerült létrehozni és feltölteni az MDX fájlt: ${error.message}`);
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Enter blog post title"
-        className="mb-4"
-      />
-      <Textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Enter blog post description"
-        className="mb-4"
-      />
+    <div className="container mx-auto my-8 ">
+      <h1 className="mb-8">Új blog létrehozása</h1>
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Blog címe</h3>
+          <Input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Add meg a blogbejegyzés címét"
+            className="mb-4"
+          />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Blog leírása</h3>
+          <Textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Add meg a blogbejegyzés leírását"
+            className="mb-4"
+          />
+        </div>
 
-      <ImageUploaderAndLightboxManager
-        mainImage={mainImage}
-        onMainImageChange={setMainImage}
-        lightboxImages={lightboxImages}
-        onLightboxImagesChange={setLightboxImages}
-      />
+        <ImageUploaderAndLightboxManager
+          mainImage={mainImage}
+          onMainImageChange={setMainImage}
+          lightboxImages={lightboxImages}
+          onLightboxImagesChange={setLightboxImages}
+        />
 
-      <RichTextEditor value={editorContent} onChange={setEditorContent} />
+        <MDXEditorComponent
+          selectedArticle={{ content: editorContent }}
+          onChange={setEditorContent}
+        />
 
-      <CustomAlertDialog
-        isOpen={isAlertOpen}
-        onOpenChange={setIsAlertOpen}
-        onConfirm={handleMDXCreationAndUpload}
-        triggerButton={
-          <Button onClick={() => setIsAlertOpen(true)} className="w-full">
-            Save and Upload
-          </Button>
-        }
-      />
+        <CustomAlertDialog
+          isOpen={isAlertOpen}
+          onOpenChange={setIsAlertOpen}
+          onConfirm={handleMDXCreationAndUpload}
+          triggerButton={
+            <Button onClick={() => setIsAlertOpen(true)} className="w-full">
+              Mentés és Feltöltés
+            </Button>
+          }
+        />
+      </div>
     </div>
   );
 };

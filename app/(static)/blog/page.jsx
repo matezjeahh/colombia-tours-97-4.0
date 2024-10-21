@@ -53,7 +53,8 @@ async function getPosts() {
     })
   );
 
-  return posts;
+  // Sort posts by date in descending order (latest first)
+  return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 export default async function BlogPage() {

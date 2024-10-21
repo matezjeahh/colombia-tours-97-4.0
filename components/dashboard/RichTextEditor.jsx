@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo } from "react";
+"use client";
+import React, { useCallback, useMemo, useState } from "react";
 import { createEditor, Transforms, Editor, Text, Element as SlateElement } from "slate";
 import { Slate, Editable, withReact, useSlate } from "slate-react";
 import { Button } from "@/components/ui/button";
@@ -99,8 +100,17 @@ const Toolbar = () => (
   </div>
 );
 
-const RichTextEditor = ({ value, onChange }) => {
+const RichTextEditor = ({ initialValue, onChange }) => {
   const editor = useMemo(() => withReact(createEditor()), []);
+  const [value, setValue] = useState(initialValue);
+
+  const handleChange = useCallback(
+    (newValue) => {
+      setValue(newValue);
+      onChange(newValue);
+    },
+    [onChange]
+  );
 
   const renderElement = useCallback((props) => {
     const { attributes, children, element } = props;
@@ -177,8 +187,7 @@ const RichTextEditor = ({ value, onChange }) => {
   return (
     <Slate
       editor={editor}
-      value={value}
-      onChange={onChange}
+      onChange={handleChange}
       initialValue={[{ type: "paragraph", children: [{ text: "" }] }]}
     >
       <Toolbar />
@@ -187,6 +196,7 @@ const RichTextEditor = ({ value, onChange }) => {
         renderLeaf={renderLeaf}
         placeholder="Enter your blog post content here..."
         className="border p-4 rounded-md min-h-[300px] mb-4"
+        value={value}
       />
     </Slate>
   );

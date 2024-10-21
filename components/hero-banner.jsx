@@ -16,7 +16,7 @@ export default function HeroBanner() {
         className="opacity-50 object-cover"
         priority={true}
       />
-      <div className="absolute inset-0 flex flex-col items-center justify-center container m-auto text-center space-y-2">
+      <div className="absolute inset-0 flex flex-col items-center justify-center container m-auto text-center space-y-8 lg:space-y-2">
         <h1 className="text-white !text-4xl !font-bold !lg:text-5xl">
           Fedezd fel a Föld legcsodálatosabb országát
         </h1>
