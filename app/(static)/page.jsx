@@ -193,6 +193,7 @@ export default function Home() {
           </div>
           <div className="cols-span-1 rounded-xl  ">
             <Image
+              unoptimized
               width={0}
               height={0}
               sizes="100vw"
