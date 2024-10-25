@@ -10,6 +10,7 @@ import ProgramCard from "./dashboard/ProgramCard";
 import BadgeCard from "./dashboard/BadgeCard";
 import TourImageDescriptions from "./dashboard/TourImageDescriptions";
 import ImageUploadComponent from "./dashboard/ImageUploadComponent";
+import { GitHubBatchOperation } from "@/utils/GitHubBatchOperation";
 
 console.log("GITHUB_REPO:", process.env.NEXT_PUBLIC_GITHUB_REPO);
 console.log(
@@ -68,57 +69,25 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
     if (!selectedItem) return;
 
     const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
+    const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
     const GITHUB_FILE_PATH = `public/${selectedItem.id}/image-descriptions.json`;
-    const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`;
-    const NEXT_PUBLIC_GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN; // Note: This is not secure for production!
-
-    console.log("Using GITHUB_API_URL:", GITHUB_API_URL);
-    console.log(
-      "Token being used:",
-      NEXT_PUBLIC_GITHUB_TOKEN ? NEXT_PUBLIC_GITHUB_TOKEN.substr(0, 5) + "..." : "No token"
-    );
 
     try {
-      // Fetch the current file content from GitHub
-      const fileResponse = await fetch(GITHUB_API_URL, {
-        headers: {
-          Authorization: `Bearer ${NEXT_PUBLIC_GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      });
+      const batchOperation = new GitHubBatchOperation(GITHUB_REPO, GITHUB_TOKEN);
 
-      if (!fileResponse.ok) {
-        throw new Error(`GitHub API responded with status: ${fileResponse.status}`);
-      }
+      // Add the JSON update to the batch
+      const currentContent = {
+        descriptions: newValue,
+      };
 
-      const fileData = await fileResponse.json();
-      const currentContent = JSON.parse(atob(fileData.content)); // Base64 decode and parse the file content
+      batchOperation.addFileChange(
+        GITHUB_FILE_PATH,
+        JSON.stringify(currentContent, null, 2),
+        `Update ${field} for tour ${selectedItem.id}`
+      );
 
-      // Update the content
-      currentContent.descriptions = newValue;
-
-      // Prepare the updated content as base64
-      const updatedContentBase64 = btoa(JSON.stringify(currentContent, null, 2));
-
-      // Make a PUT request to update the file
-      const updateResponse = await fetch(GITHUB_API_URL, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${NEXT_PUBLIC_GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: `Update ${field} for tour ${selectedItem.id}`,
-          content: updatedContentBase64,
-          sha: fileData.sha, // Include the SHA to ensure we're updating the latest version
-        }),
-      });
-
-      if (!updateResponse.ok) {
-        const errorData = await updateResponse.json();
-        throw new Error(`Failed to update file: ${errorData.message}`);
-      }
+      // Execute all changes in a single commit
+      await batchOperation.executeChanges(`Update tour ${selectedItem.id} content`);
 
       toast.success(`${field} sikeresen módosítva`);
       setEditingCard(null);
@@ -194,49 +163,45 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
     if (!selectedItem) return;
 
     const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
-    const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
     const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
     try {
-      // 1. Get the list of images in the tour folder
-      const imagesResponse = await fetch(`${GITHUB_API_URL}public/${selectedItem.id}`, {
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-        },
-      });
+      const batchOperation = new GitHubBatchOperation(GITHUB_REPO, GITHUB_TOKEN);
+
+      // Get the list of images first
+      const imagesResponse = await fetch(
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/public/${selectedItem.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+          },
+        }
+      );
       const imagesData = await imagesResponse.json();
       const imageFiles = imagesData.filter(
         (file) => file.type === "file" && /\.(jpg|jpeg|png|gif)$/i.test(file.name)
       );
 
-      // 2. Delete the image files
+      // Add all image deletions to the batch
       for (const index of imageIndexes) {
-        if (index >= imageFiles.length) {
-          console.warn(`Image index ${index} out of bounds, skipping`);
-          continue;
-        }
-
+        if (index >= imageFiles.length) continue;
         const imageToDelete = imageFiles[index];
-        await fetch(`${GITHUB_API_URL}public/${selectedItem.id}/${imageToDelete.name}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: `Delete image ${imageToDelete.name} for tour ${selectedItem.id}`,
-            sha: imageToDelete.sha,
-          }),
-        });
+        batchOperation.addFileDeletion(
+          `public/${selectedItem.id}/${imageToDelete.name}`,
+          imageToDelete.sha,
+          `Delete image ${imageToDelete.name}`
+        );
       }
 
-      // 3. Update the JSON file
-      const jsonPath = `public/${selectedItem.id}/image-descriptions.json`;
-      const jsonResponse = await fetch(`${GITHUB_API_URL}${jsonPath}`, {
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-        },
-      });
+      // Update the JSON file
+      const jsonResponse = await fetch(
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/public/${selectedItem.id}/image-descriptions.json`,
+        {
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+          },
+        }
+      );
       const jsonData = await jsonResponse.json();
       const currentContent = JSON.parse(atob(jsonData.content));
 
@@ -245,23 +210,19 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         (_, index) => !imageIndexes.includes(index)
       );
 
-      const updatedContentBase64 = btoa(JSON.stringify(currentContent, null, 2));
+      batchOperation.addFileChange(
+        `public/${selectedItem.id}/image-descriptions.json`,
+        JSON.stringify(currentContent, null, 2),
+        `Update image descriptions for tour ${selectedItem.id}`
+      );
 
-      await fetch(`${GITHUB_API_URL}${jsonPath}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: `Update image descriptions for tour ${selectedItem.id}`,
-          content: updatedContentBase64,
-          sha: jsonData.sha,
-        }),
-      });
+      // Execute all changes in a single commit
+      await batchOperation.executeChanges(
+        `Delete ${imageIndexes.length} images and update descriptions for tour ${selectedItem.id}`
+      );
 
       toast.success(`${imageIndexes.length} image(s) and description(s) successfully deleted`);
-      return true; // Indicate successful deletion
+      return true;
     } catch (error) {
       console.error("Error deleting images and updating JSON:", error);
       toast.error(`Failed to delete images and descriptions: ${error.message}`);
