@@ -33,6 +33,7 @@ export default function NextJsImage({ slide, offset, rect }) {
   return (
     <div style={{ position: "relative", width, height }}>
       <Image
+        unoptimized
         fill
         alt="Kolumbia"
         src={slide}

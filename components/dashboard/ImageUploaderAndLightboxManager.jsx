@@ -63,6 +63,7 @@ const ImageUploaderAndLightboxManager = ({
           <div className="mt-4">
             <h4 className="text-md font-semibold mb-2">Főkép előnézete</h4>
             <Image
+              unoptimized
               src={mainImagePreview}
               alt="Main image preview"
               width={200}

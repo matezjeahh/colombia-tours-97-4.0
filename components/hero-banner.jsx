@@ -10,6 +10,7 @@ export default function HeroBanner() {
       className="relative bg-black"
     >
       <Image
+        unoptimized
         src="/home.jpg"
         alt="Kolumbia"
         fill

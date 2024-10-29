@@ -116,6 +116,7 @@ export default function Home() {
           <div className="col-span-1 grid grid-cols-2 gap-4 ">
             <div className="col-span-1">
               <Image
+                unoptimized
                 width={0}
                 height={0}
                 sizes="100vw"
@@ -126,6 +127,7 @@ export default function Home() {
             </div>
             <div className="col-span-1 flex mt-4 lg:mt-10">
               <Image
+                unoptimized
                 width={0}
                 height={0}
                 sizes="100vw"
@@ -139,6 +141,7 @@ export default function Home() {
         <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
           <div className="cols-span-1 rounded-xl order-last lg:order-first">
             <Image
+              unoptimized
               width={0}
               height={0}
               sizes="100vw"
