@@ -86,15 +86,34 @@ const PageHeader = () => (
       </p>
     </div>
     <p>
-      Kolumbiának rengeteg látnivalója van, ezért érdemes egy vagy két kisebb régiót választani az
-      utazáshoz, hogy élvezetes legyen és ne túlságosan fárasztó. Az oldalunkon különféle
-      körutazásokat is talál, melyek segíthetnek a tervezésben.
+      A hatalmas távolságok és a rengeteg látnivaló miatt felosztottam az országot öt régióra
+      égtájak szerint. Mindegyik országrészt tekintve van egy 2 illetve 3 hetes programunk, ez
+      utóbbi mindig extrémebb kalandtúra elemeket is tartalmaz.
     </p>
     <p>
-      Kolumbiába látogatóknak javasoljuk, hogy kezdjék az északi régióval, ahol a legtöbb
-      turisztikai látványosság található, és kínálunk kevésbé megerőltető programokat is. Az aktív
-      pihenést és hegyi kirándulásokat kedvelőknek a középső és déli részét ajánljuk, ahol extrém
-      kalandokat és tengerparti pihenést is kínálunk.
+      Azt is fontos megemlítenem, hogy mindenki utazási stílusa, elvárásai eltérnek, ezért többféle
+      utazási mòd létezik Kolumbia tekintetében is, a felületes luxusutaktól a hátizsákos
+      kalandozásig. Az én útjaim általában kislétszámú (max.6 fô) privát terepjárós körutazások, de
+      bôven utazunk vizen, levegőben de még szamaras fogaton vagy motortaxin is. A hangsúly mindig
+      az egyedülálló élményen van, nem a luxusszálláson vagy a klímás autón. Ha vérbeli autentikus
+      Kolumbia-útra vágysz, akkor a Colombia Tours 97 útjain a helyed. Igény esetén bármelyik utunk
+      elérhető privát útként akár 1-2 résztvevővel is.
+    </p>
+    <p>
+      Ahány országrész, annyiféle különböző kultúra, éghajlat, etnikum és szokások, mintha egy-egy
+      másik országban járna az utazó. Épp ezért tematikusan úgy építettem fel a körutakat, hogy az
+      utazó komlett képet kapjon az adott régióról. Az útvonalak ugyan kombinálhatóak, de egy-egy
+      utazás alatt maximum 1 vagy 2 országrész meglátogatását ajánlom. Ezzel ellenkezô esetben nem
+      jut elég idő egyik régióra sem és csak a 'főbb', ismertebb látnivalókat van lehetőség
+      felkeresni. Pedig Kolumbiában köztudottan a kevéssé ismert vidéki látnivalókon és natív
+      kultúrákon van a hangsúly.
+    </p>
+    <p>
+      Országrészenként eltér az optimális utazási időszak, ez az esős időszaktól vagy a nemzeti
+      parkok zárvatartásától, indián ünnepektől függ. Ennek függvényében minden országrészbe indítok
+      évente legalább egy csoportos körutazást, melyek közül mindenki megtalálja a neki leginkább
+      tetszőt, a kisgyermekes családtól az idős házaspáron keresztül a sportos kalandorig. Válaszd
+      ki Te is a hozzád illő utat, és találkozzunk Kolumbiában!
     </p>
   </section>
 );
