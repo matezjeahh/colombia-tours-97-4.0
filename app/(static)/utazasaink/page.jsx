@@ -104,7 +104,7 @@ const PageHeader = () => (
       másik országban járna az utazó. Épp ezért tematikusan úgy építettem fel a körutakat, hogy az
       utazó komlett képet kapjon az adott régióról. Az útvonalak ugyan kombinálhatóak, de egy-egy
       utazás alatt maximum 1 vagy 2 országrész meglátogatását ajánlom. Ezzel ellenkezô esetben nem
-      jut elég idő egyik régióra sem és csak a "főbb", ismertebb látnivalókat van lehetőség
+      jut elég idő egyik régióra sem és csak a &quot;főbb&quot; ismertebb látnivalókat van lehetőség
       felkeresni. Pedig Kolumbiában köztudottan a kevéssé ismert vidéki látnivalókon és natív
       kultúrákon van a hangsúly.
     </p>
