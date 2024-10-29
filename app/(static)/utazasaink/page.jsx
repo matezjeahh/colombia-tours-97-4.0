@@ -93,8 +93,8 @@ const PageHeader = () => (
     <p>
       Azt is fontos megemlítenem, hogy mindenki utazási stílusa, elvárásai eltérnek, ezért többféle
       utazási mòd létezik Kolumbia tekintetében is, a felületes luxusutaktól a hátizsákos
-      kalandozásig. Az én útjaim általában kislétszámú (max.6 fô) privát terepjárós körutazások, de
-      bôven utazunk vizen, levegőben de még szamaras fogaton vagy motortaxin is. A hangsúly mindig
+      kalandozásig. Az én útjaim általában kislétszámú (max.6 fő) privát terepjárós körutazások, de
+      bőven utazunk vizen, levegőben de még szamaras fogaton vagy motortaxin is. A hangsúly mindig
       az egyedülálló élményen van, nem a luxusszálláson vagy a klímás autón. Ha vérbeli autentikus
       Kolumbia-útra vágysz, akkor a Colombia Tours 97 útjain a helyed. Igény esetén bármelyik utunk
       elérhető privát útként akár 1-2 résztvevővel is.
@@ -103,7 +103,7 @@ const PageHeader = () => (
       Ahány országrész, annyiféle különböző kultúra, éghajlat, etnikum és szokások, mintha egy-egy
       másik országban járna az utazó. Épp ezért tematikusan úgy építettem fel a körutakat, hogy az
       utazó komlett képet kapjon az adott régióról. Az útvonalak ugyan kombinálhatóak, de egy-egy
-      utazás alatt maximum 1 vagy 2 országrész meglátogatását ajánlom. Ezzel ellenkezô esetben nem
+      utazás alatt maximum 1 vagy 2 országrész meglátogatását ajánlom. Ezzel ellenkező esetben nem
       jut elég idő egyik régióra sem és csak a &quot;főbb&quot; ismertebb látnivalókat van lehetőség
       felkeresni. Pedig Kolumbiában köztudottan a kevéssé ismert vidéki látnivalókon és natív
       kultúrákon van a hangsúly.
