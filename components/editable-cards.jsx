@@ -75,25 +75,26 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
     try {
       const batchOperation = new GitHubBatchOperation(GITHUB_REPO, GITHUB_TOKEN);
 
-      // Add the JSON update to the batch
+      // Create the updated content object
       const currentContent = {
-        descriptions: newValue,
+        descriptions: newValue, // This will be the array of encoded descriptions
       };
 
+      // Add the file update to the batch operation
       batchOperation.addFileChange(
         GITHUB_FILE_PATH,
         JSON.stringify(currentContent, null, 2),
-        `Update ${field} for tour ${selectedItem.id}`
+        `Update image descriptions for tour ${selectedItem.id}`
       );
 
-      // Execute all changes in a single commit
-      await batchOperation.executeChanges(`Update tour ${selectedItem.id} content`);
+      // Execute the batch operation
+      await batchOperation.executeChanges(`Update tour ${selectedItem.id} descriptions`);
 
-      toast.success(`${field} sikeresen módosítva`);
-      setEditingCard(null);
+      toast.success("Leírások sikeresen módosítva");
+      setEditingCard(null); // Exit editing mode
     } catch (error) {
-      console.error(`Error updating ${field} on GitHub:`, error);
-      toast.error(`Failed to update ${field} on GitHub: ${error.message}`);
+      console.error("Error updating descriptions on GitHub:", error);
+      toast.error(`Hiba történt a leírások mentése közben: ${error.message}`);
     }
   };
 

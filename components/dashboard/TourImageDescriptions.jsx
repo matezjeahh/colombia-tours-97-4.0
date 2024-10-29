@@ -24,7 +24,8 @@ const TourImageDescriptions = ({
 }) => {
   const [images, setImages] = useState([]);
   const [editedDescriptions, setEditedDescriptions] = useState([]);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isUpdateAlertOpen, setIsUpdateAlertOpen] = useState(false);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
 
   const unicodeSafeBase64Decode = (str) => {
@@ -38,7 +39,7 @@ const TourImageDescriptions = ({
       );
     } catch (error) {
       console.error("Error decoding string:", error);
-      return str; // Return the original string if decoding fails
+      return str;
     }
   };
 
@@ -87,12 +88,10 @@ const TourImageDescriptions = ({
       û: "ű",
       ô: "ő",
       ò: "ó",
-      // Add more replacements as needed
     };
     return text.replace(/[ûôò]/g, (char) => replacements[char] || char);
   };
 
-  // Custom Unicode-safe base64 encoding function
   const unicodeSafeBase64Encode = (str) => {
     return btoa(
       encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
@@ -104,18 +103,17 @@ const TourImageDescriptions = ({
   const handleSave = () => {
     const replacedDescriptions = editedDescriptions.map(replaceCharacters);
     setEditedDescriptions(replacedDescriptions);
-    setIsAlertOpen(true);
+    setIsUpdateAlertOpen(true);
   };
 
-  const handleConfirm = async () => {
+  const handleConfirmUpdate = async () => {
     try {
-      // Encode descriptions using the custom Unicode-safe base64 encoding function
       const encodedDescriptions = editedDescriptions.map(unicodeSafeBase64Encode);
       await onUpdate(encodedDescriptions);
-      setIsAlertOpen(false);
+      setIsUpdateAlertOpen(false);
+      cancelEditing();
     } catch (error) {
       console.error("Hiba a leírás módosítása során:", error);
-      // Handle the error (e.g., show an error message to the user)
     }
   };
 
@@ -130,11 +128,6 @@ const TourImageDescriptions = ({
     setEditedDescriptions(newDescriptions);
   };
 
-  const handleDelete = (index) => {
-    setDeleteIndex(index);
-    setIsAlertOpen(true);
-  };
-
   const handleCheckboxChange = (index) => {
     setSelectedImages((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
@@ -143,7 +136,7 @@ const TourImageDescriptions = ({
 
   const handleDeleteSelected = () => {
     if (selectedImages.length > 0) {
-      setIsAlertOpen(true);
+      setIsDeleteAlertOpen(true);
     }
   };
 
@@ -157,10 +150,9 @@ const TourImageDescriptions = ({
       );
       setEditedDescriptions(newDescriptions);
       setSelectedImages([]);
-      setIsAlertOpen(false);
+      setIsDeleteAlertOpen(false);
     } catch (error) {
       console.error("Error deleting images:", error);
-      // Handle the error (e.g., show an error message to the user)
     }
   };
 
@@ -240,9 +232,9 @@ const TourImageDescriptions = ({
               Mégse
             </Button>
             <CustomAlertDialog
-              isOpen={isAlertOpen}
-              onOpenChange={setIsAlertOpen}
-              onConfirm={handleConfirm}
+              isOpen={isUpdateAlertOpen}
+              onOpenChange={setIsUpdateAlertOpen}
+              onConfirm={handleConfirmUpdate}
               triggerButton={
                 <Button onClick={handleSave} size="sm">
                   <Check className="mr-2 h-4 w-4" />
@@ -253,9 +245,13 @@ const TourImageDescriptions = ({
           </div>
         )}
       </CardContent>
+
+      {/* Update confirmation dialog */}
+
+      {/* Delete confirmation dialog */}
       <CustomAlertDialog
-        isOpen={isAlertOpen}
-        onOpenChange={setIsAlertOpen}
+        isOpen={isDeleteAlertOpen}
+        onOpenChange={setIsDeleteAlertOpen}
         onConfirm={handleConfirmDelete}
         title="Képek törlése"
         description={`Biztosan törölni szeretné a kijelölt ${selectedImages.length} képet és a hozzájuk tartozó leírásokat?`}
