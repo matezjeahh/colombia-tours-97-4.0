@@ -3,7 +3,6 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LightBox from "@/components/lightbox";
-import Image from "next/image";
 
 export default function BlogPostClient({ frontMatter, slug }) {
   const slides = frontMatter.lightboxImages.map((image, index) => ({
@@ -32,11 +31,7 @@ export default function BlogPostClient({ frontMatter, slug }) {
 
       {frontMatter.image && (
         <div className="relative w-full h-64 md:h-96 mb-8">
-          <Image
-            unoptimized
-            width={0}
-            height={0}
-            sizes="100vw"
+          <img
             src={frontMatter.image}
             alt={frontMatter.title}
             className="object-cover w-full h-full"

@@ -4,7 +4,6 @@ import matter from "gray-matter";
 import BlogPostClient from "./BlogPostClient";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 async function getPost(slug) {
   const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO;
@@ -84,15 +83,7 @@ export default async function BlogPost({ params }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {randomPosts.map((post) => (
           <div key={post.slug} className="col-span-1 bg-muted rounded-lg overflow-hidden">
-            <Image
-              unoptimized
-              width={0}
-              height={0}
-              sizes="100vw"
-              src={post.image}
-              alt={post.title}
-              className="object-cover w-full h-56"
-            />
+            <img src={post.image} alt={post.title} className="object-cover w-full h-56" />
             <div className="p-4 space-y-4">
               <h3 className="text-lg line-clamp-2 font-semibold">{post.title}</h3>
               <p className="text-sm line-clamp-3 text-muted-foreground">{post.description}</p>
