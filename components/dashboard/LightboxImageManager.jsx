@@ -2,6 +2,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Trash2, Plus } from "lucide-react";
+import Image from "next/image";
 
 const LightboxImageManager = ({ images, descriptions, onImagesChange }) => {
   const handleDescriptionChange = (index, newDescription) => {
