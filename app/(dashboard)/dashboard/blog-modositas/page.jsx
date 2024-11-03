@@ -16,6 +16,7 @@ import { batchUploadToGithub } from "@/components/dashboard/batchUploadToGithub"
 import LightboxImageManager from "@/components/dashboard/LightboxBlog";
 import dynamic from "next/dynamic";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 
 const MDXEditorComponent = dynamic(() => import("@/components/dashboard/LexicalEditor"), {
   ssr: false,
@@ -226,7 +227,11 @@ ${replaceCharacters(mdxContent)}`;
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {existingLightboxImages.map((img, index) => (
                       <div key={index} className="border p-2">
-                        <img
+                        <Image
+                          unoptimized
+                          width={0}
+                          height={0}
+                          sizes="100vw"
                           src={img.path}
                           alt={`Lightbox image ${index + 1}`}
                           className="w-full h-60"

@@ -35,7 +35,11 @@ const LightboxImageManager = ({ images, descriptions, onImagesChange }) => {
         <div key={index} className="flex items-start space-x-4">
           <div className="w-1/3">
             {src ? (
-              <img
+              <Image
+                unoptimized
+                width={0}
+                height={0}
+                sizes="100vw"
                 src={src}
                 alt={`Lightbox image ${index + 1}`}
                 className="w-full h-auto object-cover rounded"

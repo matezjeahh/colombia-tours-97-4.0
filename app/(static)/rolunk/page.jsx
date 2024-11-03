@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export const metadata = {
   title: "Rólunk | Colombia Tours 97",
@@ -35,7 +36,8 @@ export default function AboutUs() {
             élvezheted végtelen vendégszeretetüket.
           </p>
         </div>
-        <img
+        <Image
+          unoptimized
           src="/szilard2.jpg"
           alt="About Us"
           width={600}
@@ -45,7 +47,8 @@ export default function AboutUs() {
       </div>
 
       <div className="rounded-lg mx-auto max-w-md p-4 shadow-lg ">
-        <img
+        <Image
+          unoptimized
           src="/szilard.jpg"
           alt="Bélafi Szilárd"
           width={200}
@@ -78,7 +81,8 @@ export default function AboutUs() {
             kolumbiai életérzéssel fűszerezve!
           </p>
         </div>
-        <img
+        <Image
+          unoptimized
           src="/szilard3.jpg"
           alt="About Us"
           width={600}
