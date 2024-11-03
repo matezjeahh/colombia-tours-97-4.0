@@ -26,8 +26,8 @@ export default function DashboardNavbar() {
 
   const navigation = [
     { name: "Utazások módosítása", path: "/dashboard/utazasok-modositasa" },
-    { name: "Blog létrehozása", path: "/dashboard/blog-letrehozasa" },
-    { name: "Blog szerkesztése", path: "/dashboard/blog-szerkesztese" },
+    { name: "Blog létrehozása", path: "/dashboard/blog" },
+    { name: "Blog szerkesztése", path: "/dashboard/blog-modositas" },
   ];
 
   useEffect(() => {

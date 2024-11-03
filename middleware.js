@@ -3,7 +3,12 @@ import { authMiddleware } from "next-firebase-auth-edge";
 import { clientConfig, serverConfig } from "./config";
 
 // Define paths that should be protected
-const PROTECTED_PATHS = ["/dashboard", "/dashboard/utazasok-modositasa", "/dashboard/blog"]; // Add all protected paths here
+const PROTECTED_PATHS = [
+  "/dashboard",
+  "/dashboard/utazasok-modositasa",
+  "/dashboard/blog",
+  "/dashboard/blog-modositas",
+]; // Add all protected paths here
 
 export async function middleware(request) {
   return authMiddleware(request, {
