@@ -9,13 +9,12 @@ const BlogPostCard = ({ title, date, description, slug, image }) => {
   return (
     <div className="w-full max-w-md grid gap-4">
       <div className="relative overflow-hidden rounded-lg aspect-[4/3]">
-        <Image
-          unoptimized
+        <img
           src={image}
           alt={`Cover image for ${title}`}
           className="object-cover w-full h-full"
-          width={400}
-          height={300}
+          width="400"
+          height="300"
           style={{ aspectRatio: "400/300", objectFit: "cover" }}
         />
       </div>
