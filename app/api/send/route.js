@@ -1,29 +1,34 @@
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from "nodemailer";
 
 export async function POST(request) {
   const { name, email, subject, message } = await request.json();
-  console.log({ name, email, subject, message });
+
+  // SMTP kliens konfigurálása
+  const transporter = nodemailer.createTransport({
+    host: "smtp.resend.com",
+    port: 587, // TLS használatával
+    secure: false, // true SSL esetén
+    auth: {
+      user: "resend", // Resend API kulcs
+      pass: process.env.RESEND_API_KEY, // Üres, nincs szükség jelszóra
+    },
+  });
+
   try {
-    const { data, error } = await resend.emails.send({
-      from: {
-        name: name,
-        address: process.env.OUTLOOK_EMAIL,
-      },
-      replyTo: email,
-      to: process.env.OUTLOOK_EMAIL,
-      subject: subject ? `Érdeklődés: ${subject}` : "Általános érdeklődés",
-      text: message,
-      html: `<p>${message.replace(/\n/g, "<br>")}</p>`,
+    // E-mail küldése
+    const info = await transporter.sendMail({
+      from: `${name} <${process.env.OUTLOOK_EMAIL}>`, // Feladó
+      to: process.env.OUTLOOK_EMAIL, // Címzett
+      replyTo: email, // Válaszcím
+      subject: subject || "Általános érdeklődés", // Tárgy
+      text: message, // Üzenet szövege
+      html: `<p>${message.replace(/\n/g, "<br>")}</p>`, // HTML formátum
     });
 
-    if (error) {
-      return Response.json({ error }, { status: 500 });
-    }
-
-    return Response.json(data);
+    console.log("Email elküldve:", info.messageId);
+    return new Response(JSON.stringify({ message: "Sikeresen elküldve" }), { status: 200 });
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    console.error("Hiba az email küldése során:", error);
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 }
