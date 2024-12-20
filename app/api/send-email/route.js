@@ -1,25 +1,11 @@
 import Email from "vercel-email";
 
-export async function POST(request) {
-  try {
-    const { name, email, subject, message } = await request.json();
-
-    await Email.send({
-      to: process.env.OUTLOOK_EMAIL,
-      from: { email: process.env.OUTLOOK_EMAIL, name: name },
-      subject: subject ? `Érdeklődés: ${subject}` : "Általános érdeklődés",
-      text: message,
-      html: `<p>${message.replace(/\n/g, "<br>")}</p>`,
-      replyTo: email,
-    });
-
-    return new Response(JSON.stringify({ status: "OK" }), { status: 200 });
-  } catch (error) {
-    console.error("Email sending error:", error);
-    return new Response(JSON.stringify({ status: "Error", message: error.message }), {
-      status: 500,
-    });
-  }
+export async function POST() {
+  await Email.send({
+    to: "colombiatours97@hotmail.com",
+    from: "colombiatours97@hotmail.com",
+    subject: "Hello World",
+    html: "<h1>Hello World</h1>",
+  });
 }
-
 export const runtime = "edge";
