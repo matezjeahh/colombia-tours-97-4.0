@@ -1,10 +1,33 @@
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(request) {
   const { name, email, subject, message } = await request.json();
-  const response = await resend.emails.send({
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.resend.com",
+    secure: true,
+    port: 465,
+    auth: {
+      user: "resend",
+      pass: process.env.RESEND_API_KEY,
+    },
+  });
+
+  // Verify connection configuration
+  await new Promise((resolve, reject) => {
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        console.log("Server is ready to take our messages");
+        resolve(success);
+      }
+    });
+  });
+
+  const mailData = {
     from: {
       name: name,
       address: process.env.OUTLOOK_EMAIL,
@@ -14,12 +37,20 @@ export async function POST(request) {
     subject: subject ? `Érdeklődés: ${subject}` : "Általános érdeklődés",
     text: message,
     html: `<p>${message.replace(/\n/g, "<br>")}</p>`,
+  };
+
+  // Send mail
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailData, (err, info) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        console.log(info);
+        resolve(info);
+      }
+    });
   });
 
-  if (response.error) {
-    console.error("Resend error:", response.error);
-    return new Response(JSON.stringify({ error: response.error }), { status: 500 });
-  }
-
-  return new Response(JSON.stringify(response), { status: 200 });
+  return NextResponse.json({ status: "OK" }, { status: 200 });
 }
