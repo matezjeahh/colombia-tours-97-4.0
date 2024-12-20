@@ -94,6 +94,7 @@
     "react-dom": "^18.3.1",
     "react-draft-wysiwyg": "^1.15.0",
     "react-hook-form": "^7.52.1",
+    "resend": "^4.0.1",
     "slate": "^0.103.0",
     "slate-history": "^0.109.0",
     "slate-hyperscript": "^0.100.0",
