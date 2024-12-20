@@ -17,7 +17,7 @@ export async function POST(request) {
   try {
     // E-mail küldése
     const info = await transporter.sendMail({
-      from: `${name} <${process.env.OUTLOOK_EMAIL}>`, // Feladó
+      from: "no-reply@onresend.com", // Feladó
       to: process.env.OUTLOOK_EMAIL, // Címzett
       replyTo: email, // Válaszcím
       subject: subject || "Általános érdeklődés", // Tárgy
