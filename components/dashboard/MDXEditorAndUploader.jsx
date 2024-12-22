@@ -76,7 +76,7 @@ title: "${replaceCharacters(title)}"
 date: "${now.toISOString()}"
 description: "${replaceCharacters(description)}"
 image: /images/${slug}-main.jpg
-facebook: "${facebookLink}"
+facebookLink: "${facebookLink}"
 ---
 
 ${editorContent}
