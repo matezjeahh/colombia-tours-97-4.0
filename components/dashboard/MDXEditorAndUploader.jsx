@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import CustomAlertDialog from "@/components/custom-alert-dialog";
 import MDXEditorComponent from "./LexicalEditor";
+import { batchUploadToGithub } from "./batchUploadToGithub";
 
 const RichTextMDXEditorUploader = () => {
   const [title, setTitle] = useState("");
