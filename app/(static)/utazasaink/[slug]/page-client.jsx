@@ -9,6 +9,8 @@ import {
   DollarSign,
   Gauge,
   MailPlus,
+  Mail,
+  Phone,
   MapPinIcon,
   XCircle,
 } from "lucide-react";
@@ -147,8 +149,15 @@ const InquiryCard = ({ title }) => (
       Ha érdekli ez a túra, kérjük, vegye fel velünk a kapcsolatot további információkért és
       foglalásért.
     </CardContent>
-    <CardFooter>
-      <DrawerDialogForm title={title} />
+    <CardFooter className="felx flex-col items-start">
+      <div className="flex">
+        <Mail size={20} className="mr-2 mt-1 text-muted-foreground" />
+        <p>colombiatours97@hotmail.com</p>
+      </div>
+      <div className="flex">
+        <Phone size={20} className="mr-2 mt-1 text-muted-foreground" />
+        <p>+57 322 6014919</p>
+      </div>
     </CardFooter>
   </Card>
 );

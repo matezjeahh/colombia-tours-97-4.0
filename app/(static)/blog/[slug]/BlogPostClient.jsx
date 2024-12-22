@@ -2,14 +2,11 @@
 
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import LightBox from "@/components/lightbox";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function BlogPostClient({ frontMatter, slug }) {
-  const slides = frontMatter.lightboxImages.map((image, index) => ({
-    src: image,
-    description: frontMatter.imageDescriptions[index] || "",
-  }));
-
+  console.log(frontMatter.facebookLink);
   return (
     <>
       <h1 className="text-4xl font-bold">{frontMatter.title}</h1>
@@ -28,19 +25,32 @@ export default function BlogPostClient({ frontMatter, slug }) {
           </span>
         </div>
       </div>
+      <div>
+        {frontMatter.image && (
+          <div className="relative w-full h-64 md:h-96">
+            <img
+              src={frontMatter.image}
+              alt={frontMatter.title}
+              className="object-cover w-full h-full"
+            />
+          </div>
+        )}
 
-      {frontMatter.image && (
-        <div className="relative w-full h-64 md:h-96 mb-8">
-          <img
-            src={frontMatter.image}
-            alt={frontMatter.title}
-            className="object-cover w-full h-full"
-          />
+        <div className="flex justify-end ">
+          <Button asChild variant="link" className="underline">
+            <a
+              href={
+                frontMatter.facebookLink.startsWith("http")
+                  ? frontMatter.facebookLink
+                  : `https://${frontMatter.facebookLink}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Kattints a további képekért
+            </a>
+          </Button>
         </div>
-      )}
-
-      <div className="flex justify-end">
-        <LightBox variant={"link"} text={"További képek..."} slides={slides} />
       </div>
     </>
   );

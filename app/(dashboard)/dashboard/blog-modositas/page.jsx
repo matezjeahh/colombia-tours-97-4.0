@@ -13,10 +13,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import CustomAlertDialog from "@/components/custom-alert-dialog";
 import { batchUploadToGithub } from "@/components/dashboard/batchUploadToGithub";
-import LightboxImageManager from "@/components/dashboard/LightboxBlog";
 import dynamic from "next/dynamic";
 import { Loader2 } from "lucide-react";
-import Image from "next/image";
 
 const MDXEditorComponent = dynamic(() => import("@/components/dashboard/LexicalEditor"), {
   ssr: false,
@@ -40,10 +38,9 @@ const ArticleEditor = () => {
   const [selectedSlug, setSelectedSlug] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [mainImage, setMainImage] = useState("");
+  const [mainImage, setMainImage] = useState(null);
   const [originalDate, setOriginalDate] = useState("");
-  const [lightboxImages, setLightboxImages] = useState([]);
-  const [existingLightboxImages, setExistingLightboxImages] = useState([]);
+  const [facebookLink, setFacebookLink] = useState("");
   const [mdxContent, setMdxContent] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,15 +77,8 @@ const ArticleEditor = () => {
       setDescription(replaceCharacters(article.description));
       setMainImage(article.image || "");
       setOriginalDate(article.date || "");
+      setFacebookLink(article.facebookLink || "");
       setMdxContent(replaceCharacters(article.content));
-
-      setExistingLightboxImages(
-        article.lightboxImages?.map((path, index) => ({
-          path,
-          description: replaceCharacters(article.imageDescriptions[index] || ""),
-        })) || []
-      );
-      setLightboxImages([]);
     } catch (error) {
       console.error("Error loading article:", error);
       toast.error("Nem sikerült betölteni a cikket");
@@ -106,11 +96,21 @@ const ArticleEditor = () => {
     setSelectedSlug("");
     setTitle("");
     setDescription("");
-    setMainImage("");
+    setMainImage(null);
     setOriginalDate("");
-    setLightboxImages([]);
-    setExistingLightboxImages([]);
+    setFacebookLink("");
     setMdxContent("");
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setMainImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleUpdateArticle = async () => {
@@ -118,41 +118,20 @@ const ArticleEditor = () => {
     try {
       const slug = selectedArticle.slug;
 
-      // Prepare new lightbox images
-      const newLightboxImageFiles = lightboxImages.map((img, index) => ({
-        file: img.file,
-        path: `public/blog/${slug}/lightbox-images/${
-          existingLightboxImages.length + index
-        }${img.file.name.substring(img.file.name.lastIndexOf("."))}`,
-        description: replaceCharacters(img.description),
-      }));
-
-      // Combine existing and new lightbox images for MDX frontmatter
-      const allLightboxImages = [
-        ...existingLightboxImages.map((img) => img.path),
-        ...newLightboxImageFiles.map((img) => "/" + img.path.replace("public/", "")),
-      ];
-
-      const allImageDescriptions = [
-        ...existingLightboxImages.map((img) => replaceCharacters(img.description)),
-        ...newLightboxImageFiles.map((img) => replaceCharacters(img.description)),
-      ];
-
       // Prepare MDX content with frontmatter
       const updatedMdxContent = `---
 title: "${replaceCharacters(title)}"
 date: "${originalDate}"
 description: "${replaceCharacters(description)}"
 image: ${mainImage}
-lightboxImages: ${JSON.stringify(allLightboxImages)}
-imageDescriptions: ${JSON.stringify(allImageDescriptions)}
+facebookLink: "${facebookLink}"
 ---
 
 ${replaceCharacters(mdxContent)}`;
 
-      // Upload files and MDX content
+      // Upload MDX content
       await batchUploadToGithub(
-        newLightboxImageFiles,
+        [], // No lightbox images to upload
         updatedMdxContent,
         slug,
         process.env.NEXT_PUBLIC_GITHUB_REPO,
@@ -168,13 +147,6 @@ ${replaceCharacters(mdxContent)}`;
     } finally {
       setIsUpdating(false);
     }
-  };
-
-  const handleExistingImageDescriptionChange = (index, newDescription) => {
-    const updatedExistingImages = existingLightboxImages.map((img, i) =>
-      i === index ? { ...img, description: replaceCharacters(newDescription) } : img
-    );
-    setExistingLightboxImages(updatedExistingImages);
   };
 
   return (
@@ -219,41 +191,21 @@ ${replaceCharacters(mdxContent)}`;
                   className="mb-4"
                 />
               </div>
-
-              {/* Display existing lightbox images with editable descriptions */}
-              {existingLightboxImages.length > 0 && (
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold mb-2">Képek és leírás szerkesztése</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {existingLightboxImages.map((img, index) => (
-                      <div key={index} className="border p-2">
-                        <Image
-                          unoptimized
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          src={img.path}
-                          alt={`Lightbox image ${index + 1}`}
-                          className="w-full h-60"
-                        />
-                        <Textarea
-                          value={img.description}
-                          onChange={(e) =>
-                            handleExistingImageDescriptionChange(index, e.target.value)
-                          }
-                          placeholder="Kép leírása"
-                          className="mt-2"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <LightboxImageManager
-                lightboxImages={lightboxImages}
-                onLightboxImagesChange={setLightboxImages}
-              />
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Fő kép</h3>
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="mb-4" />
+                {mainImage && <img src={mainImage} alt="Fő kép" className="mb-4" />}
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Facebook link</h3>
+                <Input
+                  type="text"
+                  value={facebookLink}
+                  onChange={(e) => setFacebookLink(e.target.value)}
+                  placeholder="Facebook link"
+                  className="mb-4"
+                />
+              </div>
               <div>
                 <h3 className="text-lg font-semibold mb-2">Cikk szerkesztése</h3>
                 <MDXEditorComponent
