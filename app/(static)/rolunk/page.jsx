@@ -11,7 +11,7 @@ export default function AboutUs() {
   return (
     <div className="container my-5 space-y-20">
       <h1>Rólunk</h1>
-      <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 h-full">
         <div className="space-y-4">
           <h2>Rólunk</h2>
           <p>
@@ -36,33 +36,31 @@ export default function AboutUs() {
             élvezheted végtelen vendégszeretetüket.
           </p>
         </div>
-        <Image
-          unoptimized
-          src="/szilard2.jpg"
-          alt="About Us"
-          width={600}
-          height={400}
-          className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
-        />
-      </div>
-
-      <div className="rounded-lg mx-auto max-w-md p-4 shadow-lg ">
-        <Image
-          unoptimized
-          src="/szilard.jpg"
-          alt="Bélafi Szilárd"
-          width={200}
-          height={200}
-          className="mx-auto h-32 w-32 rounded-full object-cover"
-        />
-        <div className="mt-4 text-center">
-          <h3 className="text-lg font-bold">Bélafi Szilárd</h3>
-          <p className="">Alapító és cégvezető</p>
-          <p className="mt-2 text-sm ">
-            Szilárd tapasztalt vállalkozó, aki szenvedélyesen építi a Colombia Tours 97-et, hogy
-            egyedülálló utazási élményeket nyújtson.
-          </p>
+        <div className="relative h-64 md:h-96 lg:h-auto">
+          <Image
+            unoptimized
+            src="/szilard2.jpg"
+            alt="About Us"
+            fill
+            className="rounded-xl object-cover"
+          />
         </div>
+        <Image
+          unoptimized
+          src="/szilard4.jpg"
+          alt="About Us"
+          height={0}
+          width={0}
+          className="rounded-xl h-64 md:h-96 w-full object-cover"
+        />
+        <Image
+          unoptimized
+          src="/szilard5.jpg"
+          alt="About Us"
+          height={0}
+          width={0}
+          className="rounded-xl h-64 md:h-96 w-full object-cover"
+        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
@@ -81,13 +79,30 @@ export default function AboutUs() {
             kolumbiai életérzéssel fűszerezve!
           </p>
         </div>
+        <div className="relative h-64 md:h-96 lg:h-auto">
+          <Image
+            unoptimized
+            src="/szilard3.jpg"
+            alt="About Us"
+            fill
+            className="rounded-xl object-cover"
+          />
+        </div>
         <Image
           unoptimized
-          src="/szilard3.jpg"
+          src="/szilard6.jpg"
           alt="About Us"
-          width={600}
-          height={400}
-          className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
+          height={0}
+          width={0}
+          className="rounded-xl h-64 md:h-96 w-full object-cover"
+        />
+        <Image
+          unoptimized
+          src="/szilard7.jpg"
+          alt="About Us"
+          height={0}
+          width={0}
+          className="rounded-xl h-64 md:h-96 w-full object-cover object-top"
         />
       </div>
     </div>
