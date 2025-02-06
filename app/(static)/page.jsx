@@ -163,6 +163,42 @@ export default function Home() {
             </Button>
           </div>
         </section>
+        <section className="space-y-2 lg:space-y-6">
+          <div className="flex flex-col space-y-2 lg:space-y-6 max-w-none text-start sm:text-center">
+            <h2>
+              A körutazások és kalandtúrák fáradalmait mesés partszakaszokon pihenheted ki, legyen
+              szó luxus- vagy pénztárcabarát szállásokról
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {[
+              {
+                src: "/home5.jpg",
+                alt: "Tengerpart kolumbiában",
+                caption: "Tayrona Nemzeti Park",
+              },
+              { src: "/home6.jpg", alt: "Képeslapra illő part", caption: "San Bernardo szigetek" },
+              { src: "/home7.jpg", alt: "Kolumbiai tengerpart", caption: "Playa Blanca Barú" },
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col">
+                <Image
+                  unoptimized
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-full h-60 lg:h-80 object-cover rounded-lg"
+                  src={item.src}
+                  alt={item.alt}
+                />
+                <div className="flex items-center mt-2">
+                  <div className="w-0.5 h-6 bg-muted-foreground mr-2"></div>
+                  <p className="text-md font-semibold text-accent-foreground">{item.caption}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
             <h2>Kövess minket az úton!</h2>
