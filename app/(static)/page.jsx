@@ -28,7 +28,7 @@ export const metadata = {
       "Fedezze fel Kolumbia lenyűgöző tájait, kultúráját és rejtett kincseit velünk! Biztonságos és emlékezetes kalandok Dél-Amerika szívében.",
     images: [
       {
-        url: "/home.jpg", // Replace with your actual image path
+        url: "/home.jpg",
         width: 1200,
         height: 630,
         alt: "Colombia Tours 97 - Felfedező utak Kolumbiában",
@@ -42,7 +42,7 @@ export const metadata = {
     title: "Colombia Tours 97 | Fedezd Fel Kolumbiát",
     description:
       "Autentikus kalandok, lenyűgöző tájak és kulturális kincsek várnak Kolumbiában. Utazz velünk és élj át felejthetetlen pillanatokat!",
-    images: ["/home.jpg"], // Replace with your actual image path
+    images: ["/home.jpg"],
   },
   alternates: {
     canonical: "https://www.colombiatours97.hu",
@@ -62,7 +62,7 @@ export const metadata = {
     },
   },
   verification: {
-    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU", // Replace with your actual Google verification code
+    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU",
   },
 };
 
@@ -99,7 +99,7 @@ export default function Home() {
       <HeroBanner />
 
       <div className="container space-y-20 lg:space-y-32 mt-10 mb-5 lg:mt-32">
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center ">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
             <h2>Utazz Kolumbia specialistájával</h2>
             <p>
@@ -107,13 +107,13 @@ export default function Home() {
               legjobb túrákat kínáljuk a dél-amerikai országban. Fedezd fel velünk Kolumbia
               lenyűgöző tájait és kulturális kincseit!
             </p>
-            <Button asChild className="items-center ">
+            <Button asChild className="items-center">
               <Link href="/rolunk">
                 Ismerj meg minket <ChevronRight size={18} />
               </Link>
             </Button>
           </div>
-          <div className="col-span-1 grid grid-cols-2 gap-4 ">
+          <div className="col-span-1 grid grid-cols-2 gap-4">
             <div className="col-span-1">
               <Image
                 unoptimized
@@ -138,7 +138,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
           <div className="cols-span-1 rounded-xl order-last lg:order-first">
             <Image
               unoptimized
@@ -199,7 +199,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className=" grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 items-center">
           <div className="col-span-1 items-center space-y-2 lg:space-y-6 max-w-none">
             <h2>Kövess minket az úton!</h2>
             <p>
@@ -207,7 +207,7 @@ export default function Home() {
               célokról, különleges ajánlatokról és utazási tippekről. Csatlakozz a kalandvágyó
               utazók közösségéhez!
             </p>
-            <div className="lg:flex space-x-4 hidden ">
+            <div className="lg:flex space-x-4 hidden">
               <Link href="https://www.instagram.com/colombiatours97" target="_blank">
                 <Button variant="ghost" size="icon">
                   <Instagram />
@@ -230,7 +230,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="cols-span-1 rounded-xl  ">
+          <div className="cols-span-1 rounded-xl">
             <Image
               unoptimized
               width={0}
@@ -241,7 +241,7 @@ export default function Home() {
               alt="kolumbia"
             />
           </div>
-          <div className="flex space-x-4 lg:hidden ">
+          <div className="flex space-x-4 lg:hidden">
             <Link href="https://www.instagram.com/colombiatours97" target="_blank">
               <Button variant="ghost" size="icon">
                 <Instagram />
@@ -266,21 +266,18 @@ export default function Home() {
         </section>
 
         <section className="space-y-2 lg:space-y-6">
-          <div className="flex flex-col space-y-2 lg:space-y-6 max-w-none text-start sm:text-center ">
+          <div className="flex flex-col space-y-2 lg:space-y-6 max-w-none text-start sm:text-center">
             <h2>Miért érdemes velünk utazni Kolumbiába?</h2>
             <p>
               Tapasztalt és lelkes csapatunk garantálja, hogy az utazásod Kolumbiában az életed
               egyik legemlékezetesebb élménye lesz.
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8   max-w-none  items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-none items-stretch">
             {data.map((item) => (
-              <Card
-                key={item.title}
-                //className="bg-gradient-to-b from-white to-[#fbfbfb] dark:bg-gradient-to-b from-[#1e1e1e] to-[#121212]"
-              >
+              <Card key={item.title}>
                 <CardHeader>
-                  <div className="flex items-center ">
+                  <div className="flex items-center">
                     <span className="mr-2">{item.icon}</span>
                     <CardTitle>{item.title}</CardTitle>
                   </div>

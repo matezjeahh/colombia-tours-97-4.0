@@ -36,7 +36,7 @@ export const metadata = {
       "Fedezze fel Kolumbia északi, középső és déli régióit! Változatos programok, extrém kalandok és tengerparti pihenés egy helyen.",
     images: [
       {
-        url: "/home.jpg", // Replace with an image representing your trips
+        url: "/home.jpg",
         width: 1200,
         height: 630,
         alt: "Colombia Tours 97 - Változatos utazások Kolumbiában",
@@ -50,7 +50,7 @@ export const metadata = {
     title: "Kolumbiai Utazások és Túrák | Colombia Tours 97",
     description:
       "Aktuális túráink Kolumbia különböző régióiban: északi látványosságok, hegyi kalandok, tengerparti pihenés. Fedezze fel velünk!",
-    images: ["/home.jpg"], // Replace with your actual image path
+    images: ["/home.jpg"],
   },
   alternates: {
     canonical: "https://www.colombiatours97.hu/utazasaink",
@@ -70,13 +70,12 @@ export const metadata = {
     },
   },
   verification: {
-    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU", // Replace with your actual Google verification code
+    google: "google-site-verification=Ij3REYpezRvU6CK8m-T4cGdjPAHpr0uIetNQ2z1oHJU",
   },
 };
 
 export const dynamic = "force-dynamic";
 
-// Extracted PageHeader component for better organization
 const PageHeader = () => (
   <section className="space-y-6 mb-12">
     <div>
@@ -118,7 +117,6 @@ const PageHeader = () => (
   </section>
 );
 
-// Extracted TourCard component for better reusability
 const TourCard = ({ item, index, imageName }) => (
   <Card className="flex flex-col justify-between h-full overflow-hidden">
     <div className="relative h-60 w-full">
