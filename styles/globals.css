@@ -104,3 +104,7 @@
 .my-prose ol {
   @apply my-6 ml-6 list-decimal [&>li]:mt-2;
 }
+
+.rbc-event {
+  @apply !bg-foreground !text-primary-foreground;
+}

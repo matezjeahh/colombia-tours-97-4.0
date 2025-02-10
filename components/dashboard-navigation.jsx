@@ -71,6 +71,7 @@ export default function DashboardNavbar() {
         <Button variant="outline" onClick={handleLogout}>
           Kijelentkezés
         </Button>
+        <ModeToggle />
       </div>
       <ModeToggle className="lg:hidden ml-auto" />
     </header>
