@@ -108,3 +108,24 @@
 .rbc-event {
   @apply !bg-foreground !text-primary-foreground;
 }
+.rbc-header {
+  @apply !bg-foreground !text-primary-foreground !text-lg;
+}
+.rbc-off-range-bg {
+  @apply !bg-accent !text-muted-foreground;
+}
+
+.rbc-btn-group button {
+  @apply !border !border-input !bg-background !text-primary hover:!bg-accent hover:!text-accent-foreground;
+}
+
+.rbc-btn-group:last-child {
+  @apply !hidden;
+}
+
+.rbc-toolbar-label {
+  @apply !font-semibold text-lg sm:!mt-4;
+}
+.rbc-today {
+  @apply !bg-blue-400;
+}

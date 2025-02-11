@@ -5,11 +5,18 @@ import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/hu";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { previous } from "slate";
 
 moment.locale("hu");
 
 const localizer = momentLocalizer(moment);
 localizer.segmentOffset = 0;
+
+const messages = {
+  today: "Ma",
+  previous: "Vissza",
+  next: "Tovább",
+};
 
 const MyCalendar = ({ trips = [] }) => {
   const [view, setView] = useState(Views.MONTH);
@@ -49,6 +56,7 @@ const MyCalendar = ({ trips = [] }) => {
         }}
         firstDayOfWeek={1}
         style={{ height: "100%" }}
+        messages={messages}
       />
     </div>
   );
