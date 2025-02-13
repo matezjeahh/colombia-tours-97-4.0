@@ -12,6 +12,7 @@ import TourImageDescriptions from "./dashboard/TourImageDescriptions";
 import ImageUploadComponent from "./dashboard/ImageUploadComponent";
 import DescriptionCardLong from "./dashboard/DescriptionCardLong";
 import { GitHubBatchOperation } from "@/utils/GitHubBatchOperation";
+import SmallTitleCard from "./dashboard/SmallTitleCard";
 
 console.log("GITHUB_REPO:", process.env.NEXT_PUBLIC_GITHUB_REPO);
 console.log(
@@ -241,6 +242,14 @@ const EditableCards = ({ selectedItem, setSelectedItem, setIsEditing }) => {
         onUpdate={(newTitle) => handleUpdate("cim", newTitle)}
         isEditing={editingCard === "title"}
         setIsEditing={() => setEditingCard("title")}
+        cancelEditing={() => setEditingCard(null)}
+        isAnyCardEditing={isAnyCardEditing}
+      />
+      <SmallTitleCard
+        selectedItem={selectedItem}
+        onUpdate={(newSmallTitle) => handleUpdate("alcim", newSmallTitle)}
+        isEditing={editingCard === "alcim"}
+        setIsEditing={() => setEditingCard("alcim")}
         cancelEditing={() => setEditingCard(null)}
         isAnyCardEditing={isAnyCardEditing}
       />
